@@ -1,4 +1,4 @@
-function [x,w] = GaussHermite2(N)
+function [X W] = hermquad(N)
 %
 % [X W] = HERMQUAD(N)
 %
@@ -57,8 +57,8 @@ PIM4 = 0.7511255444649425;
 MAXIT = 10;
 
 % allocate the return values
-x = zeros([N 1]);
-w = zeros([N 1]);
+X = zeros([N 1]);
+W = zeros([N 1]);
 
 for i=1:(N+1)/2
   
@@ -68,11 +68,11 @@ for i=1:(N+1)/2
   elseif i == 2
     z = z - (1.14 * N^0.426 / z);
   elseif i == 3
-    z = 1.86 * z - 0.86 * x(1);
+    z = 1.86 * z - 0.86 * X(1);
   elseif i == 4
-    z = 1.91 * z - 0.91 * x(2);
+    z = 1.91 * z - 0.91 * X(2);
   else
-    z = 2.0*z - x(i-2);
+    z = 2.0*z - X(i-2);
   end
   
   for iter=1:MAXIT+1
@@ -101,9 +101,9 @@ for i=1:(N+1)/2
     fprintf('Too many iterations in hermquad.\n');
   end
   
-  x(i)     = z;
-  x(N+1-i) = -z;
-  w(i)     = 2.0/(pp*pp);
-  w(N+1-i) = w(i);
+  X(i)     = z;
+  X(N+1-i) = -z;
+  W(i)     = 2.0/(pp*pp);
+  W(N+1-i) = W(i);
 
 end

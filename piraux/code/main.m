@@ -1,20 +1,21 @@
-N = 7;
+N = 25;  % si on monte à 50, on a exactement la même valeur à 6 décimals donnée au cours pour E1
 V0 = 3;
 alpha = 1;
 
-H = zeros(N,N);
+H = zeros(N+1,N+1);
 
-for i = 1:N
-    k = i-1;
-    for j = 1:N
-        m = j-1;
-        H(i,j) = h_cin(m,k)+h_pot(N,i,j,V0,alpha);
+for i = 1:N+1
+    m = i-1;
+    for j = 1:N+1
+        k = j-1;
+        H(i,j) = h_cin(m,k)+h_pot(N,m,k,V0,alpha);
     end
 end
 
-
-[V,D] = eig(H)
-D %Attention resultat faux il faut debuger, on doit avoir seulement
-%2 etats lies, i.e. deux valeurs negatives
-
-
+[V,D] = eig(H);
+% D : valeurs propres dans diagonale
+% V : vecteurs propres
+E = sort(diag(D));
+format long
+E0 = E(1)
+E1 = E(2)

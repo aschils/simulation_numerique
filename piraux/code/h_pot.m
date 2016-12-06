@@ -1,16 +1,17 @@
 function [ y ] = h_pot(N,m,k,V0,alpha)
     
-    [ u,w ] = GaussHermite2(N);
+    [ u,w ] = hermquad(N+1);
     
-    x = u/sqrt(1+alpha);
+    x = u/(sqrt(1+alpha));
+ 
+     % implémentation vectorisée de la somme :
+    y = sum ((-V0*prod_coef(m,k)/(sqrt(1+alpha)))*w.*hermiteH(m,x).*hermiteH(k,x));
+         
+     % boucle (beaucoup plus lent) :
+        % s = 0;
+         % for j = 1:N+1
+          % s = s -((w(j)*prod_coef(m,k)*V0*hermiteH(m,x(j))*hermiteH(k,x(j)))/sqrt(1+alpha));
+          % end
+        % y = s;
     
-    r = 0;
-    
-    for j=1:N
-        r = r-(w(j)*coef(m)*coef(k)*V0*hermite(m,x(j))*hermite(k,x(j))*exp(-u(j)*u(j)))/sqrt(1+alpha);
-    end
-    
-    y = r;
-       
-end
-
+  end
