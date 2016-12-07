@@ -1,0 +1,112 @@
+\documentclass{report}
+
+%\usepackage[latin1]{inputenc} % saisie caractéres accentués clavier
+%\usepackage[T1]{fontenc} % police compatible franéais
+%\usepackage[francais]{babel} % caractéres spéciaux en franéais
+
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{mathrsfs}
+%\usepackage{amsfonts}
+
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{graphicx}
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+%----------------------------------------------------------------------------------------
+%   HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Université catholique de Louvain}\\[0.5cm] % Name of your university/college
+\textsc{\Large Ecole de physique}\\[1.5cm] % Major heading such as course name
+\textsc{\Large Simulation numérique en physique [\textsc{\normalsize LPHY2371}]}\\[0.5cm]
+ % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Equation d'Advection-Diffusion et Prédictibilité}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+
+%----------------------------------------------------------------------------------------
+%   AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}[t]{0.6\textwidth}
+\begin{flushleft} \large
+\begin{tabbing}
+\emph{Auteurs:}\\
+Arnaud \hspace{0.2cm}\= \textsc{Schils}\\ % Your name
+Valéry \> \textsc{Materne}
+\end{tabbing}
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}[t]{0.6\textwidth}
+\begin{flushright} \large
+\emph{Enseignant:} \\
+Pr. Michel \textsc{Crucifix} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[1.5cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%   DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large Décembre 2016}\\[1.5cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%   LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\includegraphics[width=4cm]{Logo_UCL_SCIENCES.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
+
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\chapter{Exercice d'examen 1}
+
+\section*{Introduction}
+
+
+\section{Fournissez un schéma numérique explicite d'ordre $\mathcal{O}(h+k)$.
+Donnez-en le stencil. Nous pouvons introduire les facteurs $\lambda_d = Dk/h^2$
+et $\lambda_b = bk$. Quelles importances ces facteurs ont-ils pour la condition
+de stabilité?}
+
+\section{Fournissez la solution analytique de l'équation, ainsi que la relation
+de dispersion. Discutez brièvement les cas particuliers déjà vus au cours (D=0, b=0, etc.)}
+
+\section*{Conclusion}
+
+\chapter{Prédictibilité}
+
+
+\section*{Introduction}
+
+
+\section{todo}
+
+
+\section*{Conclusion}
+
+
+\end{document}
