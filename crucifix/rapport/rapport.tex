@@ -1,4 +1,4 @@
-\documentclass{report}
+\documentclass[a4paper, 12pt]{report}
 
 %\usepackage[latin1]{inputenc} % saisie caractéres accentués clavier
 %\usepackage[T1]{fontenc} % police compatible franéais
@@ -10,6 +10,10 @@
 %\usepackage{amsfonts}
 
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{breqn}
+\usepackage[parfill]{parskip}
 
 
 \usepackage{graphicx}
@@ -94,6 +98,260 @@ de stabilité?}
 
 \section{Fournissez la solution analytique de l'équation, ainsi que la relation
 de dispersion. Discutez brièvement les cas particuliers déjà vus au cours (D=0, b=0, etc.)}
+
+L'équation aux dérivées partielles à résoudre est la suivante:
+
+\begin{equation}
+D \frac{\partial^2 u(x,t)}{\partial x^2} - a \frac{\partial u(x,t)}{\partial x} - b u(x,t) = \frac{\partial u(x,t)}{\partial t}
+\label{eq:adv_diff}
+\end{equation}
+
+où $D, a$ et $b$ sont des constantes. Dans la suite de ce texte les dépendances en $x$ et $t$
+de la fonction $u$ ne seront pas toujours mentionnées explicitement. Les conditions
+aux bords suivantes sont imposées:
+
+\begin{equation}
+  \left \{
+  \begin{aligned}
+    u(x,0) = g(x)\\
+    u(0,t) = u(l,t) = 0
+  \end{aligned}
+  \right.
+\end{equation}
+
+où $l > 0$. La solution $u$ est donc recherchée dans le domaine:
+
+\begin{equation}
+  \left \{
+  \begin{aligned}
+    t \ge 0\\
+    0 < x < l
+  \end{aligned}
+  \right.
+\end{equation}
+
+L'Equation~\ref{eq:adv_diff} peut-être résolue par la méthode de séparation de
+variables. La solution $u$ est supposée être de la forme:
+
+\begin{equation}
+  u(x,t) = v(x) w(t)
+\end{equation}
+
+En injectant cette forme de $u$ dans l'Equation~\ref{eq:adv_diff} on obtient:
+
+\begin{equation}
+D w(t) \frac{\partial^2 v(x)}{\partial x^2} - a w(t) \frac{\partial v(x)}{\partial x} - b v(x) w(t) = v(x) \frac{\partial w(t)}{\partial t}
+\end{equation}
+
+En divisant cette équation par $v(x) w(t)$ on obtient:
+
+\begin{equation}
+  \frac{D}{v} \frac{\partial^2 v}{\partial x^2} - \frac{a}{v} \frac{\partial v}{\partial x} -b = \frac{1}{w} \frac{\partial w}{\partial t} \equiv C_1
+\end{equation}
+
+Chaque partie de l'équation est en effet égale à une constante $C_1$ puisque
+la partie gauche ne dépend que de $x$ et la partie droite ne dépend que de $t$.
+L'équation peut maintenant être résolue en résolvant séparément la partie
+qui dépend du temps $t$ et la partie qui dépend de la position $x$. Pour la
+partie dépendante du temps on a:
+
+\begin{align}
+\frac{1}{w} \frac{\partial w}{\partial t} = C_1\\
+\frac{\partial w}{\partial t} = C_1 w\\
+\boxed{w(t) = \sum_{n=-\infty}^{\infty} C_{2_n} e^{C_1 t}}
+\end{align}
+
+où $C_{2_n}$ sont des constantes. Pour la partie dépendante de la position $x$
+on a:
+
+\begin{align}
+  \frac{D}{v} \frac{\partial^2v}{\partial x^2} - \frac{a}{v} \frac{\partial v}{\partial x} = C_1 + b\\
+  D \frac{d^2v}{d x^2} - a \frac{d v}{d x} - (C_1 + b) v = 0
+\end{align}
+
+C'est une équation différentielle linéaire homogène du 2ème ordre. La solution à
+son équation dépend alors du polynôme caractéristique de l'équation:
+
+\begin{align}
+  D r^2 - a r - (C_1 + b) = 0\\
+  \rho = a^2 + 4 D (C_1 + b)
+\end{align}
+
+Les deux racines de ce polynôme sont:
+
+\begin{equation}
+  \left \{
+  \begin{aligned}
+  r_1 = \frac{a + \sqrt{\rho}}{2 D}\\
+  r_2 = \frac{a - \sqrt{\rho}}{2 D}
+  \end{aligned}
+  \right.
+\end{equation}
+
+En fonction du signe de $\rho$ la solution de l'équation peut avoir trois formes.
+
+\underline{Si $\rho > 0$}
+
+\begin{equation}
+  v(x) = C_3 e^{r_1 x} + C_4 e^{r_2 x}
+\end{equation}
+
+où $C_3$ et $C_4$ sont des constantes. En utilisant la condition au bord
+$u(0,t) = 0 = v(0) w(t) \implies v(0) = 0$ on a:
+
+\begin{equation}
+  C_4 = -C_3 \implies  v(x) = C_3 (e^{r_1 x} - e^{r_2 x})
+\end{equation}
+
+Et en utilisant la condition au bord $u(l,t) = 0 = v(l) w(t) \implies v(l) = 0$ on a:
+
+\begin{equation}
+  C_3 (e^{r_1 l} - e^{r_2 l}) = 0 \implies r_1 = r_2 \implies v(x) = 0
+\end{equation}
+
+Cette solution n'est donc pas intéressante par rapport à nos conditions aux bords.
+
+\underline{Si $\rho = 0, r_1 = r_2 \equiv r$}
+
+\begin{equation}
+  v(x) = (C_3 + C_4 x) e^{r x}
+\end{equation}
+
+où $C_3$ et $C_4$ sont des constantes. En utilisant la condition au bord
+$u(0,t) = 0 = v(0) w(t) \implies v(0) = 0$ on a:
+
+\begin{equation}
+  C_3 = 0 \implies   v(x) = C_4 x e^{r x}
+\end{equation}
+
+Et en utilisant la condition au bord $u(l,t) = 0 = v(l) w(t) \implies v(l) = 0$ on a:
+
+\begin{equation}
+  C_4 l e^{r l} = 0 \implies C_4 = 0 \implies v(x) = 0
+\end{equation}
+
+Cette solution n'est donc pas intéressante par rapport à nos conditions aux bords.
+
+\underline{Si $\rho < 0$}
+
+On définit $r_1 \equiv \alpha + i \beta$, $r_2 \equiv \alpha - i \beta$ et
+
+\begin{equation}
+  v(x) = (C_3 \cos(\beta x) + C_4 \sin(\beta x)) e^{\alpha x}
+\end{equation}
+
+En utilisant la condition au bord $u(0,t) = 0 = v(0) w(t) \implies v(0) = 0$ on a:
+
+\begin{equation}
+  C_3 = 0 \implies v(x) = C_4 \sin(\beta x) e^{\alpha x}
+\end{equation}
+
+Et en utilisant la condition au bord $u(l,t) = 0 = v(l) w(t) \implies v(l) = 0$ on a:
+
+\begin{equation}
+  \sin(\beta l) = 0 \implies \beta l = m \pi \implies \beta = \frac{m \pi}{l}, m \in \mathbb{Z}
+\end{equation}
+
+La solution générale pour la partie de l'équation dépendante de la position est
+donc:
+
+\begin{equation}
+  \boxed{v(x) = \sum_{m=-\infty}^{\infty} C_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}}
+\end{equation}
+
+où les $C_{4_m}$ sont des constantes. Utilisons maintenant la condition au bord
+$u(x,0) = g(x)$ afin de déterminer les valeurs de ces constantes $C_{4_m}$.
+
+\begin{equation}
+  u(x,0) = v(x) w(0) = v(x) \sum_{n=-\infty}^{\infty} C_{2_n} = g(x)
+\end{equation}
+
+En définissant $C_2 \equiv \sum_{n=-\infty}^{\infty} C_{2_n}$:
+
+\begin{equation}
+  v(x) C_{2} = g(x) = \sum_{m=-\infty}^{\infty} C_{4_m}C_{2} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+\end{equation}
+
+En définissant $\tilde{C}_{4_m} = C_{4_m}C_{2}$ on obtient:
+
+\begin{equation}
+  g(x) = \sum_{m=-\infty}^{\infty} \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+\end{equation}
+
+On voit dès lors que les coefficients $\tilde{C}_{4_m}$ sont obtenus
+en projetant la fonction $g(x)$ sur la base des fonctions $\sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}$:
+
+\begin{equation}
+  \tilde{C}_{4_m} = \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} dx
+\end{equation}
+
+Puisque le terme de la somme pour $m=0$ est égal à zéro, et que la fonction
+sinus est impaire:
+
+\begin{align}
+  \tilde{C}_{4_{(-m)}} = \int_0^l g(x) \sin \left (\frac{-m \pi x}{l} \right ) e^{\alpha x} dx = -\tilde{C}_{4_m}\\
+  \implies \tilde{C}_{4_{(-m)}} \sin \left (\frac{-m \pi x}{l} \right ) e^{\alpha x} = \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+\end{align}
+
+Et donc:
+
+\begin{equation}
+  g(x) = \sum_{m=1}^{\infty} 2 \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+\end{equation}
+
+En définissant $C^'_{4_m} = 2 \tilde{C}_{4_m}$ on peut écrire:
+
+\begin{equation}
+  g(x) = \sum_{m=1}^{\infty} C^'_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+\end{equation}
+
+avec
+
+\begin{equation}
+  C^'_{4_m} =  2 \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} dx
+\end{equation}
+
+La fonction $u(x,t)$ peut alors s'écrire:
+
+\begin{equation}
+u(x,t) = \sum_{m=1}^{\infty} C^'_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} e^{C_1 t}
+\end{equation}
+
+Notons que par définition du polynôme caractéristique de l'équation différentielle
+$\alpha = a/(2D)$ et donc qu'il ne reste plus qu'à déterminer la constante $C_1$.
+
+\begin{equation}
+  \rho = a^2 + 4D (C_1 +b) \implies \boxed{C_1 = \frac{\rho-a^2}{4D}-b}
+\end{equation}
+
+Par ailleurs,
+
+\begin{align}
+  \alpha + i \beta = \frac{a + \sqrt{\rho}}{2D}\\
+  \sqrt{\rho} = 2D (\alpha + \beta i) - a\\
+  \rho = \left ( 2D (\alpha + \beta i) - a \right )^2
+\end{align}
+
+En injectant cette expression de $\rho$ dans celle de $C_1$ on obtient:
+
+\begin{multline}
+  C_1 = \frac{\left ( 2D (\alpha + \beta i) - a \right )^2 - a^2}{4D} - b = \frac{4D^2 (\alpha + \beta i)^2 + a^2 - 4D a (\alpha + \beta i) -a^2}{4D} - b\\
+  = D (\alpha + \beta i)^2 - a (\alpha + \beta i) - b = D (\alpha^2 - \beta^2 + i 2 \alpha \beta) - a (\alpha + \beta i) - b\\
+  = D (\alpha^2 - \beta^2) + i 2 D \alpha \beta - a \alpha - a \beta i - b = D (\alpha^2 - \beta^2) + i 2 D \frac{a}{2D} \beta - a \alpha - a \beta i - b\\
+  = D (\alpha^2 - \beta^2) + i a \beta - a \alpha - a \beta i - b = D (\alpha^2 - \beta^2) - a \alpha - b\\
+  = D \left (\frac{a^2}{4 D^2} - \frac{m^2 \pi^2}{l^2} \right ) - \frac{a^2}{2D} - b = - \frac{a^2}{4D} - \frac{D m^2 \pi^2}{l^2}-b
+\end{multline}
+
+En injectant l'expression de $C_1$ dans celle de $u$:
+
+\begin{equation}
+u(x,t) = \sum_{m=1}^{\infty} C^'_{4_m} \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( \frac{a x}{2D} + \left ( - \frac{a^2}{4D} - \frac{D m^2 \pi^2}{l^2}-b \right ) t \right )
+\end{equation}
+
+\begin{equation}
+  \boxed{u(x,t) = \sum_{m=1}^{\infty} C^'_{4_m} \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( \frac{a}{2D} \left (x - \frac{a}{2} t \right ) - \left (\frac{D m^2 \pi^2}{l^2}+b \right ) t \right )\\
+}
+\end{equation}
 
 \section*{Conclusion}
 
