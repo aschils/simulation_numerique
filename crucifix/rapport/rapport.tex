@@ -158,7 +158,7 @@ partie dépendante du temps on a:
 \begin{align}
 \frac{1}{w} \frac{\partial w}{\partial t} = C_1\\
 \frac{\partial w}{\partial t} = C_1 w\\
-\boxed{w(t) = \sum_{n=-\infty}^{\infty} C_{2_n} e^{C_1 t}}
+\boxed{w(t) = \sum_{n=1}^{\infty} C_{2_n} e^{C_1 t}}
 \end{align}
 
 où $C_{2_n}$ sont des constantes. Pour la partie dépendante de la position $x$
@@ -256,40 +256,40 @@ La solution générale pour la partie de l'équation dépendante de la position 
 donc:
 
 \begin{equation}
-  \boxed{v(x) = \sum_{m=-\infty}^{\infty} C_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}}
+  \boxed{v(x) = \sum_{m=1}^{\infty} C_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}}
 \end{equation}
 
 où les $C_{4_m}$ sont des constantes. Utilisons maintenant la condition au bord
 $u(x,0) = g(x)$ afin de déterminer les valeurs de ces constantes $C_{4_m}$.
 
 \begin{equation}
-  u(x,0) = v(x) w(0) = v(x) \sum_{n=-\infty}^{\infty} C_{2_n} = g(x)
+  u(x,0) = v(x) w(0) = v(x) \sum_{n=1}^{\infty} C_{2_n} = g(x)
 \end{equation}
 
-En définissant $C_2 \equiv \sum_{n=-\infty}^{\infty} C_{2_n}$:
+En définissant $C_2 \equiv \sum_{n=1}^{\infty} C_{2_n}$:
 
 \begin{equation}
-  v(x) C_{2} = g(x) = \sum_{m=-\infty}^{\infty} C_{4_m}C_{2} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+  v(x) C_{2} = g(x) = \sum_{m=1}^{\infty} C_{4_m}C_{2} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
 \end{equation}
 
 En définissant $\tilde{C}_{4_m} = C_{4_m}C_{2}$ on obtient:
 
 \begin{equation}
-  g(x) = \sum_{m=-\infty}^{\infty} \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+  g(x) = \sum_{m=1}^{\infty} \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
 \end{equation}
 
 On voit dès lors que les coefficients $\tilde{C}_{4_m}$ sont obtenus
 en projetant la fonction $g(x)e^{-\alpha x}$ sur la base des fonctions $\sin \left (\frac{m \pi x}{l} \right )$:
 
 \begin{equation}
-  \tilde{C}_{4_m} = \frac{1}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{-\alpha x} dx
+  \tilde{C}_{4_m} = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{-\alpha x} dx
 \end{equation}
 
 Puisque le terme de la somme pour $m=0$ est égal à zéro, et que la fonction
 sinus est impaire:
 
 \begin{align}
-  \tilde{C}_{4_{(-m)}} = \frac{1}{l} \int_0^l g(x) \sin \left (\frac{-m \pi x}{l} \right ) e^{-\alpha x} dx = -\tilde{C}_{4_m}\\
+  \tilde{C}_{4_{(-m)}} = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{-m \pi x}{l} \right ) e^{-\alpha x} dx = -\tilde{C}_{4_m}\\
   \implies \tilde{C}_{4_{(-m)}} \sin \left (\frac{-m \pi x}{l} \right ) e^{\alpha x} = \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
 \end{align}
 
