@@ -279,17 +279,17 @@ En définissant $\tilde{C}_{4_m} = C_{4_m}C_{2}$ on obtient:
 \end{equation}
 
 On voit dès lors que les coefficients $\tilde{C}_{4_m}$ sont obtenus
-en projetant la fonction $g(x)$ sur la base des fonctions $\sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}$:
+en projetant la fonction $g(x)e^{-\alpha x}$ sur la base des fonctions $\sin \left (\frac{m \pi x}{l} \right )$:
 
 \begin{equation}
-  \tilde{C}_{4_m} = \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} dx
+  \tilde{C}_{4_m} = \frac{1}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{-\alpha x} dx
 \end{equation}
 
 Puisque le terme de la somme pour $m=0$ est égal à zéro, et que la fonction
 sinus est impaire:
 
 \begin{align}
-  \tilde{C}_{4_{(-m)}} = \int_0^l g(x) \sin \left (\frac{-m \pi x}{l} \right ) e^{\alpha x} dx = -\tilde{C}_{4_m}\\
+  \tilde{C}_{4_{(-m)}} = \frac{1}{l} \int_0^l g(x) \sin \left (\frac{-m \pi x}{l} \right ) e^{-\alpha x} dx = -\tilde{C}_{4_m}\\
   \implies \tilde{C}_{4_{(-m)}} \sin \left (\frac{-m \pi x}{l} \right ) e^{\alpha x} = \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
 \end{align}
 
@@ -308,7 +308,7 @@ En définissant $C^'_{4_m} = 2 \tilde{C}_{4_m}$ on peut écrire:
 avec
 
 \begin{equation}
-  C^'_{4_m} =  2 \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} dx
+  C^'_{4_m} =  \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{-\alpha x} dx
 \end{equation}
 
 La fonction $u(x,t)$ peut alors s'écrire:
