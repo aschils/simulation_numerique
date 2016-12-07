@@ -158,7 +158,7 @@ partie dépendante du temps on a:
 \begin{align}
 \frac{1}{w} \frac{\partial w}{\partial t} = C_1\\
 \frac{\partial w}{\partial t} = C_1 w\\
-\boxed{w(t) = \sum_{n=1}^{\infty} C_{2_n} e^{C_1 t}}
+w(t) = \sum_{n=1}^{\infty} C_{2_n} e^{C_1 t}
 \end{align}
 
 où $C_{2_n}$ sont des constantes. Pour la partie dépendante de la position $x$
@@ -256,7 +256,7 @@ La solution générale pour la partie de l'équation dépendante de la position 
 donc:
 
 \begin{equation}
-  \boxed{v(x) = \sum_{m=1}^{\infty} C_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}}
+  v(x) = \sum_{m=1}^{\infty} C_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
 \end{equation}
 
 où les $C_{4_m}$ sont des constantes. Utilisons maintenant la condition au bord
@@ -272,56 +272,56 @@ En définissant $C_2 \equiv \sum_{n=1}^{\infty} C_{2_n}$:
   v(x) C_{2} = g(x) = \sum_{m=1}^{\infty} C_{4_m}C_{2} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
 \end{equation}
 
-En définissant $\tilde{C}_{4_m} = C_{4_m}C_{2}$ on obtient:
+En définissant $C_m = C_{4_m}C_{2}$ on obtient:
 
 \begin{equation}
-  g(x) = \sum_{m=1}^{\infty} \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+  g(x) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
 \end{equation}
 
-On voit dès lors que les coefficients $\tilde{C}_{4_m}$ sont obtenus
+On voit dès lors que les coefficients $C_m$ sont obtenus
 en projetant la fonction $g(x)e^{-\alpha x}$ sur la base des fonctions $\sin \left (\frac{m \pi x}{l} \right )$:
 
 \begin{equation}
-  \tilde{C}_{4_m} = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{-\alpha x} dx
+  C_m = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{-\alpha x} dx
 \end{equation}
 
-Puisque le terme de la somme pour $m=0$ est égal à zéro, et que la fonction
-sinus est impaire:
+%Puisque le terme de la somme pour $m=0$ est égal à zéro, et que la fonction
+%sinus est impaire:
 
-\begin{align}
-  \tilde{C}_{4_{(-m)}} = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{-m \pi x}{l} \right ) e^{-\alpha x} dx = -\tilde{C}_{4_m}\\
-  \implies \tilde{C}_{4_{(-m)}} \sin \left (\frac{-m \pi x}{l} \right ) e^{\alpha x} = \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
-\end{align}
+%\begin{align}
+%  \tilde{C}_{4_{(-m)}} = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{-m \pi x}{l} \right ) e^{-\alpha x} dx = -\tilde{C}_{4_m}\\
+%  \implies \tilde{C}_{4_{(-m)}} \sin \left (\frac{-m \pi x}{l} \right ) e^{\alpha x} = \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+%\end{align}
 
-Et donc:
+%Et donc:
 
-\begin{equation}
-  g(x) = \sum_{m=1}^{\infty} 2 \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
-\end{equation}
+%\begin{equation}
+%  g(x) = \sum_{m=1}^{\infty} 2 \tilde{C}_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+%\end{equation}
 
-En définissant $C^'_{4_m} = 2 \tilde{C}_{4_m}$ on peut écrire:
+%En définissant $C^'_{4_m} = 2 \tilde{C}_{4_m}$ on peut écrire:
 
-\begin{equation}
-  g(x) = \sum_{m=1}^{\infty} C^'_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
-\end{equation}
+%\begin{equation}
+%  g(x) = \sum_{m=1}^{\infty} C^'_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+%\end{equation}
 
-avec
+%avec
 
-\begin{equation}
-  C^'_{4_m} =  \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{-\alpha x} dx
-\end{equation}
+%\begin{equation}
+%  C^'_{4_m} =  \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{-\alpha x} dx
+%\end{equation}
 
 La fonction $u(x,t)$ peut alors s'écrire:
 
 \begin{equation}
-u(x,t) = \sum_{m=1}^{\infty} C^'_{4_m} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} e^{C_1 t}
+u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} e^{C_1 t}
 \end{equation}
 
 Notons que par définition du polynôme caractéristique de l'équation différentielle
 $\alpha = a/(2D)$ et donc qu'il ne reste plus qu'à déterminer la constante $C_1$.
 
 \begin{equation}
-  \rho = a^2 + 4D (C_1 +b) \implies \boxed{C_1 = \frac{\rho-a^2}{4D}-b}
+  \rho = a^2 + 4D (C_1 +b) \implies C_1 = \frac{\rho-a^2}{4D}-b
 \end{equation}
 
 Par ailleurs,
@@ -345,12 +345,18 @@ En injectant cette expression de $\rho$ dans celle de $C_1$ on obtient:
 En injectant l'expression de $C_1$ dans celle de $u$:
 
 \begin{equation}
-u(x,t) = \sum_{m=1}^{\infty} C^'_{4_m} \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( \frac{a x}{2D} + \left ( - \frac{a^2}{4D} - \frac{D m^2 \pi^2}{l^2}-b \right ) t \right )
+u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( \frac{a x}{2D} + \left ( - \frac{a^2}{4D} - \frac{D m^2 \pi^2}{l^2}-b \right ) t \right )
 \end{equation}
 
 \begin{equation}
-  \boxed{u(x,t) = \sum_{m=1}^{\infty} C^'_{4_m} \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( \frac{a}{2D} \left (x - \frac{a}{2} t \right ) - \left (\frac{D m^2 \pi^2}{l^2}+b \right ) t \right )\\
+  \boxed{u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( \frac{a}{2D} \left (x - \frac{a}{2} t \right ) - \left (\frac{D m^2 \pi^2}{l^2}+b \right ) t \right )\\
 }
+\end{equation}
+
+avec
+
+\begin{equation}
+  \boxed{C_m = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) e^{-\alpha x} dx}
 \end{equation}
 
 \section*{Conclusion}
