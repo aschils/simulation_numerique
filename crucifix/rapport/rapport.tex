@@ -158,10 +158,10 @@ partie dépendante du temps on a:
 \begin{align}
 \frac{1}{w} \frac{\partial w}{\partial t} = C_1\\
 \frac{\partial w}{\partial t} = C_1 w\\
-w(t) = \sum_{n=1}^{\infty} C_{2_n} e^{C_1 t}
+w(t) = C_{2} e^{C_1 t}
 \end{align}
 
-où $C_{2_n}$ sont des constantes. Pour la partie dépendante de la position $x$
+où $C_{2}$ est une constante. Pour la partie dépendante de la position $x$
 on a:
 
 \begin{align}
@@ -260,16 +260,16 @@ donc:
 \end{equation}
 
 où les $C_{4_m}$ sont des constantes. Utilisons maintenant la condition au bord
-$u(x,0) = g(x)$ afin de déterminer les valeurs de ces constantes $C_{4_m}$.
+$u(x,0) = g(x)$ afin de déterminer les valeurs de ces constantes $C_{4_m}$:
 
 \begin{equation}
-  u(x,0) = v(x) w(0) = v(x) \sum_{n=1}^{\infty} C_{2_n} = g(x)
+  u(x,0) = v(x) w(0) = v(x) C_{2} = g(x)\;.
 \end{equation}
 
-En définissant $C_2 \equiv \sum_{n=1}^{\infty} C_{2_n}$:
+On a alors,
 
 \begin{equation}
-  v(x) C_{2} = g(x) = \sum_{m=1}^{\infty} C_{4_m}C_{2} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}
+  g(x) = \sum_{m=1}^{\infty} C_{4_m}C_{2} \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x}\;.
 \end{equation}
 
 En définissant $C_m = C_{4_m}C_{2}$ on obtient:
