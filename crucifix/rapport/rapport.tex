@@ -18,6 +18,10 @@
 
 \usepackage{graphicx}
 
+%\renewcommand{\thepart}{\arabic{part}}
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesection}{\thepart.\arabic{section}}
+
 \begin{document}
 
 \begin{titlepage}
@@ -86,7 +90,7 @@ Pr. Michel \textsc{Crucifix} % Supervisor's Name
 
 \end{titlepage}
 
-\chapter{Exercice d'examen 1}
+\part{Exercice d'examen 1}
 
 \section*{Introduction}
 
@@ -180,13 +184,8 @@ son équation dépend alors du polynôme caractéristique de l'équation:
 Les deux racines de ce polynôme sont:
 
 \begin{equation}
-  \left \{
-  \begin{aligned}
-  r_1 = \frac{a + \sqrt{\rho}}{2 D}\\
-  r_2 = \frac{a - \sqrt{\rho}}{2 D}
-  \end{aligned}
-  \right.
-\end{equation}
+   r_{1,2} = \frac{a \pm \sqrt{\rho}}{2 D}
+ \end{equation}
 
 En fonction du signe de $\rho$ la solution de l'équation peut avoir trois formes.
 
@@ -206,7 +205,7 @@ $u(0,t) = 0 = v(0) w(t) \implies v(0) = 0$ on a:
 Et en utilisant la condition au bord $u(l,t) = 0 = v(l) w(t) \implies v(l) = 0$ on a:
 
 \begin{equation}
-  C_3 (e^{r_1 l} - e^{r_2 l}) = 0 \implies r_1 = r_2 \implies v(x) = 0
+  C_3 (e^{r_1 l} - e^{r_2 l}) = 0 \implies C_{3} = 0 \implies v(x) = 0
 \end{equation}
 
 Cette solution n'est donc pas intéressante par rapport à nos conditions aux bords.
@@ -234,7 +233,19 @@ Cette solution n'est donc pas intéressante par rapport à nos conditions aux bo
 
 \underline{Si $\rho < 0$}
 
-On définit $r_1 \equiv \alpha + i \beta$, $r_2 \equiv \alpha - i \beta$  avec $\alpha = \frac{a}{2 D}$ et $\beta = \frac{\sqrt{-a^{2} - 4 D (C_{1} + b)}}{2 D}$. On a alors comme solution pour $v(x)$ :
+On définit
+\begin{equation} 
+r_{1,2} \equiv \alpha \pm i \beta
+\end{equation}
+
+avec 
+
+\begin{eqnarray}
+  \alpha & = & \frac{a}{2 D}\;,\\
+  \beta & = & \frac{\sqrt{-a^{2} - 4 D (C_{1} + b)}}{2 D}\;.\label{beta}
+\end{eqnarray}
+ 
+On a alors comme solution pour $v(x)$ :
 
 \begin{equation}
   v(x) = (C_3 \cos(\beta x) + C_4 \sin(\beta x)) e^{\alpha x}\;.
@@ -318,7 +329,7 @@ La fonction $u(x,t)$ peut alors s'écrire:
 u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} e^{C_{1_m} t}
 \end{equation}
 
-Nous devons maintenant déterminer l'expression de la constante $C_{1_m}$ qui dépend de $\beta$ et donc de $m$. En partant de l'expression de $\beta$, on obtient :
+Nous devons maintenant déterminer l'expression de la constante $C_{1_m}$ qui dépend de $\beta$ et donc de $m$. En partant de l'expression de $\beta$ \eqref{beta}, on obtient :
 
 \begin{equation}
   C_{1_m}= \frac{-a^2 - 4D^{2}\beta^{2}}{4D}-b
@@ -347,7 +358,7 @@ avec
 
 \section*{Conclusion}
 
-\chapter{Prédictibilité}
+\part{Prédictibilité}
 
 
 \section*{Introduction}
