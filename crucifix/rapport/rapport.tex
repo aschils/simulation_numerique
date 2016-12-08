@@ -106,7 +106,7 @@ D \frac{\partial^2 u(x,t)}{\partial x^2} - a \frac{\partial u(x,t)}{\partial x} 
 \label{eq:adv_diff}
 \end{equation}
 
-où $D, a$ et $b$ sont des constantes. Dans la suite de ce texte les dépendances en $x$ et $t$
+où $D, a$, $b$ sont des constantes et $D$ est positive. Dans la suite de ce texte les dépendances en $x$ et $t$
 de la fonction $u$ ne seront pas toujours mentionnées explicitement. Les conditions
 aux bords suivantes sont imposées:
 
@@ -234,10 +234,10 @@ Cette solution n'est donc pas intéressante par rapport à nos conditions aux bo
 
 \underline{Si $\rho < 0$}
 
-On définit $r_1 \equiv \alpha + i \beta$, $r_2 \equiv \alpha - i \beta$ et
+On définit $r_1 \equiv \alpha + i \beta$, $r_2 \equiv \alpha - i \beta$  avec $\alpha = \frac{a}{2 D}$ et $\beta = \frac{\sqrt{-a^{2} - 4 D (C_{1} + b)}}{2 D}$. On a alors comme solution pour $v(x)$ :
 
 \begin{equation}
-  v(x) = (C_3 \cos(\beta x) + C_4 \sin(\beta x)) e^{\alpha x}
+  v(x) = (C_3 \cos(\beta x) + C_4 \sin(\beta x)) e^{\alpha x}\;.
 \end{equation}
 
 En utilisant la condition au bord $u(0,t) = 0 = v(0) w(t) \implies v(0) = 0$ on a:
@@ -249,9 +249,10 @@ En utilisant la condition au bord $u(0,t) = 0 = v(0) w(t) \implies v(0) = 0$ on 
 Et en utilisant la condition au bord $u(l,t) = 0 = v(l) w(t) \implies v(l) = 0$ on a:
 
 \begin{equation}
-  \sin(\beta l) = 0 \implies \beta l = m \pi \implies \beta = \frac{m \pi}{l}, m \in \mathbb{Z}
+  \sin(\beta l) = 0 \implies \beta l = m \pi \implies \beta = \frac{m \pi}{l}, m \in \mathbb{N}^{\ast}\;.
 \end{equation}
 
+On notera que $\beta > 0$ car $\rho < 0$ et $D > 0$. \\
 La solution générale pour la partie de l'équation dépendante de la position est
 donc:
 
@@ -314,35 +315,20 @@ en projetant la fonction $g(x)e^{-\alpha x}$ sur la base des fonctions $\sin \le
 La fonction $u(x,t)$ peut alors s'écrire:
 
 \begin{equation}
-u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} e^{C_1 t}
+u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) e^{\alpha x} e^{C_{1_m} t}
 \end{equation}
 
-Notons que par définition du polynôme caractéristique de l'équation différentielle
-$\alpha = a/(2D)$ et donc qu'il ne reste plus qu'à déterminer la constante $C_1$.
+Nous devons maintenant déterminer l'expression de la constante $C_{1_m}$ qui dépend de $\beta$ et donc de $m$. En partant de l'expression de $\beta$, on obtient :
 
 \begin{equation}
-  \rho = a^2 + 4D (C_1 +b) \implies C_1 = \frac{\rho-a^2}{4D}-b
+  C_{1_m}= \frac{-a^2 - 4D^{2}\beta^{2}}{4D}-b
+\end{equation}
+et avec $\beta = \frac{m \pi}{l}$, on a :
+\begin{equation}
+  C_{1_m}= - \frac{a^2}{4D} - \frac{D m^2 \pi^2}{l^2}-b\;.
 \end{equation}
 
-Par ailleurs,
-
-\begin{align}
-  \alpha + i \beta = \frac{a + \sqrt{\rho}}{2D}\\
-  \sqrt{\rho} = 2D (\alpha + \beta i) - a\\
-  \rho = \left ( 2D (\alpha + \beta i) - a \right )^2
-\end{align}
-
-En injectant cette expression de $\rho$ dans celle de $C_1$ on obtient:
-
-\begin{multline}
-  C_1 = \frac{\left ( 2D (\alpha + \beta i) - a \right )^2 - a^2}{4D} - b = \frac{4D^2 (\alpha + \beta i)^2 + a^2 - 4D a (\alpha + \beta i) -a^2}{4D} - b\\
-  = D (\alpha + \beta i)^2 - a (\alpha + \beta i) - b = D (\alpha^2 - \beta^2 + i 2 \alpha \beta) - a (\alpha + \beta i) - b\\
-  = D (\alpha^2 - \beta^2) + i 2 D \alpha \beta - a \alpha - a \beta i - b = D (\alpha^2 - \beta^2) + i 2 D \frac{a}{2D} \beta - a \alpha - a \beta i - b\\
-  = D (\alpha^2 - \beta^2) + i a \beta - a \alpha - a \beta i - b = D (\alpha^2 - \beta^2) - a \alpha - b\\
-  = D \left (\frac{a^2}{4 D^2} - \frac{m^2 \pi^2}{l^2} \right ) - \frac{a^2}{2D} - b = - \frac{a^2}{4D} - \frac{D m^2 \pi^2}{l^2}-b
-\end{multline}
-
-En injectant l'expression de $C_1$ dans celle de $u$:
+En injectant l'expression de $C_{1_m}$ dans celle de $u$ on a alors :
 
 \begin{equation}
 u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( \frac{a x}{2D} + \left ( - \frac{a^2}{4D} - \frac{D m^2 \pi^2}{l^2}-b \right ) t \right )
@@ -356,7 +342,7 @@ u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) \exp \le
 avec
 
 \begin{equation}
-  \boxed{C_m = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( -\frac{a}{2D} x \right ) dx}
+  \boxed{C_m = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( -\frac{a}{2D} x \right ) dx}\;.
 \end{equation}
 
 \section*{Conclusion}
