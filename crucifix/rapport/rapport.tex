@@ -348,6 +348,7 @@ u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) \exp \le
 \begin{equation}
   \boxed{u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( \frac{a}{2D} \left (x - \frac{a}{2} t \right ) - \left (\frac{D m^2 \pi^2}{l^2}+b \right ) t \right )\\
 }
+\label{eq:analy_sol}
 \end{equation}
 
 avec
@@ -355,6 +356,41 @@ avec
 \begin{equation}
   \boxed{C_m = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( -\frac{a}{2D} x \right ) dx}\;.
 \end{equation}
+
+Si $D=1$, $a=b=0$ on retrouve l'équation de la chaleur adimensionnelle et homogène:
+
+\begin{equation}
+  \frac{\partial^2 u(x,t)}{\partial x^2} = \frac{\partial u(x,t)}{\partial t}\;.
+\end{equation}
+
+En injectant ces valeurs de $D,a$ et $b$ dans l'Equation~\ref{eq:analy_sol} on a:
+
+ \begin{equation}
+   u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( - \left (\frac{m^2 \pi^2}{l^2} \right ) t \right )
+ \end{equation}
+
+ avec
+
+ \begin{equation}
+   C_m = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right )  dx \;.
+ \end{equation}
+
+ On retombe donc bien sur la solution de l'équation de la chaleur adimensionnelle
+ homogène du cours si l'on pose $l=1$.
+
+Si $D=0=b$ on retrouve la forme générale de l'équation d'advection:
+
+\begin{equation}
+  \frac{\partial u(x,t)}{\partial t} + a \frac{\partial u(x,t)}{\partial x} = 0 \;.
+  \label{eq:advection}
+\end{equation}
+
+La solution présentée à l'Equation~\ref{eq:analy_sol} n'est alors plus valide
+car celle-ci n'est valable que si $D>0$ et $\rho < 0$. La solution de
+l'Equation~\ref{eq:advection} est $u(x,t) = g(x-at)$ avec comme condition
+initiale $u(x,0) = g(x)$ (démonstration faite en séance d'exercices).
+
+
 
 \section*{Conclusion}
 
