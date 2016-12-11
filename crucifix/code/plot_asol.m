@@ -21,7 +21,7 @@
 %   analytique qui seront evalues. m_end entier et m_end > 0
 % * g est la fonction g(x) qui specifie les conditions initiales, i.e.
 %   u(x,0) = g(x). On doit avoir g(0) = g(l) = 0.
-% * plot_break_time est temps de pause entre le plot de la solution
+% * plot_break_time est le temps de pause entre le plot de la solution
 %   analytique pour t = t_j et t = t_j+k
 %
 function plot_asol(a,b,D,l,x,t_end,k,m_end,g,plot_break_time)
