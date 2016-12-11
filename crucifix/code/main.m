@@ -8,20 +8,21 @@ xa = linspace(0,l,l/ha+1);
 x = linspace(0,l,l/h+1);
 t_end = 0.01;
 ka = 0.0001; %pas de temps
-k = 0.000001; %pas de temps
+k = 0.00001; %pas de temps
 
 m_end = 50; %nombre d'elements de la série de pour la solution analytique
-plot_break_time = 0.1;
+plot_break_time = 0.001;
 
-plot_asol(a,b,D,l,x,t_end,ka,m_end,plot_break_time);
+g = @(x) 1+cos(8*x*pi/l+pi);
+plot_asol(a,b,D,l,x,t_end,ka,m_end,g,plot_break_time);
 
 lambda_a = a*k/h;
 lambda_b = b*k;
 lambda_d = D*k/h^2;
 
-left_of_diag_el = lambda_d+lambda_a-lambda_b+1;
-diag_el = -2*lambda_d-lambda_a;
-right_of_diag_el = lambda_d;
+left_of_diag_el = lambda_d;
+diag_el = -2*lambda_d+lambda_a-lambda_b+1;
+right_of_diag_el = lambda_d-lambda_a;
 
 N = length(x);
 M = gallery('tridiag',N,left_of_diag_el,diag_el,right_of_diag_el);
@@ -30,13 +31,10 @@ M = gallery('tridiag',N,left_of_diag_el,diag_el,right_of_diag_el);
 
 M([1,end]) = 1;
 M(1,2) = 0;
-M(2,1) = 0;
 M(N, N-1) = 0;
-M(N-1, N-2) = lambda_d;
-M(N-1, N-1) = -2*lambda_d+lambda_a-lambda_b+1;
-M(N-1,N) = lambda_d-lambda_a;
+M(N-1,N) = 0;
 
-u = (1+cos(8*x*pi/l+pi))';
+u = g(x)';
 
 t=0;
 while(t < t_end)
