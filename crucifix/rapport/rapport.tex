@@ -10,9 +10,15 @@
 
 
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
 
 \renewcommand{\thesection}{\arabic{section}}
 \renewcommand{\thesection}{\thepart.\arabic{section}}
+
+\tikzset{every label/.style={font=\footnotesize,inner sep=1pt}}
+\newcommand{\stencilpt}[4][]{\node[circle,fill,draw,inner sep=1.5pt,label={#4},#1] at (#2) (#3) {}}
+
 
 \begin{document}
 
@@ -187,7 +193,56 @@ M
 \end{equation}
 
 où $M$ est une matrice tridiagonale. Notons que les $U_{i,0}$ sont connus
-grâce aux conditions initiales.
+grâce aux conditions initiales. Le stencil de ce schéma explicite est présenté
+à la Figure~\ref{fig:stencil_schema_explicite}. Chaque $U_{i,j+1}$ dépend
+en effet des $U_{i-1,j}$, $U_{i,j}$ et $U_{i+1,j}$.
+
+\begin{figure}[H]
+  \center
+\begin{tikzpicture}
+
+  \stencilpt{0, 2}{ij+1}{$x_i,t_{j+1}$};
+  \stencilpt{0, 1}{ij}{$x_i,t_{j}$};
+  \stencilpt{-2, 1}{i-1j}{$x_{i-1},t_{j}$};
+  \stencilpt{2, 1}{i+1j}{$x_{i+1},t_{j}$};
+  \stencilpt{0,0}{ij-1}{$x_i,t_{j-1}$};
+  \stencilpt{2,0}{i+1j-1}{$x_{i+1},t_{j-1}$};
+  \stencilpt{-2,0}{i-1j-1}{$x_{i-1},t_{j-1}$};
+  \stencilpt{4,0}{i+2j-1}{$x_{i+2},t_{j-1}$};
+  \stencilpt{-4,0}{i-2j-1}{$x_{i-2},t_{j-1}$};
+  \stencilpt{-6,-1}{l}{$x_i-(j+1)h, t_0$};
+  \stencilpt{-4,-1}{l2}{};
+  \stencilpt{-2,-1}{l3}{};
+  \stencilpt{0,-1}{l4}{$x_i, t_0$};
+  \stencilpt{2,-1}{l5}{};
+  \stencilpt{4,-1}{l6}{};
+  \stencilpt{6,-1}{l7}{$x_i+(j+1)h, t_0$};
+
+  \draw (ij+1)   -- (ij)
+        (ij) -- (i-1j)
+        (i-1j)   -- (i+1j)
+        (i-1j-1) -- (i-1j)
+        (ij-1) -- (ij)
+        (i+1j-1) -- (i+1j)
+        (i-2j-1) -- (i-1j-1)
+        (i-1j-1) -- (ij-1)
+        (ij-1) -- (i+1j-1)
+        (i+1j-1) -- (i+2j-1)
+        (l) -- (l2)
+        (l2) -- (l3)
+        (l3) -- (l4)
+        (l4) -- (l5)
+        (l5) -- (l6)
+        (l6) -- (l7)
+        (l2) -- (i-2j-1)
+        (l3) -- (i-1j-1)
+        (l4) -- (ij-1)
+        (l5) -- (i+1j-1)
+        (l6) -- (i+2j-1);
+\end{tikzpicture}
+\caption{Stencil du schéma numérique explicite.}
+\label{fig:stencil_schema_explicite}
+\end{figure}
 
 
 \section{Fournissez la solution analytique de l'équation, ainsi que la relation
