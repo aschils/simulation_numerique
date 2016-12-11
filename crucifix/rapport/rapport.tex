@@ -1,13 +1,6 @@
 \documentclass[a4paper, 12pt]{report}
 
-%\usepackage[latin1]{inputenc} % saisie caractéres accentués clavier
-%\usepackage[T1]{fontenc} % police compatible franéais
 \usepackage[francais]{babel} % caractéres spéciaux en franéais
-
-%\usepackage{amsmath}
-%\usepackage{amssymb}
-%\usepackage{mathrsfs}
-%\usepackage{amsfonts}
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -18,7 +11,6 @@
 
 \usepackage{graphicx}
 
-%\renewcommand{\thepart}{\arabic{part}}
 \renewcommand{\thesection}{\arabic{section}}
 \renewcommand{\thesection}{\thepart.\arabic{section}}
 
@@ -100,10 +92,8 @@ Donnez-en le stencil. Nous pouvons introduire les facteurs $\lambda_d = Dk/h^2$
 et $\lambda_b = bk$. Quelles importances ces facteurs ont-ils pour la condition
 de stabilité?}
 
-\section{Fournissez la solution analytique de l'équation, ainsi que la relation
-de dispersion. Discutez brièvement les cas particuliers déjà vus au cours (D=0, b=0, etc.)}
-
-L'équation aux dérivées partielles à résoudre est la suivante:
+Dans cette section un schéma numérique explicite est fourni pour l'équation
+aux dérivées partielles suivantes:
 
 \begin{equation}
 D \frac{\partial^2 u(x,t)}{\partial x^2} - a \frac{\partial u(x,t)}{\partial x} - b u(x,t) = \frac{\partial u(x,t)}{\partial t}
@@ -111,7 +101,99 @@ D \frac{\partial^2 u(x,t)}{\partial x^2} - a \frac{\partial u(x,t)}{\partial x} 
 \end{equation}
 
 où $D, a$, $b$ sont des constantes et $D$ est positive. Dans la suite de ce texte les dépendances en $x$ et $t$
-de la fonction $u$ ne seront pas toujours mentionnées explicitement. Les conditions
+de la fonction $u$ ne seront pas toujours mentionnées explicitement.
+
+Les dérivées de l'Equation~\ref{eq:adv_diff} sont remplacées par leurs expressions
+en différences finies. Soient $u(x_i, t_j) \equiv U_{i,j}$, $h$ le pas d'espace
+et $k$ le pas de temps, ces expressions sont:
+
+\begin{align}
+  \frac{\partial^2 u (x,t)}{\partial x^2} \biggr |_{x=x_i, t=t_j} &=& \frac{U_{i-1,j} - 2 U_{i,j} + U_{i+1,j}}{h^2} + \mathcal{O}(h^2)\\
+  \frac{\partial u (x,t)}{\partial x} \biggr |_{x=x_i, t=t_j} &=& \frac{U_{i+1,j} - U_{i,j}}{h} + \mathcal{O}(h)\\
+  \frac{\partial u (x,t)}{\partial t} \biggr |_{x=x_i, t=t_j} &=& \frac{U_{i,j+1} - U_{i,j}}{k} + \mathcal{O}(k) \;.
+\end{align}
+
+Notons que pour la dérivée seconde par rapport à $x$, la formule à trois points d'ordre $\mathcal{O}(h^2)$ a été choisie
+au lieu de celles d'ordre $\mathcal{O}(h)$ afin d'obtenir à la fin une matrice
+tridiagonale. En injectant ces différences finies dans l'Equation~\ref{eq:adv_diff}
+on obtient:
+
+\begin{multline}
+D \frac{U_{i-1,j} - 2 U_{i,j} + U_{i+1,j}}{h^2} + \mathcal{O}(h^2) - a \frac{U_{i+1,j} - U_{i,j}}{h} + \mathcal{O}(h) - b U_{i,j}\\
+= \frac{U_{i,j+1} - U_{i,j}}{k} + \mathcal{O}(k) \;.
+\end{multline}
+
+En multipliant l'expression par le pas de temps $k$, en isolant $U_{i,j+1}$ et
+en négligeant l'erreur en $\mathcal{O}(h^2)$ car elle est d'ordre supérieur à $\mathcal{O}(h)$
+on obtient:
+
+\begin{multline}
+  U_{i,j+1} = \frac{Dk}{h^2} (U_{i-1,j} - 2 U_{i,j} + U_{i+1,j}) - \frac{ak}{h} (U_{i+1,j} - U_{i,j}) - bk U_{i,j} + U_{i,j}\\
+  + \mathcal{O}(h+k) \;.
+\end{multline}
+
+En définissant $\lambda_d = \frac{Dk}{h^2}$, $\lambda_a = \frac{ak}{h}$ et
+$\lambda_b = bk$ l'expression devient:
+
+\begin{multline}
+  U_{i,j+1} = \lambda_d (U_{i-1,j} - 2 U_{i,j} + U_{i+1,j}) - \lambda_a (U_{i+1,j} - U_{i,j}) - \lambda_b U_{i,j} + U_{i,j}\\
+  + \mathcal{O}(h+k) \;.
+\end{multline}
+
+Sans spécifier l'ordre de l'erreur et en réarrangeant l'expression on a:
+
+\begin{equation}
+  U_{i,j+1} = U_{i-1,j} \lambda_d + U_{i,j} (-2 \lambda_d + \lambda_a - \lambda_b +1) + U_{i+1, j} (\lambda_d - \lambda_a)\;.
+\end{equation}
+
+En imposant les conditions aux bords constantes $\forall j, U_{0,j} = 0$
+et $\forall j, U_{N+1,j} = 0$, le schéma numérique peut s'écrire
+sous forme matricielle comme ceci:
+
+\begin{equation}
+  M =
+  \begin{pmatrix}
+     1 & 0 & ... & 0 & 0 \\
+     \lambda_d & \ -2 \lambda_d + \lambda_a - \lambda_b + 1 \ & \lambda_d-\lambda_a &  0 & ...\\
+     . & . & . &  . & .\\
+     . & . & . &  . & .\\
+     . & . & . &  . & .\\
+     0 & ... & \lambda_d & \ -2 \lambda_d + \lambda_a - \lambda_b + 1 \ & \lambda_d-\lambda_a\\
+     0 & 0 & ... & 0 & 1
+  \end{pmatrix}
+\end{equation}
+
+\begin{equation}
+\begin{pmatrix}
+   U_{0,j+1} \\
+   U_{1,j+1} \\
+   .\\
+   .\\
+   .\\
+   U_{N,j+1}\\
+   U_{N+1,j+1}
+\end{pmatrix}
+=
+M
+\begin{pmatrix}
+   U_{0,j} \\
+   U_{1,j} \\
+   .\\
+   .\\
+   .\\
+   U_{N,j}\\
+   U_{N+1,j}
+\end{pmatrix}
+\end{equation}
+
+où $M$ est une matrice tridiagonale. Notons que les $U_{i,0}$ sont connus
+grâce aux conditions initiales.
+
+
+\section{Fournissez la solution analytique de l'équation, ainsi que la relation
+de dispersion. Discutez brièvement les cas particuliers déjà vus au cours (D=0, b=0, etc.)}
+
+L'équation aux dérivées partielles à résoudre est l'Equation~\ref{eq:adv_diff}. Les conditions
 aux bords suivantes sont imposées:
 
 \begin{equation}
