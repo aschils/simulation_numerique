@@ -13,6 +13,7 @@
 \usepackage{float}
 \usepackage{tikz}
 
+\renewcommand{\thepart}{\arabic{part}}
 \renewcommand{\thesection}{\arabic{section}}
 \renewcommand{\thesection}{\thepart.\arabic{section}}
 
@@ -88,9 +89,9 @@ Pr. Michel \textsc{Crucifix} % Supervisor's Name
 
 \end{titlepage}
 
-\part{Exercice d'examen 1}
+\part{Equation d'Advection-Diffusion}
 
-\section*{Introduction}
+%\section*{Introduction}
 
 
 \section{Fournissez un schéma numérique explicite d'ordre $\mathcal{O}(h+k)$.
@@ -110,13 +111,13 @@ où $D, a$, $b$ sont des constantes et $D$ est positive. Dans la suite de ce tex
 de la fonction $u$ ne seront pas toujours mentionnées explicitement.
 
 Les dérivées de l'Equation~\ref{eq:adv_diff} sont remplacées par leurs expressions
-en différences finies. Soient $u(x_i, t_j) \equiv U_{i,j}$, $h$ le pas d'espace
+en différences finies. Soient $u(x_{\textsl{i}}, t_{\textsl{j}}) \equiv U_{\textsl{i},\textsl{j}}$, $h$ le pas d'espace
 et $k$ le pas de temps, ces expressions sont:
 
 \begin{align}
-  \frac{\partial^2 u (x,t)}{\partial x^2} \biggr |_{x=x_i, t=t_j} &=& \frac{U_{i-1,j} - 2 U_{i,j} + U_{i+1,j}}{h^2} + \mathcal{O}(h^2)\\
-  \frac{\partial u (x,t)}{\partial x} \biggr |_{x=x_i, t=t_j} &=& \frac{U_{i+1,j} - U_{i,j}}{h} + \mathcal{O}(h)\\
-  \frac{\partial u (x,t)}{\partial t} \biggr |_{x=x_i, t=t_j} &=& \frac{U_{i,j+1} - U_{i,j}}{k} + \mathcal{O}(k) \;.
+  \frac{\partial^2 u (x,t)}{\partial x^2} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j}}} &=& \frac{U_{\textsl{i}-1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}+1,\textsl{j}}}{h^2} + \mathcal{O}(h^2)\\
+  \frac{\partial u (x,t)}{\partial x} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j}}} &=& \frac{U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}}{h} + \mathcal{O}(h)\\
+  \frac{\partial u (x,t)}{\partial t} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j}}} &=& \frac{U_{\textsl{i},\textsl{j}+1} - U_{\textsl{i},\textsl{j}}}{k} + \mathcal{O}(k) \;.
 \end{align}
 
 Notons que pour la dérivée seconde par rapport à $x$, la formule à trois points d'ordre $\mathcal{O}(h^2)$ a été choisie
@@ -125,16 +126,16 @@ tridiagonale. En injectant ces différences finies dans l'Equation~\ref{eq:adv_d
 on obtient:
 
 \begin{multline}
-D \frac{U_{i-1,j} - 2 U_{i,j} + U_{i+1,j}}{h^2} + \mathcal{O}(h^2) - a \frac{U_{i+1,j} - U_{i,j}}{h} + \mathcal{O}(h) - b U_{i,j}\\
-= \frac{U_{i,j+1} - U_{i,j}}{k} + \mathcal{O}(k) \;.
+D \frac{U_{\textsl{i}-1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}+1,\textsl{j}}}{h^2} + \mathcal{O}(h^2) - a \frac{U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}}{h} + \mathcal{O}(h) - b U_{\textsl{i},\textsl{j}}\\
+= \frac{U_{\textsl{i},\textsl{j}+1} - U_{\textsl{i},\textsl{j}}}{k} + \mathcal{O}(k) \;.
 \end{multline}
 
-En multipliant l'expression par le pas de temps $k$, en isolant $U_{i,j+1}$ et
+En multipliant l'expression par le pas de temps $k$, en isolant $U_{\textsl{i},\textsl{j}+1}$ et
 en négligeant l'erreur en $\mathcal{O}(h^2)$ car elle est d'ordre supérieur à $\mathcal{O}(h)$
 on obtient:
 
 \begin{multline}
-  U_{i,j+1} = \frac{Dk}{h^2} (U_{i-1,j} - 2 U_{i,j} + U_{i+1,j}) - \frac{ak}{h} (U_{i+1,j} - U_{i,j}) - bk U_{i,j} + U_{i,j}\\
+  U_{\textsl{i},\textsl{j}+1} = \frac{Dk}{h^2} (U_{\textsl{i}-1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}+1,\textsl{j}}) - \frac{ak}{h} (U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}) - bk U_{\textsl{i},\textsl{j}} + U_{\textsl{i},\textsl{j}}\\
   + \mathcal{O}(h+k) \;.
 \end{multline}
 
@@ -142,18 +143,18 @@ En définissant $\lambda_d = \frac{Dk}{h^2}$, $\lambda_a = \frac{ak}{h}$ et
 $\lambda_b = bk$ l'expression devient:
 
 \begin{multline}
-  U_{i,j+1} = \lambda_d (U_{i-1,j} - 2 U_{i,j} + U_{i+1,j}) - \lambda_a (U_{i+1,j} - U_{i,j}) - \lambda_b U_{i,j} + U_{i,j}\\
+  U_{\textsl{i},\textsl{j}+1} = \lambda_d (U_{\textsl{i}-1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}+1,\textsl{j}}) - \lambda_a (U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}) - \lambda_b U_{\textsl{i},\textsl{j}} + U_{\textsl{i},\textsl{j}}\\
   + \mathcal{O}(h+k) \;.
 \end{multline}
 
 Sans spécifier l'ordre de l'erreur et en réarrangeant l'expression on a:
 
 \begin{equation}
-  U_{i,j+1} = U_{i-1,j} \lambda_d + U_{i,j} (-2 \lambda_d + \lambda_a - \lambda_b +1) + U_{i+1, j} (\lambda_d - \lambda_a)\;.
+  U_{\textsl{i},\textsl{j}+1} = U_{\textsl{i}-1,\textsl{j}} \lambda_d + U_{\textsl{i},\textsl{j}} (-2 \lambda_d + \lambda_a - \lambda_b +1) + U_{\textsl{i}+1, \textsl{j}} (\lambda_d - \lambda_a)\;.
 \end{equation}
 
-En imposant les conditions aux bords constantes $\forall j, U_{0,j} = 0$
-et $\forall j, U_{N+1,j} = 0$, le schéma numérique peut s'écrire
+En imposant les conditions aux bords constantes $\forall \textsl{j}, U_{0,\textsl{j}} = 0$
+et $\forall \textsl{j}, U_{N+1,\textsl{j}} = 0$, le schéma numérique peut s'écrire
 sous forme matricielle comme ceci:
 
 \begin{equation}
@@ -171,52 +172,52 @@ sous forme matricielle comme ceci:
 
 \begin{equation}
 \begin{pmatrix}
-   U_{0,j+1} \\
-   U_{1,j+1} \\
+   U_{0,\textsl{j}+1} \\
+   U_{1,\textsl{j}+1} \\
    .\\
    .\\
    .\\
-   U_{N,j+1}\\
-   U_{N+1,j+1}
+   U_{N,\textsl{j}+1}\\
+   U_{N+1,\textsl{j}+1}
 \end{pmatrix}
 =
 M
 \begin{pmatrix}
-   U_{0,j} \\
-   U_{1,j} \\
+   U_{0,\textsl{j}} \\
+   U_{1,\textsl{j}} \\
    .\\
    .\\
    .\\
-   U_{N,j}\\
-   U_{N+1,j}
+   U_{N,\textsl{j}}\\
+   U_{N+1,\textsl{j}}
 \end{pmatrix}
 \end{equation}
 
-où $M$ est une matrice tridiagonale. Notons que les $U_{i,0}$ sont connus
+où $M$ est une matrice tridiagonale. Notons que les $U_{\textsl{i},0}$ sont connus
 grâce aux conditions initiales. Le stencil de ce schéma explicite est présenté
-à la Figure~\ref{fig:stencil_schema_explicite}. Chaque $U_{i,j+1}$ dépend
-en effet des $U_{i-1,j}$, $U_{i,j}$ et $U_{i+1,j}$.
+à la Figure~\ref{fig:stencil_schema_explicite}. Chaque $U_{\textsl{i},\textsl{j}+1}$ dépend
+en effet des $U_{\textsl{i}-1,\textsl{j}}$, $U_{\textsl{i},\textsl{j}}$ et $U_{\textsl{i}+1,\textsl{j}}$.
 
 \begin{figure}[H]
   \center
 \begin{tikzpicture}
 
-  \stencilpt{0, 2}{ij+1}{$x_i,t_{j+1}$};
-  \stencilpt{0, 1}{ij}{$x_i,t_{j}$};
-  \stencilpt{-2, 1}{i-1j}{$x_{i-1},t_{j}$};
-  \stencilpt{2, 1}{i+1j}{$x_{i+1},t_{j}$};
-  \stencilpt{0,0}{ij-1}{$x_i,t_{j-1}$};
-  \stencilpt{2,0}{i+1j-1}{$x_{i+1},t_{j-1}$};
-  \stencilpt{-2,0}{i-1j-1}{$x_{i-1},t_{j-1}$};
-  \stencilpt{4,0}{i+2j-1}{$x_{i+2},t_{j-1}$};
-  \stencilpt{-4,0}{i-2j-1}{$x_{i-2},t_{j-1}$};
-  \stencilpt{-6,-1}{l}{$x_i-(j+1)h, t_0$};
+  \stencilpt{0, 2}{ij+1}{$x_{\textsl{i}},t_{\textsl{j}+1}$};
+  \stencilpt{0, 1}{ij}{$x_{\textsl{i}},t_{\textsl{j}}$};
+  \stencilpt{-2, 1}{i-1j}{$x_{\textsl{i}-1},t_{\textsl{j}}$};
+  \stencilpt{2, 1}{i+1j}{$x_{\textsl{i}+1},t_{\textsl{j}}$};
+  \stencilpt{0,0}{ij-1}{$x_{\textsl{i}},t_{\textsl{j}-1}$};
+  \stencilpt{2,0}{i+1j-1}{$x_{\textsl{i}+1},t_{\textsl{j}-1}$};
+  \stencilpt{-2,0}{i-1j-1}{$x_{\textsl{i}-1},t_{\textsl{j}-1}$};
+  \stencilpt{4,0}{i+2j-1}{$x_{\textsl{i}+2},t_{\textsl{j}-1}$};
+  \stencilpt{-4,0}{i-2j-1}{$x_{\textsl{i}-2},t_{\textsl{j}-1}$};
+  \stencilpt{-6,-1}{l}{$x_{\textsl{i}}-(\textsl{j}+1)h, t_0$};
   \stencilpt{-4,-1}{l2}{};
   \stencilpt{-2,-1}{l3}{};
-  \stencilpt{0,-1}{l4}{$x_i, t_0$};
+  \stencilpt{0,-1}{l4}{$x_{\textsl{i}}, t_0$};
   \stencilpt{2,-1}{l5}{};
   \stencilpt{4,-1}{l6}{};
-  \stencilpt{6,-1}{l7}{$x_i+(j+1)h, t_0$};
+  \stencilpt{6,-1}{l7}{$x_{\textsl{i}}+(\textsl{j}+1)h, t_0$};
 
   \draw (ij+1)   -- (ij)
         (ij) -- (i-1j)
@@ -246,7 +247,7 @@ en effet des $U_{i-1,j}$, $U_{i,j}$ et $U_{i+1,j}$.
 
 
 \section{Fournissez la solution analytique de l'équation, ainsi que la relation
-de dispersion. Discutez brièvement les cas particuliers déjà vus au cours (D=0, b=0, etc.)}
+de dispersion. Discutez brièvement les cas particuliers déjà vus au cours (D=0, b=0, etc.).}
 
 L'équation aux dérivées partielles à résoudre est l'Equation~\ref{eq:adv_diff}. Les conditions
 aux bords suivantes sont imposées:
@@ -494,6 +495,27 @@ avec
   \boxed{C_m = \frac{2}{l} \int_0^l g(x) \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( -\frac{a}{2D} x \right ) dx}\;.
 \end{equation}
 
+
+\subsection*{Relation de dispersion}
+
+On utilise, comme solution à l'équation d'advection-diffusion \eqref{eq:adv_diff}, une onde plane de la forme :
+
+\begin{equation}
+  u(x,t) = e^{\dot{\imath}\left(kx-\omega t\right)}
+\end{equation}
+
+avec $k$ le nombre d'onde qui est relié à la longueur d'onde $\lambda$ par la relation $\lambda = 2\pi/k$ et $\omega$ la fréquence de l'onde.
+
+On obtient alors l'expression suivante :
+
+\begin{equation}
+  \omega = ak-\dot{\imath}\left(Dk^{2}+b\right)
+\end{equation}
+
+qui est la relation de dispersion de l'équation \eqref{eq:adv_diff}. Elle détermine la fréquence $\omega$ en fonction de $k$ pour une onde plane prise comme solution.
+
+\subsection*{Cas particuliers}
+
 Si $D=1$, $a=b=0$ on retrouve l'équation de la chaleur adimensionnelle et homogène:
 
 \begin{equation}
@@ -528,8 +550,21 @@ l'Equation~\ref{eq:advection} est $u(x,t) = g(x-at)$ avec comme condition
 initiale $u(x,0) = g(x)$ (démonstration faite en séance d'exercices).
 
 
+\section{Fournissez un schéma implicite. Est-il toujours stable?}
 
-\section*{Conclusion}
+\section{Illustrez votre propos avec plusieurs simulations numériques, comparant schémas numériques implicites et explicites.}
+
+\section{Montrez, dans ces schéma numériques, quels termes sont responsables de la diffusion numérique. Quel est son ordre de grandeur par rapport à la diffusion explicitement modélisée par le terme D ?}
+
+
+\section{Comparez vitesse de groupe numérique avec celle du système original. Le schéma est-il dispersif?}
+
+\section{Le terme de diffusion D peut-il être responsable d'un comportement instable? Expliquer.}
+
+\section{Fournissez un schéma de Lax-Wendroff à trois points $\left(\textsl{i}-1,\textsl{i},\textsl{i}+1\right)$ dans l'espace. Quel est l'ordre de ce schéma? Est-il monotone? Discutez les avantages et les inconvénients au schéma que vous avez donné au point 1 ci-dessus.}
+
+
+%\section*{Conclusion}
 
 \part{Prédictibilité}
 
