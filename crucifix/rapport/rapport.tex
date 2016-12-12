@@ -110,6 +110,8 @@ D \frac{\partial^2 u(x,t)}{\partial x^2} - a \frac{\partial u(x,t)}{\partial x} 
 où $D, a$, $b$ sont des constantes et $D$ est positive. Dans la suite de ce texte les dépendances en $x$ et $t$
 de la fonction $u$ ne seront pas toujours mentionnées explicitement.
 
+\subsection*{Schéma numérique explicite}
+
 Les dérivées de l'Equation~\ref{eq:adv_diff} sont remplacées par leurs expressions
 en différences finies. Soient $u(x_{\textsl{i}}, t_{\textsl{j}}) \equiv U_{\textsl{i},\textsl{j}}$, $h$ le pas d'espace
 et $k$ le pas de temps, ces expressions sont:
@@ -151,6 +153,7 @@ Sans spécifier l'ordre de l'erreur et en réarrangeant l'expression on a:
 
 \begin{equation}
   U_{\textsl{i},\textsl{j}+1} = U_{\textsl{i}-1,\textsl{j}} \lambda_d + U_{\textsl{i},\textsl{j}} (-2 \lambda_d + \lambda_a - \lambda_b +1) + U_{\textsl{i}+1, \textsl{j}} (\lambda_d - \lambda_a)\;.
+  \label{eq:schema_num_sans_erreur}
 \end{equation}
 
 En imposant les conditions aux bords constantes $\forall \textsl{j}, U_{0,\textsl{j}} = 0$
@@ -194,7 +197,11 @@ M
 \end{equation}
 
 où $M$ est une matrice tridiagonale. Notons que les $U_{\textsl{i},0}$ sont connus
-grâce aux conditions initiales. Le stencil de ce schéma explicite est présenté
+grâce aux conditions initiales.
+
+\subsection*{Stencil}
+
+Le stencil de ce schéma explicite est présenté
 à la Figure~\ref{fig:stencil_schema_explicite}. Chaque $U_{\textsl{i},\textsl{j}+1}$ dépend
 en effet des $U_{\textsl{i}-1,\textsl{j}}$, $U_{\textsl{i},\textsl{j}}$ et $U_{\textsl{i}+1,\textsl{j}}$.
 
@@ -245,6 +252,72 @@ en effet des $U_{\textsl{i}-1,\textsl{j}}$, $U_{\textsl{i},\textsl{j}}$ et $U_{\
 \label{fig:stencil_schema_explicite}
 \end{figure}
 
+\subsection*{Importance des facteurs $\lambda_d, \lambda_a$ et $\lambda_b$ pour
+la condition de stabilité}
+
+Ces facteurs sont reliés aux conditions de stabilité A et de stabilité L
+de la méthode aux différences finies. Pour le montrer, prenons comme
+condition initiale:
+
+\begin{equation}
+u(x_{\textsl{i}},0) = U_{\textsl{i},0} = g(x_{\textsl{i}}) = \omega_0 \exp (I r x_{\textsl{i}}) \;,
+\label{eq:stabilite_expl_cond_init}
+\end{equation}
+
+où $I \equiv \sqrt{-1}$. Partons de l'Equation~\ref{eq:schema_num_sans_erreur} pour $j=0$:
+
+\begin{equation}
+  U_{\textsl{i},\textsl{1}} = U_{\textsl{i}-1,\textsl{0}} \lambda_d + U_{\textsl{i},\textsl{0}} (-2 \lambda_d + \lambda_a - \lambda_b +1) + U_{\textsl{i+1}, \textsl{0}} (\lambda_d - \lambda_a)\;.
+  \label{eq:schema_num_j_zero}
+\end{equation}
+
+Depuis la condition initiale (Equation~\ref{eq:stabilite_expl_cond_init}) on a que:
+
+\begin{align}
+U_{\textsl{i-1},\textsl{0}} &=& g(x_{\textsl{i}}-h) = \omega_0 \exp \left (I r (x_{\textsl{i}}-h)\right ) = U_{\textsl{i},\textsl{0}} \exp (-Irh)\\
+U_{\textsl{i+1},\textsl{0}} &=& g(x_{\textsl{i}}+h) = \omega_0 \exp \left (I r (x_{\textsl{i}}+h)\right ) = U_{\textsl{i},\textsl{0}} \exp (Irh)
+\end{align}
+
+En injectant ces expressions de $U_{\textsl{i-1},\textsl{0}}$ et
+$U_{\textsl{i+1},\textsl{0}}$ dans l'Equation~\ref{eq:schema_num_j_zero} on obtient:
+
+\begin{multline}
+  U_{\textsl{i},\textsl{1}} = U_{\textsl{i},\textsl{0}} \left (\lambda_d \exp (-Irh) -2 \lambda_d + \lambda_a - \lambda_b +1 + (\lambda_d - \lambda_a) \exp (Irh) \right)\\
+    = U_{\textsl{i},\textsl{0}} \left (2 \lambda_d (\cos(rh) - 1) + \lambda_a (1-\exp(Irh)) - \lambda_b +1 \right)\\
+    = U_{\textsl{i},\textsl{0}} \left (1 - 4 \lambda_d \sin^2(rh/2) + \lambda_a (1-\exp(Irh)) - \lambda_b \right)
+    = \left (1-q \right ) U_{\textsl{i},\textsl{0}}
+\end{multline}
+
+avec $q \equiv 4 \lambda_d \sin^2(rh/2) - \lambda_a (1-\exp(Irh)) + \lambda_b$.
+Par un développement similaire on en déduit que:
+
+\begin{equation}
+U_{\textsl{i},\textsl{j}} = (1-q)^j U_{\textsl{i},\textsl{0}}
+\end{equation}
+
+La méthode numérique est dite A-stable si les $x_i$ restent bornés dans le
+problème de décroissance radioactive. C'est à dire si:
+
+\begin{equation}
+  |1-q| \le 1 \implies -1 \le 1-q \le 1 \implies 0 \le q \le 2
+\end{equation}
+
+\begin{equation}
+\implies \boxed{0 \le 4 \lambda_d \sin^2(rh/2) - \lambda_a (1-\exp(Irh)) + \lambda_b \le 2}
+\end{equation}
+
+La méthode est donc conditionnellement A-stable, en fonction des valeurs de $ \lambda_d$,
+$\lambda_a$ et $\lambda_b$. La méthode est dite L-stable si:
+
+\begin{equation}
+  \lim_{q \to \infty}  f(q) = 0 \;.
+\end{equation}
+
+Ce qui n'est trivialement pas le cas ici, la méthode n'est pas L-stable:
+
+\begin{equation}
+  \lim_{q \to \infty}  (1-q)^j \ne 0\;.
+\end{equation}
 
 \section{Fournissez la solution analytique de l'équation, ainsi que la relation
 de dispersion. Discutez brièvement les cas particuliers déjà vus au cours (D=0, b=0, etc.).}
