@@ -615,6 +615,75 @@ initiale $u(x,0) = g(x)$ (démonstration faite en séance d'exercices).
 
 \section{Fournissez un schéma implicite. Est-il toujours stable?}
 
+Le schéma implicite est obtenu en discrétisant l'Equation~\ref{eq:adv_diff}
+de la façon suivante. La fonction $u$ est remplacée par l'image du point $(x_{\textsl{i}},t_{\textsl{j+1}})$
+c'est à dire par $U_{\textsl{i},\textsl{j+1}}$. Les dérivées sont remplacées par leurs formulations discrètes
+au temps $t_{j+1}$:
+
+\begin{align}
+  \frac{\partial^2 u (x,t)}{\partial x^2} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j+1}}} &=& \frac{U_{\textsl{i}-1,\textsl{j+1}} - 2 U_{\textsl{i},\textsl{j+1}} + U_{\textsl{i}+1,\textsl{j+1}}}{h^2} + \mathcal{O}(h^2)\\
+  \frac{\partial u (x,t)}{\partial x} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j+1}}} &=& \frac{U_{\textsl{i}+1,\textsl{j+1}} - U_{\textsl{i},\textsl{j+1}}}{h} + \mathcal{O}(h)\\
+  \frac{\partial u (x,t)}{\partial t} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j+1}}} &=& \frac{U_{\textsl{i},\textsl{j}+1} - U_{\textsl{i},\textsl{j}}}{k} + \mathcal{O}(k) \;.
+\end{align}
+
+On obtient alors:
+
+\begin{multline}
+\frac{U_{\textsl{i},\textsl{j+1}} - U_{\textsl{i},\textsl{j}}}{k} + \mathcal{O}(k)  = D \frac{U_{\textsl{i-1},\textsl{j+1}} - 2 U_{\textsl{i},\textsl{j+1}} + U_{\textsl{i+1},\textsl{j+1}}}{h^2}+ \mathcal{O}(h^2) \\
+- a \frac{U_{\textsl{i+1},\textsl{j+1}} - U_{\textsl{i},\textsl{j+1}}}{h} + \mathcal{O}(h) - b U_{\textsl{i},\textsl{j+1}}\;.
+\end{multline}
+
+Le schéma est d'ordre $\mathcal{O}(h+k)$. En isolant $U_{\textsl{i},\textsl{j}}$
+et en introduisant les quantités $\lambda_a$, $\lambda_b$ et $\lambda_d$ depuis
+leurs définitions on obtient:
+
+\begin{equation}
+  U_{\textsl{i},\textsl{j}} = - \lambda_d U_{\textsl{i-1},\textsl{j+1}}
+  +U_{\textsl{i},\textsl{j+1}} (1+ 2 \lambda_d + \lambda_b - \lambda_a)
+  +U_{\textsl{i+1},\textsl{j+1}} (\lambda_a - \lambda_d)
+\end{equation}
+
+La matrice $M$ correspondante est présentée ci-dessous.
+
+\begin{equation}
+  M =
+  \begin{pmatrix}
+     1 & 0 & ... & 0 & 0 \\
+     -\lambda_d & \ 2 \lambda_d - \lambda_a + \lambda_b + 1 \ & \lambda_a-\lambda_d &  0 & ...\\
+     . & . & . &  . & .\\
+     . & . & . &  . & .\\
+     . & . & . &  . & .\\
+     0 & ... & -\lambda_d & \ 2 \lambda_d - \lambda_a + \lambda_b + 1 \ & \lambda_a-\lambda_d\\
+     0 & 0 & ... & 0 & 1
+  \end{pmatrix}
+\end{equation}
+
+\begin{equation}
+\begin{pmatrix}
+   U_{0,\textsl{j}+1} \\
+   U_{1,\textsl{j}+1} \\
+   .\\
+   .\\
+   .\\
+   U_{N,\textsl{j}+1}\\
+   U_{N+1,\textsl{j}+1}
+\end{pmatrix}
+=
+M^{-1}
+\begin{pmatrix}
+   U_{0,\textsl{j}} \\
+   U_{1,\textsl{j}} \\
+   .\\
+   .\\
+   .\\
+   U_{N,\textsl{j}}\\
+   U_{N+1,\textsl{j}}
+\end{pmatrix}
+\end{equation}
+
+où $M$ est une matrice tridiagonale. Notons que les $U_{\textsl{i},0}$ sont connus
+grâce aux conditions initiales.
+
 \section{Illustrez votre propos avec plusieurs simulations numériques, comparant schémas numériques implicites et explicites.}
 
 \section{Montrez, dans ces schéma numériques, quels termes sont responsables de la diffusion numérique. Quel est son ordre de grandeur par rapport à la diffusion explicitement modélisée par le terme D ?}
