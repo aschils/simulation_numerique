@@ -18,7 +18,7 @@ plot_break_time = 0.001;
 g = @(x) 1+cos(8*x*pi/l+pi); % condition initiale u(x,0) = g(x)
 
 plot_asol(a,b,D,l,xa,t_end,ka,m_end,g,plot_break_time);
-
-plot_nsol(a,b,D,x,t_end,h,k,g,plot_break_time)
+plot_nsol_expl(a,b,D,x,t_end,h,k,g,plot_break_time);
+plot_nsol_impl(a,b,D,x,t_end,h,k,g,plot_break_time);
 
 

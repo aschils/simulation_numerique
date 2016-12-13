@@ -13,7 +13,7 @@
 % *  plot_break_time est le temps de pause entre le plot de la solution
 %   numerique pour t = t_j et t = t_j+k
 %
-function  plot_nsol(a,b,D,x,t_end,h,k,g,plot_break_time)
+function  plot_nsol_expl(a,b,D,x,t_end,h,k,g,plot_break_time)
 
 lambda_a = a*k/h;
 lambda_b = b*k;
