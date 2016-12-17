@@ -1,4 +1,4 @@
-function plot_nsol_impl( a,b,D,x,t_end,h,k,g,plot_break_time )
+function [u] = plot_nsol_impl( a,b,D,x,t_end,h,k,g,plot_break_time,show_plot)
 
 lambda_a = a*k/h;
 lambda_b = b*k;
@@ -25,13 +25,13 @@ u = g(x)';
 
 t=0;
 while(t < t_end)
-    plot(x,u)
+    if(show_plot)
+        plot(x,u)
+    end
     u = M*u;
     t=t+k;
     pause(plot_break_time);
 end
-
-
 
 end
 

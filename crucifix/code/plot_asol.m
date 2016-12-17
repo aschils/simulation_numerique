@@ -24,7 +24,7 @@
 % * plot_break_time est le temps de pause entre le plot de la solution
 %   analytique pour t = t_j et t = t_j+k
 %
-function plot_asol(a,b,D,l,x,t_end,k,m_end,g,plot_break_time)
+function [u] = plot_asol(a,b,D,l,x,t_end,k,m_end,g,plot_break_time,show_plot)
 
 %Plus rapide de calculer les coefficients C_m en dehors de la boucle sur le
 %temps
@@ -36,7 +36,9 @@ end
 t=0;
 while(t < t_end)
     u = asol_vec( x, t, m_end, a, b, D, l, cm_v);
-    plot(x,u)
+    if(show_plot)
+        plot(x,u)
+    end
     t=t+k;
     pause(plot_break_time);
 end
