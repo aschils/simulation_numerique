@@ -609,6 +609,7 @@ On obtient alors l'expression suivante :
 
 \begin{equation}
   \omega = ak-\dot{\imath}\left(Dk^{2}+b\right)
+	\label{eq:dispersion}
 \end{equation}
 
 qui est la relation de dispersion de l'équation \eqref{eq:adv_diff}. Elle détermine la fréquence $\omega$ en fonction de $k$ pour une onde plane prise comme solution.
@@ -884,6 +885,70 @@ n'est en effet pas toujours stable comme le montre la Figure~\ref{eq:impl_instab
 
 
 \section{Comparez vitesse de groupe numérique avec celle du système original. Le schéma est-il dispersif?}
+
+\subsection*{vitesse de groupe analytique}
+
+A partir de la définition de la vitesse de groupe :
+
+\begin{equation}
+ v_{g} \equiv \frac{d\omega_{r}}{dk}
+\end{equation}
+
+où $\omega_{r}$ est la partie réel de la relation de dispersion \eqref{eq:dispersion}, on obtient :
+
+\begin{equation}
+ v_{g} = a\;.
+\end{equation}
+
+\subsection*{vitesse de groupe numérique}
+
+On part d'une expression discrète d'une onde plane :
+
+\begin{equation}
+  U_{\textsl{i},\textsl{j}} = e^{i\left(\bar{k}x_{\textsl{i}}-\omega t_{\textsl{j}}\right)}
+\end{equation}
+
+où l'on distinguera le nombre d'onde $\bar{k}$ du pas de temps $k$. On l'injecte dans l'équation aux différences explicite \eqref{eq:schema_num_sans_erreur} de notre équation différentielle de départ. On obtient :
+
+\begin{equation}
+  e^{i\left(\bar{k}x_{\textsl{i}}-\omega t_{\textsl{j+1}}\right)} = e^{i\left(\bar{k}x_{\textsl{i}-1}-\omega t_{\textsl{j}}\right)} \lambda_d + e^{i\left(\bar{k}x_{\textsl{i}}-\omega t_{\textsl{j}}\right)} (-2 \lambda_d + \lambda_a - \lambda_b +1) + e^{i\left(\bar{k}x_{\textsl{i}+1}-\omega t_{\textsl{j}}\right)} (\lambda_d - \lambda_a)\;.
+\end{equation}
+
+En tenant compte du pas d'espace $x_{\textsl{i+1}}- x_{\textsl{i}}= h$ et du pas de temps $t_{\textsl{j+1}}- t_{\textsl{j}}= k$, après calcul on a :
+
+\begin{equation}
+  e^{-i\omega k} = e^{-i\bar{k}h} \lambda_d + (-2 \lambda_d + \lambda_a - \lambda_b +1) + e^{i\bar{k}h} (\lambda_d - \lambda_a) \;.
+  \end{equation}
+ 
+ Nous allons faire une approximation par le théorème de Taylor à l'ordre $\mathcal{O}(h+k)$, en tenant compte que $\bar{k}$ et les $\lambda$ sont fixés, nous obtenons :
+ 
+ \begin{eqnarray*}
+  1-i\omega k &=& (1-i\bar{k}h) \lambda_d + (-2 \lambda_d + \lambda_a - \lambda_b +1) + (1+i\bar{k}h) (\lambda_d - \lambda_a)\\
+  &=& \lambda_d -i\bar{k}h \lambda_d - 2 \lambda_d + \lambda_a - \lambda_b + 1 + \lambda_d + i\bar{k}h \lambda_d - \lambda_a - i\bar{k}h \lambda_a \;.
+  \end{eqnarray*}
+  
+  Après simplification et en remplaçant $\lambda_a$ par sa valeur $\lambda_a = \frac{ak}{h}$, on obtient :
+  
+  \begin{eqnarray}
+  \omega  &=& \frac{\bar{k}h}{k}\lambda_a\\
+	&=& a\bar{k}\;.
+  \end{eqnarray}
+  
+   Nous calculons la vitesse de groupe numérique par différence avant, on obtient :
+   
+  \begin{eqnarray}
+     v_{gn} &=& \frac{d\omega}{d\bar{k}}\\
+     &=& a \frac{d\bar{k}}{d\bar{k}}\\
+     &=& a \;.
+  \end{eqnarray}
+  
+  Cette approximation à l'ordre $\mathcal{O}(h+k)$, nous permet de retrouver la vitesse de groupe analytique.
+  
+\subsection*{schéma non dispersif}
+
+La vitesse de groupe numérique n'est pas fonction de $\bar{k}$, elle est égale à une constante $a$ dans notre approximation. Notre schéma n'est donc pas dispersif. Ce qui est cohérent avec notre système originel qui est non dispersif $v_{g} = a $.
+
+
 
 \section{Le terme de diffusion D peut-il être responsable d'un comportement instable? Expliquer.}
 
