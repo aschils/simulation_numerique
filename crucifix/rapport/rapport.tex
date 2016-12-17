@@ -4,6 +4,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} % police compatible français
+\usepackage{lmodern}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{breqn}
@@ -330,6 +331,7 @@ pessimiste de stabilité est alors dans ce deuxième cas:
 
 \begin{equation}
     \left ( 1+2(\lambda_a-2\lambda_d) - \lambda_b \right )^2 + \lambda_a^2 \le 1 \;.
+    \label{eq:expl_stabilite_cond_2}
 \end{equation}
 
 A partir de ces conditions, une fonction Matlab \code{is\_stable\_expl} a été
@@ -648,6 +650,7 @@ initiale $u(x,0) = g(x)$ (démonstration faite en séance d'exercices).
 
 
 \section{Fournissez un schéma implicite. Est-il toujours stable?}
+\label{sec:implicite}
 
 Le schéma implicite est obtenu en discrétisant l'Equation~\ref{eq:adv_diff}
 de la façon suivante. La fonction $u$ est remplacée par l'image du point $(x_{\textsl{i}},t_{\textsl{j+1}})$
@@ -780,9 +783,102 @@ On a finalement:
 
 Le schéma n'est donc pas toujours stable. En effet par exemple lorsque
 $\sin^2(rh/2) = 0 = \sin^2(rh)$ et $\lambda_b = -1$. Ou encore lorsque
-$\lambda_d = \lambda_a/2$, $\lambda_b = -1$ et $\lambda_a < 1$.
+$\lambda_d = \lambda_a/2$, $\lambda_b = -1$ et $\lambda_a < 1$ (voir Figure~\ref{eq:impl_instable}).
 
 \section{Illustrez votre propos avec plusieurs simulations numériques, comparant schémas numériques implicites et explicites.}
+
+Pour tous les graphiques présentés dans cette section, la condition initiale
+utilisée est $g(x) = 1+\cos(8x \pi /l+ \pi )$. On peut constater qu'elle satisfait
+bien aux conditions aux bords imposées $g(0) = g(l) = 0$.
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/analy_vs_expl_t_end_0dot003.jpg}
+  \caption{Comparaison entre les solutions analytique et numérique explicite pour
+  les paramètres $a=25$, $b=1$, $D=1$, $h=0.01$ et $k=0.00001$, au temps $t=0.003$.}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/analy_vs_impl_t_end_0dot003.jpg}
+  \caption{Comparaison entre les solutions analytique et numérique implicite pour
+  les paramètres $a=25$, $b=1$, $D=1$, $h=0.01$ et $k=0.00001$, au temps $t=0.003$.}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/expl_vs_impl_t_end_0dot003.jpg}
+  \caption{Comparaison entre les solutions numériques implicite et explicite pour
+  les paramètres $a=25$, $b=1$, $D=1$, $h=0.01$ et $k=0.00001$, au temps $t=0.003$.}
+  \label{eq:expl_vs_impl_t0dot003}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/analy_vs_expl_t_end_0dot01.jpg}
+  \caption{Comparaison entre les solutions analytique et numérique explicite pour
+  les paramètres $a=25$, $b=1$, $D=1$, $h=0.01$ et $k=0.00001$, au temps $t=0.01$.}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/analy_vs_impl_t_end_0dot01.jpg}
+  \caption{Comparaison entre les solutions analytique et numérique implicite pour
+  les paramètres $a=25$, $b=1$, $D=1$, $h=0.01$ et $k=0.00001$, au temps $t=0.01$.}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/expl_vs_impl_t_end_0dot01.jpg}
+  \caption{Comparaison entre les solutions numériques implicite et explicite pour
+  les paramètres $a=25$, $b=1$, $D=1$, $h=0.01$ et $k=0.00001$, au temps $t=0.01$.}
+  \label{eq:expl_vs_impl_t0dot01}
+\end{figure}
+
+On peut constater sur les Figures~\ref{eq:expl_vs_impl_t0dot003} et~\ref{eq:expl_vs_impl_t0dot01}
+que les solutions numériques implicite et explicite sont quasi identiques pour
+les paramètres, conditions aux bords et conditions initiales choisis.
+
+On peut également constanter que dans certains cas, lorsque notre condition pessimiste
+de stabilité pour la méthode explicite est violée, le comportement est
+effectivement instable (voir Figure~\ref{eq:expl_instable}). En effet,
+pour $a=1$, $b=-10$, $D=10$, $h=0.01$ et $k=0.00001$, on a $\lambda_a = 1000$,
+$\lambda_b = -0.0001$ et $\lambda_d = 1$. Dès lors,
+$|1-\lambda_b| = 1.0001 < |1-\lambda_b + 2 (\lambda_a-2\lambda_d)| = 1997$
+et la condition pessimiste de stabilité est donnée par l'Equation~\ref{eq:expl_stabilite_cond_2}.
+Ell est en effet non respectée:
+
+\begin{equation}
+\left ( 1+2(\lambda_a-2\lambda_d) - \lambda_b \right )^2 + \lambda_a^2 = 4988009 > 1 \;.
+\end{equation}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/expl_instable_a1_b-10_D10_h0dot01_k0dot00001_tend_0dot003.jpg}
+  \caption{Instabilité de la méthode numérique explicite pour $a=1$, $b=-10$, $D=10$, $h=0.01$ et $k=0.00001$, au temps $t=0.003$.}
+  \label{eq:expl_instable}
+\end{figure}
+
+Cependant, on constate que la méthode implicite est elle stable pour ces
+paramètres (voir Figure~\ref{eq:impl_stable}).
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/impl_stable_a1_b-10_D10_h0dot01_k0dot00001_tend_0dot003.jpg}
+  \caption{Stabilité de la méthode numérique implicite pour $a=1$, $b=-10$, $D=10$, $h=0.01$ et $k=0.00001$, au temps $t=0.003$.}
+  \label{eq:impl_stable}
+\end{figure}
+
+Par contre, confirmant notre réponse à la question 1.4 (voir Section~\ref{sec:implicite}), la méthode implicite
+n'est en effet pas toujours stable comme le montre la Figure~\ref{eq:impl_instable}.
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/impl_instable_a1_b-1divk_D0dot005_h0dot01_k0dot00001.jpg}
+  \caption{Instabilité de la méthode numérique implicite pour $\lambda_d = \lambda_a/2$, $\lambda_b = -1$ et $\lambda_a < 1$.}
+  \label{eq:impl_instable}
+\end{figure}
+
 
 \section{Montrez, dans ces schéma numériques, quels termes sont responsables de la diffusion numérique. Quel est son ordre de grandeur par rapport à la diffusion explicitement modélisée par le terme D ?}
 
