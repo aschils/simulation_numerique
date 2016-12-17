@@ -13,6 +13,8 @@
 \usepackage{float}
 \usepackage{tikz}
 
+\newcommand{\code}[1]{\textsf{#1}}
+
 \renewcommand{\thepart}{\arabic{part}}
 \renewcommand{\thesection}{\arabic{section}}
 \renewcommand{\thesection}{\thepart.\arabic{section}}
@@ -95,9 +97,9 @@ Pr. Michel \textsc{Crucifix} % Supervisor's Name
 
 
 \section{Fournissez un schéma numérique explicite d'ordre $\mathcal{O}(h+k)$.
-Donnez-en le stencil. Nous pouvons introduire les facteurs $\lambda_d = Dk/h^2$
-et $\lambda_b = bk$. Quelles importances ces facteurs ont-ils pour la condition
-de stabilité?}
+Donnez-en le stencil. Nous pouvons introduire les facteurs $\lambda_d = Dk/h^2$,
+$\lambda_a = ak/h$ et $\lambda_b = bk$. Quelles importances ces facteurs
+ ont-ils pour la condition de stabilité?}
 
 Dans cette section un schéma numérique explicite est fourni pour l'équation
 aux dérivées partielles suivantes:
@@ -307,7 +309,49 @@ La condition de stabilité se ramène donc à:
 \end{equation}
 
 Les valeurs des paramètres $\lambda_d, \lambda_a$ et $\lambda_b$ déterminent donc
-la stabilité du schéma numérique.
+la stabilité du schéma numérique. L'expression peut se réécrire:
+
+\begin{equation}
+\boxed{|\kappa|^2 = \left ( 1 + 2 \sin^2(rh/2) \left (\lambda_a-2\lambda_d \right )- \lambda_b \right )^2+ \lambda_a^2 \sin^2(rh) \le 1}\;.
+\label{eq:kappa_squared}
+\end{equation}
+
+L'expression est trop compliquée pour pouvoir trouver une condition exacte
+de stabilité sur les différents $\lambda$. Par contre, on peut trouver
+des conditions qui guarantissent stabilité pour certaines valeurs des $\lambda$
+sans pour autant pouvoir déterminer toutes les combinaisons de $\lambda$ stables.
+
+Une condition pessimiste peut êre obtenue en posant les valeurs des sinus à celles
+qui maximisent chacun des termes de l'Equation~\ref{eq:kappa_squared}.
+Le pire cas pour le terme de droite est toujours $\sin^2(rh)=1$. Pour le terme
+de gauche, cela dépend des signes et valeurs respectives des différents
+$\lambda$. Deux cas peuvent être distingués.
+
+Si $|1-\lambda_b| > |1-\lambda_b + 2 (\lambda_a-2\lambda_d)|$, le terme de gauche
+est maximisé si $\sin^2(rh/2)=0$. La condition pessimiste de stabilité
+est alors:
+
+\begin{equation}
+  \left (1-\lambda_b \right )^2 + \lambda_a^2 \le 1 \implies \lambda_b (\lambda_b-2) + \lambda_a^2 \le 0
+\end{equation}
+
+Sinon, le terme de gauche est maximisé si $\sin^2(rh/2)=1$. La condition
+pessimiste de stabilité est alors dans ce deuxième cas:
+
+\begin{equation}
+    \left ( 1+2(\lambda_a-2\lambda_d) - \lambda_b \right )^2 + \lambda_a^2 \le 1 \;.
+\end{equation}
+
+A partir de ces conditions, une fonction Matlab \code{is\_stable\_expl} a été
+implémentée. Lorsque celle-ci renvoie $1$ (le booléen \code{true}) cela signifie
+que la méthode est stable. Si elle renvoie $0$ (le booléen \code{false}), cela
+ne signifie rien (on ne sait pas si la méthode sera stable ou non).
+
+Il a été vérifié pour toutes les combinaisons de paramètres possibles parmi $a \in \{-10, 1, 10\}$,
+$b \in \{-10, 1, 10\}, D \in \{1, 10, 50\}, h \in \{0.0001, 0.001, 0.01\}$
+et $k \in \{0.000001, 0.00001, 0.0001\}$ que la méthode numérique est
+effectivement stable lorsque la fonction \code{is\_stable\_expl} renvoie \code{true}.
+
 
 \section{Fournissez la solution analytique de l'équation, ainsi que la relation
 de dispersion. Discutez brièvement les cas particuliers déjà vus au cours (D=0, b=0, etc.).}
