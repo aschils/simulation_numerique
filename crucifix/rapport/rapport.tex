@@ -3,6 +3,7 @@
 \usepackage[francais]{babel} % caractéres spéciaux en franéais
 
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % police compatible français
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{breqn}
@@ -56,7 +57,7 @@
 \begin{flushleft} \large
 \begin{tabbing}
 \emph{Auteurs:}\\
-Arnaud \hspace{0.2cm}\= \textsc{Schils}\\ % Your name
+Arnaud \hspace{0.1cm}\= \textsc{Schils}\\ % Your name
 Valéry \> \textsc{Materne}
 \end{tabbing}
 \end{flushleft}
@@ -114,23 +115,20 @@ de la fonction $u$ ne seront pas toujours mentionnées explicitement.
 
 \subsection*{Schéma numérique explicite}
 
-Les dérivées de l'Equation~\ref{eq:adv_diff} sont remplacées par leurs expressions
+Les dérivées de l'équation \eqref{eq:adv_diff} sont remplacées par leurs expressions
 en différences finies. Soient $u(x_{\textsl{i}}, t_{\textsl{j}}) \equiv U_{\textsl{i},\textsl{j}}$, $h$ le pas d'espace
 et $k$ le pas de temps, ces expressions sont:
 
 \begin{align}
-  \frac{\partial^2 u (x,t)}{\partial x^2} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j}}} &=& \frac{U_{\textsl{i}-1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}+1,\textsl{j}}}{h^2} + \mathcal{O}(h^2)\\
+  \frac{\partial^2 u (x,t)}{\partial x^2} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j}}} &=& \frac{U_{\textsl{i}+1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}-1,\textsl{j}}}{h^2} + \mathcal{O}(h^2)\\
   \frac{\partial u (x,t)}{\partial x} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j}}} &=& \frac{U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}}{h} + \mathcal{O}(h)\\
   \frac{\partial u (x,t)}{\partial t} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j}}} &=& \frac{U_{\textsl{i},\textsl{j}+1} - U_{\textsl{i},\textsl{j}}}{k} + \mathcal{O}(k) \;.
 \end{align}
 
-Notons que pour la dérivée seconde par rapport à $x$, la formule à trois points d'ordre $\mathcal{O}(h^2)$ a été choisie
-au lieu de celles d'ordre $\mathcal{O}(h)$ afin d'obtenir à la fin une matrice
-tridiagonale. En injectant ces différences finies dans l'Equation~\ref{eq:adv_diff}
-on obtient:
+Nous avons pris une différence centrée pour la dérivée seconde par rapport à $x$ et une différence avant pour les dérivées premières par rapport à $x$ et $t$. Notons que pour la dérivée seconde par rapport à $x$, la formule à trois points d'ordre $\mathcal{O}(h^2)$ a été choisie au lieu de celles d'ordre $\mathcal{O}(h)$ afin d'obtenir à la fin une matrice tridiagonale. En injectant ces différences finies dans l'équation \eqref{eq:adv_diff} on obtient:
 
 \begin{multline}
-D \frac{U_{\textsl{i}-1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}+1,\textsl{j}}}{h^2} + \mathcal{O}(h^2) - a \frac{U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}}{h} + \mathcal{O}(h) - b U_{\textsl{i},\textsl{j}}\\
+D \frac{U_{\textsl{i}+1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}-1,\textsl{j}}}{h^2} + \mathcal{O}(h^2) - a \frac{U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}}{h} + \mathcal{O}(h) - b U_{\textsl{i},\textsl{j}}\\
 = \frac{U_{\textsl{i},\textsl{j}+1} - U_{\textsl{i},\textsl{j}}}{k} + \mathcal{O}(k) \;.
 \end{multline}
 
@@ -139,7 +137,7 @@ en négligeant l'erreur en $\mathcal{O}(h^2)$ car elle est d'ordre supérieur à
 on obtient:
 
 \begin{multline}
-  U_{\textsl{i},\textsl{j}+1} = \frac{Dk}{h^2} (U_{\textsl{i}-1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}+1,\textsl{j}}) - \frac{ak}{h} (U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}) - bk U_{\textsl{i},\textsl{j}} + U_{\textsl{i},\textsl{j}}\\
+  U_{\textsl{i},\textsl{j}+1} = \frac{Dk}{h^2} (U_{\textsl{i}+1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}-1,\textsl{j}}) - \frac{ak}{h} (U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}) - bk U_{\textsl{i},\textsl{j}} + U_{\textsl{i},\textsl{j}}\\
   + \mathcal{O}(h+k) \;.
 \end{multline}
 
@@ -147,7 +145,7 @@ En définissant $\lambda_d = \frac{Dk}{h^2}$, $\lambda_a = \frac{ak}{h}$ et
 $\lambda_b = bk$ l'expression devient:
 
 \begin{multline}
-  U_{\textsl{i},\textsl{j}+1} = \lambda_d (U_{\textsl{i}-1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}+1,\textsl{j}}) - \lambda_a (U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}) - \lambda_b U_{\textsl{i},\textsl{j}} + U_{\textsl{i},\textsl{j}}\\
+  U_{\textsl{i},\textsl{j}+1} = \lambda_d (U_{\textsl{i}+1,\textsl{j}} - 2 U_{\textsl{i},\textsl{j}} + U_{\textsl{i}-1,\textsl{j}}) - \lambda_a (U_{\textsl{i}+1,\textsl{j}} - U_{\textsl{i},\textsl{j}}) - \lambda_b U_{\textsl{i},\textsl{j}} + U_{\textsl{i},\textsl{j}}\\
   + \mathcal{O}(h+k) \;.
 \end{multline}
 
@@ -204,7 +202,7 @@ grâce aux conditions initiales.
 \subsection*{Stencil}
 
 Le stencil de ce schéma explicite est présenté
-à la Figure~\ref{fig:stencil_schema_explicite}. Chaque $U_{\textsl{i},\textsl{j}+1}$ dépend
+à la figure \ref{fig:stencil_schema_explicite}. Chaque $U_{\textsl{i},\textsl{j}+1}$ dépend
 en effet des $U_{\textsl{i}-1,\textsl{j}}$, $U_{\textsl{i},\textsl{j}}$ et $U_{\textsl{i}+1,\textsl{j}}$.
 
 \begin{figure}[H]
@@ -262,47 +260,39 @@ de la méthode aux différences finies. Pour le montrer, introduisons dans notre
 schéma numérique une solution de la forme:
 
 \begin{equation}
-U_{\textsl{i},\textsl{j}} = w_j \exp (I r x_{\textsl{i}}) \;,
+U_{\textsl{i},\textsl{j}} = w_{\textsl{j}} \exp (i r x_{\textsl{i}}) \;,
 \label{eq:stabilite_expl_sol}
 \end{equation}
 
-où $I \equiv \sqrt{-1}$. Partons de l'Equation~\ref{eq:schema_num_sans_erreur}:
-
-\begin{equation}
-  U_{\textsl{i},\textsl{j}} = U_{\textsl{i-1},\textsl{j-1}} \lambda_d + U_{\textsl{i},\textsl{j-1}} (-2 \lambda_d + \lambda_a - \lambda_b +1) + U_{\textsl{i+1}, \textsl{j-1}} (\lambda_d - \lambda_a)\;.
-  \label{eq:schema_num_j_zero}
-\end{equation}
-
-En remplaçant $U_{\textsl{i},\textsl{j}}, U_{\textsl{i-1},\textsl{j-1}}, U_{\textsl{i},\textsl{j-1}}$ et $U_{\textsl{i+1},\textsl{j-1}}$
-par l'Equation~\ref{eq:stabilite_expl_sol}
-dans l'Equation~\ref{eq:schema_num_j_zero} on obtient:
+où $i \equiv \sqrt{-1}$. Nous injectons cette solution dans l'équation \eqref{eq:schema_num_sans_erreur}, on obtient :
 
 \begin{multline}
-  w_{\textsl{j}} e^{Irx_{\textsl{i}}} = w_{\textsl{j-1}} e^{Irx_{\textsl{i-1}}}
-  \lambda_d + w_{\textsl{j-1}} e^{Irx_{\textsl{i}}} (-2 \lambda_d + \lambda_a - \lambda_b +1)\\
-  + w_{\textsl{j-1}} e^{Irx_{\textsl{i+1}}} (\lambda_d - \lambda_a)
+  w_{\textsl{j+1}} e^{irx_{\textsl{i}}} = w_{\textsl{j}} e^{irx_{\textsl{i-1}}}
+  \lambda_d + w_{\textsl{j}} e^{irx_{\textsl{i}}} (-2 \lambda_d + \lambda_a - \lambda_b +1)\\
+  + w_{\textsl{j}} e^{irx_{\textsl{i+1}}} (\lambda_d - \lambda_a)
 \end{multline}
+
+En tenant compte du pas d'espace $x_{\textsl{i+1}}- x_{\textsl{i}}= h$, après calcul :
 
 \begin{multline}
-  w_{\textsl{j}} = w_{\textsl{j-1}} e^{-Irh} \lambda_d
-  + w_{\textsl{j-1}} (-2 \lambda_d + \lambda_a - \lambda_b +1)
-  + w_{\textsl{j-1}} e^{Irh} (\lambda_d - \lambda_a)\\
-  = w_{\textsl{j-1}} \left ( \lambda_d \left ( e^{-Irh} -2 + e^{Irh} \right )
-  + \lambda_a \left (1- e^{Irh} \right ) - \lambda_b + 1\right )\\
-  = w_{\textsl{j-1}} \left ( 1 + \lambda_d \left (2\cos(rh) -2  \right )
-  + \lambda_a \left (1- e^{Irh} \right ) - \lambda_b \right )\\
-  = w_{\textsl{j-1}} \left ( 1 - 4 \lambda_d \sin^2(rh/2)
-  + \lambda_a \left (1- e^{Irh} \right ) - \lambda_b \right )
+  w_{\textsl{j+1}} = w_{\textsl{j}} e^{-irh} \lambda_d
+  + w_{\textsl{j}} (-2 \lambda_d + \lambda_a - \lambda_b +1)
+  + w_{\textsl{j}} e^{irh} (\lambda_d - \lambda_a)\\
+  = w_{\textsl{j}} \left ( \lambda_d \left ( e^{-irh} -2 + e^{irh} \right )
+  + \lambda_a \left (1- e^{irh} \right ) - \lambda_b + 1\right )\\
+  = w_{\textsl{j}} \left ( 1 + \lambda_d \left (2\cos(rh) -2  \right )
+  + \lambda_a \left (1- e^{irh} \right ) - \lambda_b \right )\\
+  = w_{\textsl{j}} \left ( 1 - 4 \lambda_d \sin^2(rh/2)
+  + \lambda_a \left (1- e^{irh} \right ) - \lambda_b \right )\;.
 \end{multline}
 
-Dès lors,
+Il s'agit d'une equation au différences, que l'on peut résoudre en posant :
 
 \begin{equation}
-  w_{\textsl{j}} = \kappa^j w_{\textsl{0}}
+  w_{\textsl{j}} = w_{0}\kappa^{\textsl{j}} \;.
 \end{equation}
 
-avec $\kappa \equiv  1 - 4 \lambda_d \sin^2(rh/2) + \lambda_a \left (1- e^{Irh} \right ) - \lambda_b$.
-La condition de stabilité se ramène donc à:
+On obtient alors $\kappa \equiv  1 - 4 \lambda_d \sin^2(rh/2) + \lambda_a \left (1- e^{Irh} \right ) - \lambda_b$ qui est complexe. La condition de stabilité se ramène alors à:
 
 \begin{equation}
 |\kappa|^2 = \left ( 1 - 4 \lambda_d \sin^2(rh/2) + \lambda_a \left (1- \cos(rh) \right ) - \lambda_b \right )^2+ \lambda_a^2 \sin^2(rh) \le 1\;.
@@ -322,7 +312,7 @@ des conditions qui guarantissent stabilité pour certaines valeurs des $\lambda$
 sans pour autant pouvoir déterminer toutes les combinaisons de $\lambda$ stables.
 
 Une condition pessimiste peut êre obtenue en posant les valeurs des sinus à celles
-qui maximisent chacun des termes de l'Equation~\ref{eq:kappa_squared}.
+qui maximisent chacun des termes de l'équation \eqref{eq:kappa_squared}.
 Le pire cas pour le terme de droite est toujours $\sin^2(rh)=1$. Pour le terme
 de gauche, cela dépend des signes et valeurs respectives des différents
 $\lambda$. Deux cas peuvent être distingués.
@@ -356,7 +346,7 @@ effectivement stable lorsque la fonction \code{is\_stable\_expl} renvoie \code{t
 \section{Fournissez la solution analytique de l'équation, ainsi que la relation
 de dispersion. Discutez brièvement les cas particuliers déjà vus au cours (D=0, b=0, etc.).}
 
-L'équation aux dérivées partielles à résoudre est l'Equation~\ref{eq:adv_diff}. Les conditions
+L'équation aux dérivées partielles à résoudre est l'équation \eqref{eq:adv_diff}. Les conditions
 aux bords suivantes sont imposées:
 
 \begin{equation}
@@ -379,14 +369,14 @@ où $l > 0$. La solution $u$ est donc recherchée dans le domaine:
   \right.
 \end{equation}
 
-L'Equation~\ref{eq:adv_diff} peut-être résolue par la méthode de séparation de
+L'équation \eqref{eq:adv_diff} peut-être résolue par la méthode de séparation de
 variables. La solution $u$ est supposée être de la forme:
 
 \begin{equation}
   u(x,t) = v(x) w(t)
 \end{equation}
 
-En injectant cette forme de $u$ dans l'Equation~\ref{eq:adv_diff} on obtient:
+En injectant cette forme de $u$ dans l'équation \eqref{eq:adv_diff} on obtient:
 
 \begin{equation}
 D w(t) \frac{\partial^2 v(x)}{\partial x^2} - a w(t) \frac{\partial v(x)}{\partial x} - b v(x) w(t) = v(x) \frac{\partial w(t)}{\partial t}
@@ -629,7 +619,7 @@ Si $D=1$, $a=b=0$ on retrouve l'équation de la chaleur adimensionnelle et homog
   \frac{\partial^2 u(x,t)}{\partial x^2} = \frac{\partial u(x,t)}{\partial t}\;.
 \end{equation}
 
-En injectant ces valeurs de $D,a$ et $b$ dans l'Equation~\ref{eq:analy_sol} on a:
+En injectant ces valeurs de $D,a$ et $b$ dans l'équation \eqref{eq:analy_sol} on a:
 
  \begin{equation}
    u(x,t) = \sum_{m=1}^{\infty} C_m \sin \left (\frac{m \pi x}{l} \right ) \exp \left ( - \left (\frac{m^2 \pi^2}{l^2} \right ) t \right )
@@ -651,9 +641,9 @@ Si $D=0=b$ on retrouve la forme générale de l'équation d'advection:
   \label{eq:advection}
 \end{equation}
 
-La solution présentée à l'Equation~\ref{eq:analy_sol} n'est alors plus valide
+La solution présentée à l'équation \eqref{eq:analy_sol} n'est alors plus valide
 car celle-ci n'est valable que si $D>0$ et $\rho < 0$. La solution de
-l'Equation~\ref{eq:advection} est $u(x,t) = g(x-at)$ avec comme condition
+l'équation \eqref{eq:advection} est $u(x,t) = g(x-at)$ avec comme condition
 initiale $u(x,0) = g(x)$ (démonstration faite en séance d'exercices).
 
 
@@ -685,6 +675,7 @@ leurs définitions on obtient:
   U_{\textsl{i},\textsl{j}} = - \lambda_d U_{\textsl{i-1},\textsl{j+1}}
   +U_{\textsl{i},\textsl{j+1}} (1+ 2 \lambda_d + \lambda_b - \lambda_a)
   +U_{\textsl{i+1},\textsl{j+1}} (\lambda_a - \lambda_d)
+  \label{eq:schema_implicite}
 \end{equation}
 
 La matrice $M$ correspondante est présentée ci-dessous.
@@ -728,6 +719,69 @@ M^{-1}
 où $M$ est une matrice tridiagonale. Notons que les $U_{\textsl{i},0}$ sont connus
 grâce aux conditions initiales.
 
+\subsection*{Stabilité}
+
+Afin de trouver une condition de stabilité pour la méthode implicite injectons
+l'équation \eqref{eq:stabilite_expl_sol} dans le schéma numérique implicite
+(équation \eqref{eq:schema_implicite}). On obtient alors:
+
+\begin{equation}
+  w_{\textsl{j}} e^{Irx_{\textsl{i}}} = -\lambda_d w_{\textsl{j+1}} e^{Irx_{\textsl{i-1}}}
+  + w_{\textsl{j+1}} e^{Irx_{\textsl{i}}} (1+2 \lambda_d + \lambda_b - \lambda_a)
+  +w_{\textsl{j+1}} e^{Irx_{\textsl{i+1}}} (\lambda_a - \lambda_d) \;.
+\end{equation}
+
+\begin{equation}
+  w_{\textsl{j}} = w_{\textsl{j+1}} \left (-\lambda_d e^{-Irh} +1 + 2 \lambda_d+\lambda_b-\lambda_a + e^{Irh} (\lambda_a - \lambda_d) \right )
+\end{equation}
+
+Et donc,
+
+\begin{equation}
+  w_{\textsl{j+1}} = \kappa w_{\textsl{j}} \Leftrightarrow w_{\textsl{j}} = \kappa w_{\textsl{j-1}} = \kappa^j w_0
+\end{equation}
+
+avec
+
+\begin{equation}
+\kappa \equiv \left [ -\lambda_d e^{-Irh} +1 + 2 \lambda_d+\lambda_b-\lambda_a + e^{Irh} (\lambda_a - \lambda_d) \right ]^{-1} \equiv \alpha^{-1}\;.
+\end{equation}
+
+On a,
+
+\begin{multline}
+  \alpha = -\lambda_d (2\cos(rh)-2) +1 +\lambda_b+\lambda_a ( e^{Irh}-1)\\
+  = 4 \lambda_d \sin^2(rh/2) +1 +\lambda_b -2 \lambda_a \sin^2(rh/2) +  I \lambda_a \sin(rh) \equiv a+Ib\;.
+\end{multline}
+
+Afin que la méthode numérique soit stable on veut donc que
+
+\begin{equation}
+  |\kappa|^2 \le 1 \Leftrightarrow |\alpha^{-1}|^2 \le 1\;.
+\end{equation}
+
+Par ailleurs,
+
+\begin{equation}
+\alpha^{-1} = \frac{1}{a+Ib} = \frac{a-Ib}{a^2+b^2}\;.
+\end{equation}
+
+La condition de stabilité devient donc:
+
+\begin{equation}
+ \frac{1}{(a^2+b^2)^2}|a-Ib|^2 = \frac{a^2+b^2}{(a^2+b^2)^2} = \frac{1}{a^2+b^2}  \le 1 \implies a^2+b^2 \ge 1\;.
+\end{equation}
+
+On a finalement:
+
+\begin{equation}
+\boxed{\left ( 2 \sin^2(rh/2) (2 \lambda_d - \lambda_a) +1 + \lambda_b \right )^2 + \lambda_a^2 \sin^2(rh) \ge 1}\;.
+\end{equation}
+
+Le schéma n'est donc pas toujours stable. En effet par exemple lorsque
+$\sin^2(rh/2) = 0 = \sin^2(rh)$ et $\lambda_b = -1$. Ou encore lorsque
+$\lambda_d = \lambda_a/2$, $\lambda_b = -1$ et $\lambda_a < 1$.
+
 \section{Illustrez votre propos avec plusieurs simulations numériques, comparant schémas numériques implicites et explicites.}
 
 \section{Montrez, dans ces schéma numériques, quels termes sont responsables de la diffusion numérique. Quel est son ordre de grandeur par rapport à la diffusion explicitement modélisée par le terme D ?}
@@ -752,6 +806,8 @@ grâce aux conditions initiales.
 
 
 \section*{Conclusion}
+
+
 
 
 \end{document}
