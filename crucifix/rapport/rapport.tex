@@ -685,6 +685,7 @@ leurs définitions on obtient:
   U_{\textsl{i},\textsl{j}} = - \lambda_d U_{\textsl{i-1},\textsl{j+1}}
   +U_{\textsl{i},\textsl{j+1}} (1+ 2 \lambda_d + \lambda_b - \lambda_a)
   +U_{\textsl{i+1},\textsl{j+1}} (\lambda_a - \lambda_d)
+  \label{eq:schema_implicite}
 \end{equation}
 
 La matrice $M$ correspondante est présentée ci-dessous.
@@ -727,6 +728,69 @@ M^{-1}
 
 où $M$ est une matrice tridiagonale. Notons que les $U_{\textsl{i},0}$ sont connus
 grâce aux conditions initiales.
+
+\subsection*{Stabilité}
+
+Afin de trouver une condition de stabilité pour la méthode implicite injectons
+l'Equation~\ref{eq:stabilite_expl_sol} dans le schéma numérique implicite
+(Equation~\ref{eq:schema_implicite}). On obtient alors:
+
+\begin{equation}
+  w_{\textsl{j}} e^{Irx_{\textsl{i}}} = -\lambda_d w_{\textsl{j+1}} e^{Irx_{\textsl{i-1}}}
+  + w_{\textsl{j+1}} e^{Irx_{\textsl{i}}} (1+2 \lambda_d + \lambda_b - \lambda_a)
+  +w_{\textsl{j+1}} e^{Irx_{\textsl{i+1}}} (\lambda_a - \lambda_d) \;.
+\end{equation}
+
+\begin{equation}
+  w_{\textsl{j}} = w_{\textsl{j+1}} \left (-\lambda_d e^{-Irh} +1 + 2 \lambda_d+\lambda_b-\lambda_a + e^{Irh} (\lambda_a - \lambda_d) \right )
+\end{equation}
+
+Et donc,
+
+\begin{equation}
+  w_{\textsl{j+1}} = \kappa w_{\textsl{j}} \Leftrightarrow w_{\textsl{j}} = \kappa w_{\textsl{j-1}} = \kappa^j w_0
+\end{equation}
+
+avec
+
+\begin{equation}
+\kappa \equiv \left [ -\lambda_d e^{-Irh} +1 + 2 \lambda_d+\lambda_b-\lambda_a + e^{Irh} (\lambda_a - \lambda_d) \right ]^{-1} \equiv \alpha^{-1}\;.
+\end{equation}
+
+On a,
+
+\begin{multline}
+  \alpha = -\lambda_d (2\cos(rh)-2) +1 +\lambda_b+\lambda_a ( e^{Irh}-1)\\
+  = 4 \lambda_d \sin^2(rh/2) +1 +\lambda_b -2 \lambda_a \sin^2(rh/2) +  I \lambda_a \sin(rh) \equiv a+Ib\;.
+\end{multline}
+
+Afin que la méthode numérique soit stable on veut donc que
+
+\begin{equation}
+  |\kappa|^2 \le 1 \Leftrightarrow |\alpha^{-1}|^2 \le 1\;.
+\end{equation}
+
+Par ailleurs,
+
+\begin{equation}
+\alpha^{-1} = \frac{1}{a+Ib} = \frac{a-Ib}{a^2+b^2}\;.
+\end{equation}
+
+La condition de stabilité devient donc:
+
+\begin{equation}
+ \frac{1}{(a^2+b^2)^2}|a-Ib|^2 = \frac{a^2+b^2}{(a^2+b^2)^2} = \frac{1}{a^2+b^2}  \le 1 \implies a^2+b^2 \ge 1\;.
+\end{equation}
+
+On a finalement:
+
+\begin{equation}
+\boxed{\left ( 2 \sin^2(rh/2) (2 \lambda_d - \lambda_a) +1 + \lambda_b \right )^2 + \lambda_a^2 \sin^2(rh) \ge 1}\;.
+\end{equation}
+
+Le schéma n'est donc pas toujours stable. En effet par exemple lorsque
+$\sin^2(rh/2) = 0 = \sin^2(rh)$ et $\lambda_b = -1$. Ou encore lorsque
+$\lambda_d = \lambda_a/2$, $\lambda_b = -1$ et $\lambda_a < 1$.
 
 \section{Illustrez votre propos avec plusieurs simulations numériques, comparant schémas numériques implicites et explicites.}
 
