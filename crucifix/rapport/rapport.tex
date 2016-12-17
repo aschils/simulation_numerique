@@ -292,7 +292,7 @@ Il s'agit d'une equation au différences, que l'on peut résoudre en posant :
   w_{\textsl{j}} = w_{0}\kappa^{\textsl{j}} \;.
 \end{equation}
 
-On obtient alors $\kappa \equiv  1 - 4 \lambda_d \sin^2(rh/2) + \lambda_a \left (1- e^{Irh} \right ) - \lambda_b$ qui est complexe. La condition de stabilité se ramène alors à:
+On obtient alors $\kappa \equiv  1 - 4 \lambda_d \sin^2(rh/2) + \lambda_a \left (1- e^{irh} \right ) - \lambda_b$ qui est complexe. La condition de stabilité se ramène alors à:
 
 \begin{equation}
 |\kappa|^2 = \left ( 1 - 4 \lambda_d \sin^2(rh/2) + \lambda_a \left (1- \cos(rh) \right ) - \lambda_b \right )^2+ \lambda_a^2 \sin^2(rh) \le 1\;.
@@ -655,7 +655,7 @@ c'est à dire par $U_{\textsl{i},\textsl{j+1}}$. Les dérivées sont remplacées
 au temps $t_{j+1}$:
 
 \begin{align}
-  \frac{\partial^2 u (x,t)}{\partial x^2} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j+1}}} &=& \frac{U_{\textsl{i}-1,\textsl{j+1}} - 2 U_{\textsl{i},\textsl{j+1}} + U_{\textsl{i}+1,\textsl{j+1}}}{h^2} + \mathcal{O}(h^2)\\
+  \frac{\partial^2 u (x,t)}{\partial x^2} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j+1}}} &=& \frac{U_{\textsl{i}+1,\textsl{j+1}} - 2 U_{\textsl{i},\textsl{j+1}} + U_{\textsl{i}-1,\textsl{j+1}}}{h^2} + \mathcal{O}(h^2)\\
   \frac{\partial u (x,t)}{\partial x} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j+1}}} &=& \frac{U_{\textsl{i}+1,\textsl{j+1}} - U_{\textsl{i},\textsl{j+1}}}{h} + \mathcal{O}(h)\\
   \frac{\partial u (x,t)}{\partial t} \biggr |_{x=x_{\textsl{i}}, t=t_{\textsl{j+1}}} &=& \frac{U_{\textsl{i},\textsl{j}+1} - U_{\textsl{i},\textsl{j}}}{k} + \mathcal{O}(k) \;.
 \end{align}
@@ -663,7 +663,7 @@ au temps $t_{j+1}$:
 On obtient alors:
 
 \begin{multline}
-\frac{U_{\textsl{i},\textsl{j+1}} - U_{\textsl{i},\textsl{j}}}{k} + \mathcal{O}(k)  = D \frac{U_{\textsl{i-1},\textsl{j+1}} - 2 U_{\textsl{i},\textsl{j+1}} + U_{\textsl{i+1},\textsl{j+1}}}{h^2}+ \mathcal{O}(h^2) \\
+\frac{U_{\textsl{i},\textsl{j+1}} - U_{\textsl{i},\textsl{j}}}{k} + \mathcal{O}(k)  = D \frac{U_{\textsl{i}+1,\textsl{j+1}} - 2 U_{\textsl{i},\textsl{j+1}} + U_{\textsl{i}-1,\textsl{j+1}}}{h^2}+ \mathcal{O}(h^2) \\
 - a \frac{U_{\textsl{i+1},\textsl{j+1}} - U_{\textsl{i},\textsl{j+1}}}{h} + \mathcal{O}(h) - b U_{\textsl{i},\textsl{j+1}}\;.
 \end{multline}
 
@@ -726,13 +726,13 @@ l'équation \eqref{eq:stabilite_expl_sol} dans le schéma numérique implicite
 (équation \eqref{eq:schema_implicite}). On obtient alors:
 
 \begin{equation}
-  w_{\textsl{j}} e^{Irx_{\textsl{i}}} = -\lambda_d w_{\textsl{j+1}} e^{Irx_{\textsl{i-1}}}
-  + w_{\textsl{j+1}} e^{Irx_{\textsl{i}}} (1+2 \lambda_d + \lambda_b - \lambda_a)
-  +w_{\textsl{j+1}} e^{Irx_{\textsl{i+1}}} (\lambda_a - \lambda_d) \;.
+  w_{\textsl{j}} e^{irx_{\textsl{i}}} = -\lambda_d w_{\textsl{j+1}} e^{irx_{\textsl{i-1}}}
+  + w_{\textsl{j+1}} e^{irx_{\textsl{i}}} (1+2 \lambda_d + \lambda_b - \lambda_a)
+  +w_{\textsl{j+1}} e^{irx_{\textsl{i+1}}} (\lambda_a - \lambda_d) \;.
 \end{equation}
 
 \begin{equation}
-  w_{\textsl{j}} = w_{\textsl{j+1}} \left (-\lambda_d e^{-Irh} +1 + 2 \lambda_d+\lambda_b-\lambda_a + e^{Irh} (\lambda_a - \lambda_d) \right )
+  w_{\textsl{j}} = w_{\textsl{j+1}} \left (-\lambda_d e^{-irh} +1 + 2 \lambda_d+\lambda_b-\lambda_a + e^{irh} (\lambda_a - \lambda_d) \right )
 \end{equation}
 
 Et donc,
@@ -744,14 +744,14 @@ Et donc,
 avec
 
 \begin{equation}
-\kappa \equiv \left [ -\lambda_d e^{-Irh} +1 + 2 \lambda_d+\lambda_b-\lambda_a + e^{Irh} (\lambda_a - \lambda_d) \right ]^{-1} \equiv \alpha^{-1}\;.
+\kappa \equiv \left [ -\lambda_d e^{-irh} +1 + 2 \lambda_d+\lambda_b-\lambda_a + e^{irh} (\lambda_a - \lambda_d) \right ]^{-1} \equiv \alpha^{-1}\;.
 \end{equation}
 
 On a,
 
 \begin{multline}
-  \alpha = -\lambda_d (2\cos(rh)-2) +1 +\lambda_b+\lambda_a ( e^{Irh}-1)\\
-  = 4 \lambda_d \sin^2(rh/2) +1 +\lambda_b -2 \lambda_a \sin^2(rh/2) +  I \lambda_a \sin(rh) \equiv a+Ib\;.
+  \alpha = -\lambda_d (2\cos(rh)-2) +1 +\lambda_b+\lambda_a ( e^{irh}-1)\\
+  = 4 \lambda_d \sin^2(rh/2) +1 +\lambda_b -2 \lambda_a \sin^2(rh/2) +  i \lambda_a \sin(rh) \equiv a+ib\;.
 \end{multline}
 
 Afin que la méthode numérique soit stable on veut donc que
@@ -763,13 +763,13 @@ Afin que la méthode numérique soit stable on veut donc que
 Par ailleurs,
 
 \begin{equation}
-\alpha^{-1} = \frac{1}{a+Ib} = \frac{a-Ib}{a^2+b^2}\;.
+\alpha^{-1} = \frac{1}{a+ib} = \frac{a-ib}{a^2+b^2}\;.
 \end{equation}
 
 La condition de stabilité devient donc:
 
 \begin{equation}
- \frac{1}{(a^2+b^2)^2}|a-Ib|^2 = \frac{a^2+b^2}{(a^2+b^2)^2} = \frac{1}{a^2+b^2}  \le 1 \implies a^2+b^2 \ge 1\;.
+ \frac{1}{(a^2+b^2)^2}|a-ib|^2 = \frac{a^2+b^2}{(a^2+b^2)^2} = \frac{1}{a^2+b^2}  \le 1 \implies a^2+b^2 \ge 1\;.
 \end{equation}
 
 On a finalement:
