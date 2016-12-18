@@ -1,6 +1,6 @@
 % constantes de l'equation
 %a=25;
-a=25;
+a=-25;
 %b=1;
 b=1;
 %D=1;
