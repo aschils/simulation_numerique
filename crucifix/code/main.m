@@ -7,12 +7,12 @@ b=1;
 D=1;
 
 l=1; %longueur du domaine 0 < x < l 
-ha = 0.01; %pas d'espace
+ha = 0.01; %pas d'espace pour solution analytique
 h = 0.01; %pas d'espace
-xa = linspace(0,l,l/ha+1);
+xa = linspace(0,l,l/ha+1); % points espace solution analytique
 x = linspace(0,l,l/h+1);
 t_end = 0.003;
-ka = 0.00001; %pas de temps
+ka = 0.00001; %pas de temps pour solution analytique
 k = 0.00001; %pas de temps
 
 m_end = 50; %nombre d'elements de la série de pour la solution analytique
