@@ -919,35 +919,37 @@ En tenant compte du pas d'espace $x_{\textsl{i+1}}- x_{\textsl{i}}= h$ et du pas
 \begin{equation}
   e^{-i\omega k} = e^{-i\bar{k}h} \lambda_d + (-2 \lambda_d + \lambda_a - \lambda_b +1) + e^{i\bar{k}h} (\lambda_d - \lambda_a) \;.
   \end{equation}
- 
+
  Nous allons faire une approximation par le théorème de Taylor à l'ordre $\mathcal{O}(h+k)$, en tenant compte que $\bar{k}$ et les $\lambda$ sont fixés, nous obtenons :
- 
+
  \begin{eqnarray*}
   1-i\omega k &=& (1-i\bar{k}h) \lambda_d + (-2 \lambda_d + \lambda_a - \lambda_b +1) + (1+i\bar{k}h) (\lambda_d - \lambda_a)\\
   &=& \lambda_d -i\bar{k}h \lambda_d - 2 \lambda_d + \lambda_a - \lambda_b + 1 + \lambda_d + i\bar{k}h \lambda_d - \lambda_a - i\bar{k}h \lambda_a \;.
   \end{eqnarray*}
-  
+
   Après simplification et en remplaçant $\lambda_a$ par sa valeur $\lambda_a = \frac{ak}{h}$, on obtient :
-  
+
   \begin{eqnarray}
   \omega  &=& \frac{\bar{k}h}{k}\lambda_a\\
 	&=& a\bar{k}\;.
   \end{eqnarray}
-  
+
    Nous calculons la vitesse de groupe numérique par différence avant, on obtient :
-   
+
   \begin{eqnarray}
      v_{gn} &=& \frac{d\omega}{d\bar{k}}\\
      &=& a \frac{d\bar{k}}{d\bar{k}}\\
      &=& a \;.
   \end{eqnarray}
-  
+
   Cette approximation à l'ordre $\mathcal{O}(h+k)$, nous permet de retrouver la vitesse de groupe analytique.
-  
-\subsection*{schéma non dispersif}
 
-La vitesse de groupe numérique n'est pas fonction de $\bar{k}$, elle est égale à une constante $a$ dans notre approximation. Notre schéma n'est donc pas dispersif. Ce qui est cohérent avec notre système originel qui est non dispersif $v_{g} = a $.
+\subsection*{Schéma non dispersif au premier ordre}
 
+La vitesse de groupe numérique n'est pas fonction de $\bar{k}$,
+elle est égale à une constante $a$ dans notre approximation.
+Notre schéma n'est donc pas dispersif au premier ordre.
+Ce qui est cohérent avec notre système originel qui est non dispersif $v_{g} = a $.
 
 
 \section{Le terme de diffusion D peut-il être responsable d'un comportement instable? Expliquer.}
