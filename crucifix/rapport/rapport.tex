@@ -1077,12 +1077,12 @@ En injectant ces valeurs, les termes en $u$ et en derivée première de $u$ par 
 On obtient donc un terme de diffusion numérique identique en valeur absolue,
 mais de signe opposé, à celui obtenu pour la méthode explicite. Son ordre
 de grandeur en valeur absolue par rapport au terme de diffusion explicitement
-modélisée est donc le même que pour la méthode explicite. La différence de signe
-va induire un effet inverse de diffusion numérique par rapport à la méthode
-explicite. Lorsque les paramètres sont tels que la diffusion numérique de la
-méthode explicite induit une plus grande amplitude de la solution numérique par
-rapport à la solution analytique, la diffusion numérique de la méthode implicite
-aura tendance à diminuer l'amplitude par rapport à la solution analytique.
+modélisée est donc le même que pour la méthode explicite. %La différence de signe
+%va induire un effet inverse de diffusion numérique par rapport à la méthode
+%explicite. Lorsque les paramètres sont tels que la diffusion numérique de la
+%méthode explicite induit une plus grande amplitude de la solution numérique par
+%rapport à la solution analytique, la diffusion numérique de la méthode implicite
+%aura tendance à diminuer l'amplitude par rapport à la solution analytique.
 
 
 \section{Comparez vitesse de groupe numérique avec celle du système original. Le schéma est-il dispersif?}
@@ -1154,6 +1154,39 @@ Ce qui est cohérent avec notre système originel qui est non dispersif $v_{g} =
 
 
 \section{Le terme de diffusion D peut-il être responsable d'un comportement instable? Expliquer.}
+
+Oui car le terme $\lambda_D  = Dk /h^2$ apparait dans les conditions de A-stabilité
+des schémas numériques explicites et implicites.
+
+Pour le schéma explicite,
+en regardant l'Equation~\ref{eq:kappa_squared}, on voit que plus on augmente
+la valeur de $D$ (et donc de $\lambda_D$) plus on tend avec certitude vers
+une situation où l'inégalité (et donc la condition de stabilité) n'est pas
+satisfaite. En effet, alors que pour une certaine combinaison des paramètres
+, dont $D=5$, la méthode explicite présente un comportement stable (voir
+Figure~\ref{eq:stable_Q7}), elle ne l'est pas si on augmente la valeur de $D$ à $6$
+(voir Figure~\ref{eq:instable_Q7}).
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/q7D5stable.jpg}
+  \caption{Méthode explicite stable pour $a=25$, $b=5$, $D=5$,
+  $l=1$, $h=0.01$, $k = 0.00001$ à t=$0.01$.}
+  \label{eq:stable_Q7}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/q7D6instable.jpg}
+  \caption{Méthode explicite instable pour $a=25$, $b=5$, $D=6$,
+  $l=1$, $h=0.01$, $k = 0.00001$ à t=$0.01$.}
+  \label{eq:instable_Q7}
+\end{figure}
+
+Pour le schéma implicite, varier $D$ et donc le terme $\lambda_d$ peut également
+engendrer non-satisfaction de la condition de stabilité. Cependant il y a,
+contraitement au cas du schéma explicite, des combinaisons de paramètres pour
+lesquelles le schéma sera stable pour toutes les valeurs de $D$ possibles.
 
 \section{Fournissez un schéma de Lax-Wendroff à trois points $\left(\textsl{i}-1,\textsl{i},\textsl{i}+1\right)$ dans l'espace. Quel est l'ordre de ce schéma? Est-il monotone? Discutez les avantages et les inconvénients au schéma que vous avez donné au point 1 ci-dessus.}
 
