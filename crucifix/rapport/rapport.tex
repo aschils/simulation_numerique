@@ -942,7 +942,7 @@ obtient:
 
 \begin{multline}
   \tau_{i,j} = \frac{1}{k} \left (u(x_{\textsl{i}},t_{\textsl{j}}) (1-bk-A-B-C) + \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} (-ak -Ah + Ch) \right.\\
-   \left. + \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \left (Dk - \frac{A h^2}{2} - \frac{C h^2}{2} \right ) + \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \left (-\frac{Ah^3}{6} + \frac{C h^3}{6} \right )  \right ) + \mathcal{O}(k^2+h^4)\;.
+   \left. + \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \left (Dk - \frac{A h^2}{2} - \frac{C h^2}{2} \right ) + \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \left (-\frac{Ah^3}{6} + \frac{C h^3}{6} \right )  \right )\;.
    \label{eq:tau_isole}
 \end{multline}
 
@@ -1198,7 +1198,7 @@ peut se réécrire comme:
 
 \begin{multline}
   k\tau_{i,j} = u(x_{\textsl{i}},t_{\textsl{j}}) (1-\lambda_b-A-B-C) + \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} h (-\lambda_a -A + C) \\
-   + \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \frac{h^2}{2} \left (2 \lambda_d - A - C \right ) + \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \frac{h^3}{6} \left (C-A \right )  + \mathcal{O}(k^2+h^4)\;.
+   + \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \frac{h^2}{2} \left (2 \lambda_d - A - C \right ) + \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \frac{h^3}{6} \left (C-A \right ) + \mathcal{O}(k^2+h^4) \;.
    \label{eq:tau_isole2}
 \end{multline}
 
@@ -1224,6 +1224,20 @@ Le schéma numérique est donc:
 U_{\textsl{i},\textsl{j+1}} = \left ( -\frac{\lambda_a}{2} + \lambda_d \right ) U_{\textsl{i+1},\textsl{j}} + B (1-\lambda_b - 2\lambda_d) U_{\textsl{i},\textsl{j}} + \left (\frac{\lambda_a}{2} + \lambda_d \right ) U_{\textsl{i-1},\textsl{j}} \;.
 \end{equation}
 
+L'ordre du schéma est obtenu en analysant l'élement restant du terme de troncature,
+qui ne s'annule pas par nos choix de $A,B$ et $C$:
+
+\begin{equation}
+    k\tau_{i,j} = \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \frac{h^3}{6} \left (C-A \right ) + \mathcal{O}(k^2+h^4)
+\end{equation}
+
+\begin{equation}
+    \mathcal{O}(k\tau_{i,j}) = \mathcal{O} \left (\frac{h^3}{6} \left ( \frac{\lambda_a}{2} + \lambda_d+\frac{\lambda_a}{2} - \lambda_d \right ) \right ) = \mathcal{O} \left (h^3 \lambda_a \right ) = \mathcal{O} \left (h^2 k \right ) + \mathcal{O}(k^2+h^4)
+\end{equation}
+
+\begin{equation}
+    \mathcal{O}(\tau_{i,j}) = \mathcal{O} \left (h^2 + k\right )\;.
+\end{equation}
 
 %\section*{Conclusion}
 
