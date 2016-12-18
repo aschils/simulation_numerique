@@ -797,6 +797,7 @@ bien aux conditions aux bords imposées $g(0) = g(l) = 0$.
   \includegraphics[scale=0.4]{images/analy_vs_expl_t_end_0dot003.jpg}
   \caption{Comparaison entre les solutions analytique et numérique explicite pour
   les paramètres $a=25$, $b=1$, $D=1$, $h=0.01$ et $k=0.00001$, au temps $t=0.003$.}
+  \label{fig:analy_vs_explicite}
 \end{figure}
 
 \begin{figure}[H]
@@ -804,6 +805,7 @@ bien aux conditions aux bords imposées $g(0) = g(l) = 0$.
   \includegraphics[scale=0.4]{images/analy_vs_impl_t_end_0dot003.jpg}
   \caption{Comparaison entre les solutions analytique et numérique implicite pour
   les paramètres $a=25$, $b=1$, $D=1$, $h=0.01$ et $k=0.00001$, au temps $t=0.003$.}
+  \label{fig:analy_vs_implicite}
 \end{figure}
 
 \begin{figure}[H]
@@ -1221,7 +1223,8 @@ En résolvant ce système linéaire on obtient:
 Le schéma numérique est donc:
 
 \begin{equation}
-U_{\textsl{i},\textsl{j+1}} = \left ( -\frac{\lambda_a}{2} + \lambda_d \right ) U_{\textsl{i+1},\textsl{j}} + B (1-\lambda_b - 2\lambda_d) U_{\textsl{i},\textsl{j}} + \left (\frac{\lambda_a}{2} + \lambda_d \right ) U_{\textsl{i-1},\textsl{j}} \;.
+U_{\textsl{i},\textsl{j+1}} = \left ( -\frac{\lambda_a}{2} + \lambda_d \right ) U_{\textsl{i+1},\textsl{j}} + (1-\lambda_b - 2\lambda_d) U_{\textsl{i},\textsl{j}} + \left (\frac{\lambda_a}{2} + \lambda_d \right ) U_{\textsl{i-1},\textsl{j}} \;.
+\label{eq:schema_lax_wendroff}
 \end{equation}
 
 L'ordre du schéma est obtenu en analysant l'élement restant du terme de troncature,
@@ -1238,6 +1241,47 @@ qui ne s'annule pas par nos choix de $A,B$ et $C$:
 \begin{equation}
     \mathcal{O}(\tau_{i,j}) = \mathcal{O} \left (h^2 + k\right )\;.
 \end{equation}
+
+Un schéma aux différences finies du type
+
+\begin{equation}
+U_{\textsl{i},\textsl{j+1}} = \sum_p A_p U_{\textsl{p},\textsl{j}}
+\end{equation}
+
+est monotone si:
+
+\begin{equation}
+A_p \ge 0, \forall p\;.
+\end{equation}
+
+En comparant ce théorême avec le schéma numérique de Lax-Wendroff (présenté à
+l'Equation~\ref{eq:schema_lax_wendroff}), on constate que ce schéma est
+monotone si les trois conditions $A \ge 0, B \ge 0$ et $C \ge 0$ sont remplies. C'est
+à dire si:
+
+\begin{align}
+  \lambda_d \ge \frac{\lambda_a}{2} \\
+  \lambda_d \le \frac{1-\lambda_b}{2} \\
+  \lambda_d \ge - \frac{\lambda_a}{2}\;.
+\end{align}
+
+Le premier avantage du schéma de Lax-Wendroff par rapport aux schémas implicite
+et explicite introduits dans les questions précédentes est que son erreur
+est moins importante ($\mathcal{O} \left (h^2 + k\right )$ au lieu de
+$\mathcal{O} \left (h + k\right )$).
+
+On observe en effet, dans les cas observés, que le schéma Lax-Wendroff correspond mieux à la solution analytique que les
+schémas implicite et explicite précédents (voir Figures~\ref{fig:lax_wendroff_bien}
+,~\ref{fig:analy_vs_explicite} et~\ref{fig:analy_vs_implicite}).
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/lax_wendroff_marche_bien.jpg}
+  \caption{Schéma Lax-Wendroff pour $a=25$, $b=1$, $D=1$,
+  $l=1$, $h=0.01$, $k = 0.00001$ à t=$0.003$. Les courbes numérique et analytique
+  correspondent parfaitement.}
+  \label{fig:lax_wendroff_bien}
+\end{figure}
 
 %\section*{Conclusion}
 
