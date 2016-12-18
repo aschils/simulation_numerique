@@ -1191,6 +1191,40 @@ lesquelles le schéma sera stable pour toutes les valeurs de $D$ possibles.
 \section{Fournissez un schéma de Lax-Wendroff à trois points $\left(\textsl{i}-1,\textsl{i},\textsl{i}+1\right)$ dans l'espace. Quel est l'ordre de ce schéma? Est-il monotone? Discutez les avantages et les inconvénients au schéma que vous avez donné au point 1 ci-dessus.}
 
 
+Ce schéma de Lax-Wendroff peut-être obtenu en exigeant que l'erreur de troncature
+$k \tau_{i,j}$ de l'Equation~\ref{eq:tau_isole} tende vers 0 lorsque $h \to 0$.
+L'Equation~\ref{eq:tau_isole} de l'erreur de troncature du schéma explicite
+peut se réécrire comme:
+
+\begin{multline}
+  k\tau_{i,j} = u(x_{\textsl{i}},t_{\textsl{j}}) (1-\lambda_b-A-B-C) + \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} h (-\lambda_a -A + C) \\
+   + \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \frac{h^2}{2} \left (2 \lambda_d - A - C \right ) + \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \frac{h^3}{6} \left (C-A \right )  + \mathcal{O}(k^2+h^4)\;.
+   \label{eq:tau_isole2}
+\end{multline}
+
+Pour que $k \tau_{i,j} \to 0$ quand $h \to 0$ on doit avoir:
+
+\begin{align}
+  1-\lambda_b - A -B -C = 0\\
+  -\lambda_a +C - A =0\\
+  2 \lambda_d -A -C = 0\;.
+\end{align}
+
+En résolvant ce système linéaire on obtient:
+
+\begin{align}
+  A = -\frac{\lambda_a}{2} + \lambda_d\\
+  B = 1-\lambda_b - 2\lambda_d\\
+  C = \frac{\lambda_a}{2} + \lambda_d\;.
+\end{align}
+
+Le schéma numérique est donc:
+
+\begin{equation}
+U_{\textsl{i},\textsl{j+1}} = \left ( -\frac{\lambda_a}{2} + \lambda_d \right ) U_{\textsl{i+1},\textsl{j}} + B (1-\lambda_b - 2\lambda_d) U_{\textsl{i},\textsl{j}} + \left (\frac{\lambda_a}{2} + \lambda_d \right ) U_{\textsl{i-1},\textsl{j}} \;.
+\end{equation}
+
+
 %\section*{Conclusion}
 
 \part{Prédictibilité}
