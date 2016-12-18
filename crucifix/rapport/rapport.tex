@@ -964,6 +964,7 @@ On voit donc qu'on a bien un effet de diffusion numérique lié au terme
 
 \begin{equation}
   \frac{a h}{2} \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2}
+  \label{eq:terme_diffusion_numerique}
 \end{equation}
 
 de l'erreur de troncature. On voit en effet que ce terme contient une dérivée
@@ -981,6 +982,42 @@ la diffusion numérique et la diffusion modélisée explicitement on a:
 \begin{equation}
   \frac{\lambda_a h^2 /2}{\lambda_d} = \frac{a h^3}{2D}\;.
 \end{equation}
+
+Lorsque $a<0$, le terme de diffusion numérique (Equation~\ref{eq:terme_diffusion_numerique})
+a pour d'effet de diminuer l'amplitude de la solution par
+rapport à la solution analytique (voir Figure~\ref{eq:expl_diff_num_a_neg}).
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/expl_diffusion_num_a_neg.jpg}
+  \caption{Diffusion numérique du schéma explcite avec $a=-25$, $b=1$, $D=1$,
+  $l=1$, $h=0.01$, $k = 0.0000001$ à t=$0.01$.}
+  \label{eq:expl_diff_num_a_neg}
+\end{figure}
+
+Lorsque $a>0$, le terme de diffusion numérique (Equation~\ref{eq:terme_diffusion_numerique})
+a pour d'effet d'augmenter l'amplitude de la solution par
+rapport à la solution analytique (voir Figure~\ref{eq:expl_diff_num_higher_h}).
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/expl_diffusion_num_higher_h.jpg}
+  \caption{Diffusion numérique du schéma explcite avec $a=25$, $b=1$, $D=1$,
+  $l=1$, $h=0.01$, $k = 0.0000001$ à t=$0.01$.}
+  \label{eq:expl_diff_num_higher_h}
+\end{figure}
+
+On voit que cet effet est moins important lorsque on diminue le pas d'espace $h$,
+comme cela est prédit par l'Equation~\ref{eq:terme_diffusion_numerique} (voir Figure~\ref{eq:expl_diff_num}).
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.4]{images/expl_diffusion_num.jpg}
+  \caption{La diffusion numérique du schéma explcite est moins marquée quand on augmente le pas d'espace. $a=25$, $b=1$, $D=1$,
+  $l=1$, $h=0.001$, $k = 0.0000001$ à t=$0.01$.}
+  \label{eq:expl_diff_num}
+\end{figure}
+
 
 %Si on considère $a$ et $D$ comme des constantes, l'ordre de grandeur relatif
 %entre diffusion numérique et diffusion modélisée explicitement est donc $\mathcal{O} \left (h^3 \right )$.
