@@ -942,7 +942,51 @@ obtient:
 \begin{multline}
   \tau_{i,j} = \frac{1}{k} \left (u(x_{\textsl{i}},t_{\textsl{j}}) (1-bk-A-B-C) + \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} (-ak -Ah + Ch) \right.\\
    \left. + \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \left (Dk - \frac{A h^2}{2} - \frac{C h^2}{2} \right ) + \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \left (-\frac{Ah^3}{6} + \frac{C h^3}{6} \right )  \right ) + \mathcal{O}(k^2)\;.
+   \label{eq:tau_isole}
 \end{multline}
+
+Dans notre schéma explicite on a:
+
+\begin{align}
+  A = \lambda_d - \lambda_a = \frac{Dk}{h^2} - \frac{ak}{h}\\
+  B = -2 \lambda_d + \lambda_a - \lambda_b +1 = -2 \frac{Dk}{h^2} + \frac{ak}{h} - bk +1\\
+  C = \lambda_d = \frac{Dk}{h^2}\;.
+\end{align}
+
+En injectant ces valeurs de $A,B$ et $C$ dans l'Equation~\ref{eq:tau_isole} on obtient:
+
+\begin{multline}
+  \tau_{i,j} = \frac{1}{k} \left ( \frac{\lambda_a h^2}{2} \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} + \frac{\lambda_a h^3}{6} \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \right)\\
+  = \frac{a h}{2} \left ( \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} + \frac{h}{3} \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \right ) \;.
+\end{multline}
+
+On voit donc qu'on a bien un effet de diffusion numérique lié au terme
+
+\begin{equation}
+  \frac{a h}{2} \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2}
+\end{equation}
+
+de l'erreur de troncature. On voit en effet que ce terme contient une dérivée
+seconde de $u$ par rapport à la variable spatiale $x$, tout comme le terme
+de diffusion explicitement modélisée
+
+\begin{equation}
+  D \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2}\;.
+\end{equation}
+
+La constante $a$ ainsi que le pas d'espace $h$ vont influencer l'effet
+de diffusion numérique. Si on regarde l'ordre de grandeur relatif entre
+la diffusion numérique et la diffusion modélisée explicitement on a:
+
+\begin{equation}
+  \frac{\lambda_a h^2 /2}{\lambda_d} = \frac{a h^3}{2D}\;.
+\end{equation}
+
+%Si on considère $a$ et $D$ comme des constantes, l'ordre de grandeur relatif
+%entre diffusion numérique et diffusion modélisée explicitement est donc $\mathcal{O} \left (h^3 \right )$.
+
+L'autre terme de l'erreur de troncature à l'ordre considéré, qui fait intervenir une dérivée troisième
+en $x$, introduira lui un effet de dispersion.
 
 \section{Comparez vitesse de groupe numérique avec celle du système original. Le schéma est-il dispersif?}
 
@@ -954,7 +998,7 @@ A partir de la définition de la vitesse de groupe :
  v_{g} \equiv \frac{d\omega_{r}}{dk}
 \end{equation}
 
-où $\omega_{r}$ est la partie réel de la relation de dispersion \eqref{eq:dispersion}, on obtient :
+où $\omega_{r}$ est la partie réelle de la relation de dispersion \eqref{eq:dispersion}, on obtient :
 
 \begin{equation}
  v_{g} = a\;.
