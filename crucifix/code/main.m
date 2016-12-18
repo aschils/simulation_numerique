@@ -1,10 +1,10 @@
 % constantes de l'equation
 %a=25;
-a=-25;
+a=25;
 %b=1;
-b=1;
+b=5;
 %D=1;
-D=1;
+D=5;
 
 l=1; %longueur du domaine 0 < x < l 
 ha = 0.01; %pas d'espace
@@ -13,7 +13,7 @@ xa = linspace(0,l,l/ha+1);
 x = linspace(0,l,l/h+1);
 t_end = 0.01;
 ka = 0.00001; %pas de temps
-k = 0.0000001; %pas de temps
+k = 0.00001; %pas de temps
 
 m_end = 50; %nombre d'elements de la série de pour la solution analytique
 plot_break_time = 0.001;
