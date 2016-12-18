@@ -1268,7 +1268,11 @@ monotone si les trois conditions $A \ge 0, B \ge 0$ et $C \ge 0$ sont remplies. 
 Le premier avantage du schéma de Lax-Wendroff par rapport aux schémas implicite
 et explicite introduits dans les questions précédentes est que son erreur
 est moins importante ($\mathcal{O} \left (h^2 + k^2\right )$ au lieu de
-$\mathcal{O} \left (h + k\right )$).
+$\mathcal{O} \left (h + k\right )$). De plus, par choix des coefficients
+$A,B$ et $C$ on a éliminé le terme qui était responsable de la diffusion
+numérique (le terme en dérivée seconde de $u$ par rapport à $x$ dans l'erreur
+de troncature $\tau_{i,j}$). Le schéma de Lax-Wendroff permet donc d'éviter
+le problème lié à cette diffusion numérique.
 
 On observe en effet, dans les cas observés, que le schéma Lax-Wendroff correspond mieux à la solution analytique que les
 schémas implicite et explicite précédents (voir Figures~\ref{fig:lax_wendroff_bien}
