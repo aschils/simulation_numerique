@@ -883,6 +883,66 @@ n'est en effet pas toujours stable comme le montre la Figure~\ref{eq:impl_instab
 
 \section{Montrez, dans ces schéma numériques, quels termes sont responsables de la diffusion numérique. Quel est son ordre de grandeur par rapport à la diffusion explicitement modélisée par le terme D ?}
 
+\subsection*{Schéma explicite}
+
+Afin de déterminer les termes responsables d'une éventuelle diffusion
+numérique, calculons l'erreur de troncature $\tau_{i,j}$. Pour rappel
+notre schéma numérique explicite a la forme:
+
+\begin{equation}
+  U_{\textsl{i},\textsl{j}+1} = U_{\textsl{i}+1, \textsl{j}} (\lambda_d - \lambda_a) + U_{\textsl{i},\textsl{j}} (-2 \lambda_d + \lambda_a - \lambda_b +1) + U_{\textsl{i}-1,\textsl{j}} \lambda_d + \mathcal{O}(k+h) \;.
+\end{equation}
+
+Ou encore,
+
+\begin{equation}
+  u(x_{\textsl{i}},t_{\textsl{j}}+k) = A u(x_{\textsl{i}}+h, t_{\textsl{j}}) + B u(x_{\textsl{i}}, t_{\textsl{j}}) + C u(x_{\textsl{i}}-h, t_{\textsl{j}}) + k \tau_{i,j}\;.
+\end{equation}
+
+Dès lors l'erreur de troncature $\tau_{i,j}$ peut-être exprimée comme:
+
+\begin{equation}
+\tau_{i,j} = \frac{1}{k} \left (u(x_{\textsl{i}},t_{\textsl{j}}+k) - A u(x_{\textsl{i}}+h, t_{\textsl{j}}) - B u(x_{\textsl{i}}, t_{\textsl{j}}) - C u(x_{\textsl{i}}-h, t_{\textsl{j}})  \right ) \;.
+\label{eq:erreur_troncature}
+\end{equation}
+
+On peut développer en séries $u(x_{\textsl{i}},t_{\textsl{j}}+k)$, $u(x_{\textsl{i}}+h, t_{\textsl{j}})$, $u(x_{\textsl{i}}, t_{\textsl{j}})$ et $u(x_{\textsl{i}}-h, t_{\textsl{j}})$,
+en gardant uniquement les termes jusqu'à l'ordre $k$ de sorte que on ne considère que
+les termes dominant de l'erreur. C'est à dire qu'on calcule $k\tau_{i,j}$ à l'ordre $\mathcal{O}(k)$.
+
+\begin{equation}
+  u(x_{\textsl{i}},t_{\textsl{j}}+k) = u(x_{\textsl{i}},t_{\textsl{j}}) + k \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial t} + \mathcal{O}(k^2)
+\end{equation}
+
+Par définition de l'équation d'advection-diffusion (Equation~\ref{eq:adv_diff}),
+on a:
+
+\begin{equation}
+  \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial t} = D \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} - a \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} - b u(x_{\textsl{i}},t_{\textsl{j}}) \;.
+\end{equation}
+
+Dès lors,
+
+\begin{equation}
+  u(x_{\textsl{i}},t_{\textsl{j}}+k) = u(x_{\textsl{i}},t_{\textsl{j}}) + k \left ( D \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} - a \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} - b u(x_{\textsl{i}},t_{\textsl{j}}) \right ) + \mathcal{O}(k^2)\;.
+  \label{eq:taylor_u_t_k}
+\end{equation}
+
+Par ailleurs,
+
+\begin{equation}
+  u(x_{\textsl{i}} \pm h,t_{\textsl{j}}) = u(x_{\textsl{i}},t_{\textsl{j}}) \pm h \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} + \frac{h^2}{2} \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \pm \frac{h^3}{6} \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} + \mathcal{O}(k^2)\;.
+  \label{eq:taylor_u_x_h}
+\end{equation}
+
+En injectant les Equations~\ref{eq:taylor_u_t_k} et~\ref{eq:taylor_u_x_h} dans
+l'expression de l'erreur de troncature (Equation~\ref{eq:erreur_troncature}) on
+obtient:
+
+\begin{multline}
+  \tau_{i,j} = \frac{1}{k} \left (u(x_{\textsl{i}},t_{\textsl{j}}) (1-bk-A-B-C) + \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} (-ak -Ah + Ch) \right.\\
+   \left. + \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \left (Dk - \frac{A h^2}{2} - \frac{C h^2}{2} \right ) + \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \left (-\frac{Ah^3}{6} + \frac{C h^3}{6} \right )  \right ) + \mathcal{O}(k^2)\;.
+\end{multline}
 
 \section{Comparez vitesse de groupe numérique avec celle du système original. Le schéma est-il dispersif?}
 
