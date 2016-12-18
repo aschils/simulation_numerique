@@ -919,6 +919,7 @@ on a:
 
 \begin{equation}
   \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial t} = D \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} - a \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} - b u(x_{\textsl{i}},t_{\textsl{j}}) \;.
+  \label{eq:adv_isole_der_par_rap_temps}
 \end{equation}
 
 Dès lors,
@@ -931,7 +932,7 @@ Dès lors,
 Par ailleurs,
 
 \begin{equation}
-  u(x_{\textsl{i}} \pm h,t_{\textsl{j}}) = u(x_{\textsl{i}},t_{\textsl{j}}) \pm h \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} + \frac{h^2}{2} \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \pm \frac{h^3}{6} \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} + \mathcal{O}(k^2)\;.
+  u(x_{\textsl{i}} \pm h,t_{\textsl{j}}) = u(x_{\textsl{i}},t_{\textsl{j}}) \pm h \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} + \frac{h^2}{2} \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \pm \frac{h^3}{6} \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} + \mathcal{O}(h^4)\;.
   \label{eq:taylor_u_x_h}
 \end{equation}
 
@@ -941,7 +942,7 @@ obtient:
 
 \begin{multline}
   \tau_{i,j} = \frac{1}{k} \left (u(x_{\textsl{i}},t_{\textsl{j}}) (1-bk-A-B-C) + \frac{\partial u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x} (-ak -Ah + Ch) \right.\\
-   \left. + \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \left (Dk - \frac{A h^2}{2} - \frac{C h^2}{2} \right ) + \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \left (-\frac{Ah^3}{6} + \frac{C h^3}{6} \right )  \right ) + \mathcal{O}(k^2)\;.
+   \left. + \frac{\partial^2 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^2} \left (Dk - \frac{A h^2}{2} - \frac{C h^2}{2} \right ) + \frac{\partial^3 u(x_{\textsl{i}},t_{\textsl{j}})}{\partial x^3} \left (-\frac{Ah^3}{6} + \frac{C h^3}{6} \right )  \right ) + \mathcal{O}(k^2+h^4)\;.
    \label{eq:tau_isole}
 \end{multline}
 
@@ -1018,12 +1019,71 @@ comme cela est prédit par l'Equation~\ref{eq:terme_diffusion_numerique} (voir F
   \label{eq:expl_diff_num}
 \end{figure}
 
-
-%Si on considère $a$ et $D$ comme des constantes, l'ordre de grandeur relatif
-%entre diffusion numérique et diffusion modélisée explicitement est donc $\mathcal{O} \left (h^3 \right )$.
-
 L'autre terme de l'erreur de troncature à l'ordre considéré, qui fait intervenir une dérivée troisième
 en $x$, introduira lui un effet de dispersion.
+
+\subsection*{Schéma implicite}
+
+Une démarche similaire peut-être effectuée pour le schéma implicite. Celui-ci
+a la forme:
+
+\begin{equation}
+  U_{\textsl{i},\textsl{j}} = A U_{\textsl{i+1},\textsl{j+1}} +  B U_{\textsl{i},\textsl{j+1}} + C U_{\textsl{i-1},\textsl{j+1}}\;.
+\end{equation}
+
+Ou encore,
+
+\begin{equation}
+u(x_{\textsl{i}}, t_{\textsl{j}}) = A u(x_{\textsl{i}}+h, t_{\textsl{j}}+k) + B u(x_{\textsl{i}}, t_{\textsl{j}}+k) + C u(x_{\textsl{i}}-h, t_{\textsl{j}}+k) + k \tau_{i,j}\;.
+\end{equation}
+
+Dès lors en isolant $\tau_{i,j}$ on a:
+
+\begin{equation}
+\tau_{i,j} = \frac{1}{k} \left ( u(x_{\textsl{i}}, t_{\textsl{j}}) - A u(x_{\textsl{i}}+h, t_{\textsl{j}}+k) - B u(x_{\textsl{i}}, t_{\textsl{j}}+k) - C u(x_{\textsl{i}}-h, t_{\textsl{j}}+k) \right ) \;.
+\end{equation}
+
+On peut remplacer $u(x_{\textsl{i}}, t_{\textsl{j}})$ par un développement en série:
+
+\begin{equation}
+  u(x_{\textsl{i}}, t_{\textsl{j}}) = u(x_{\textsl{i}}, t_{\textsl{j}}+k)
+  -k \frac{\partial u(x_{\textsl{i}}, t_{\textsl{j}}+k)}{\partial t} + ...\;.
+\end{equation}
+
+En remplaçant la dérivée par rapport au temps par l'Equation~\ref{eq:adv_isole_der_par_rap_temps} on a:
+
+\begin{equation}
+  u(x_{\textsl{i}}, t_{\textsl{j}}) = u(x_{\textsl{i}}, t_{\textsl{j}}+k)
+  -k \left ( D \frac{\partial^2 u(x_{\textsl{i}}, t_{\textsl{j}}+k)}{\partial x^2} - a \frac{\partial u(x_{\textsl{i}}, t_{\textsl{j}}+k)}{\partial x} -b u(x_{\textsl{i}}, t_{\textsl{j}}+k) \right ) + ...\;.
+\end{equation}
+
+De plus, les termes $u(x_{\textsl{i}}+h, t_{\textsl{j}}+k)$ et $u(x_{\textsl{i}}-h, t_{\textsl{j}}+k)$
+sont remplacés par un développement de Taylor similaire à l'Equation~\ref{eq:taylor_u_x_h}.
+On obtient alors:
+
+\begin{multline}
+  \tau_{i,j} = \frac{1}{k} \left (u(x_{\textsl{i}}, t_{\textsl{j}}+k) (1+kb-A-B-C) + \frac{\partial u(x_{\textsl{i}}, t_{\textsl{j}}+k)}{\partial x}  ( ka -Ah +Ch ) \right. \\
+  \left. + \frac{\partial^2 u(x_{\textsl{i}}, t_{\textsl{j}}+k)}{\partial x^2} \left (-kD - \frac{A h^2}{2} - \frac{Ch^2}{2} \right ) + \frac{\partial^3 u(x_{\textsl{i}}, t_{\textsl{j}}+k)}{\partial x^3}  \left (-\frac{A h^3}{6} + \frac{Ch^3}{6} \right ) \right )\;.
+\end{multline}
+
+Pour notre schéma implicite on a $A = \lambda_a - \lambda_d$, $B = 1+2\lambda_d + \lambda_b-\lambda_a$ et $C=-\lambda_d$.
+En injectant ces valeurs, les termes en $u$ et en derivée première de $u$ par rapport
+à $x$ se simplifient. Le terme de troncature devient donc:
+
+\begin{equation}
+  \tau_{i,j} = -\frac{h^2 \lambda_a}{2k} \left (\frac{\partial^2 u(x_{\textsl{i}}, t_{\textsl{j}}+k)}{\partial x^2} + \frac{h}{3} \frac{\partial^3 u(x_{\textsl{i}}, t_{\textsl{j}}+k)}{\partial x^3}  \right )\;.
+\end{equation}
+
+On obtient donc un terme de diffusion numérique identique en valeur absolue,
+mais de signe opposé, à celui obtenu pour la méthode explicite. Son ordre
+de grandeur en valeur absolue par rapport au terme de diffusion explicitement
+modélisée est donc le même que pour la méthode explicite. La différence de signe
+va induire un effet inverse de diffusion numérique par rapport à la méthode
+explicite. Lorsque les paramètres sont tels que la diffusion numérique de la
+méthode explicite induit une plus grande amplitude de la solution numérique par
+rapport à la solution analytique, la diffusion numérique de la méthode implicite
+aura tendance à diminuer l'amplitude par rapport à la solution analytique.
+
 
 \section{Comparez vitesse de groupe numérique avec celle du système original. Le schéma est-il dispersif?}
 
@@ -1101,7 +1161,7 @@ Ce qui est cohérent avec notre système originel qui est non dispersif $v_{g} =
 %\section*{Conclusion}
 
 \part{Prédictibilité}
-
+\setcounter{section}{0}
 
 \section*{Introduction}
 
