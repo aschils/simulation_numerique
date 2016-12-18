@@ -2,16 +2,16 @@
 %a=25;
 a=25;
 %b=1;
-b=5;
+b=1;
 %D=1;
-D=5;
+D=1;
 
 l=1; %longueur du domaine 0 < x < l 
 ha = 0.01; %pas d'espace
 h = 0.01; %pas d'espace
 xa = linspace(0,l,l/ha+1);
 x = linspace(0,l,l/h+1);
-t_end = 0.01;
+t_end = 0.003;
 ka = 0.00001; %pas de temps
 k = 0.00001; %pas de temps
 
@@ -50,9 +50,10 @@ show_plot = 0;
 is_stable_expl( a,b,D,h,k )
 
 u_a = plot_asol(a,b,D,l,xa,t_end,ka,m_end,g,plot_break_time,show_plot);
-u_e = plot_nsol_expl(a,b,D,x,t_end,h,k,g,plot_break_time,show_plot);
+%u_e = plot_nsol_expl(a,b,D,x,t_end,h,k,g,plot_break_time,show_plot);
 %u_i = plot_nsol_impl(a,b,D,x,t_end,h,k,g,plot_break_time,show_plot);
+u_lw = plot_lax_wendroff(a,b,D,x,t_end,h,k,g,plot_break_time,show_plot);
 
-plot(xa,u_a,x,u_e)
+plot(xa,u_a,x,u_lw)
 
 
