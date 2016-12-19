@@ -1297,9 +1297,123 @@ schémas implicite et explicite précédents (voir Figures~\ref{fig:lax_wendroff
 %\section*{Introduction}
 
 
-\section{Exercice 1: Essayer avec différentes conditions initiales.
+\section{Essayer avec différentes conditions initiales.
 Qu'est-ce qui est particulier à la condition initiale choise dans l'exemple
 précédent?}
+
+Une fonction \code{exercice1(i,x0)} a été implémentée en Matlab (qui utilise
+des nombres flottants à double précision par défaut, i.e. codés sur 64bits). Celle-ci
+renvoie le vecteur des $x0,x1,...,x_i$. Les différents éléments du vecteur
+sont calculés à l'aide de la relation de récurrence:
+
+\begin{equation}
+  x_{i+1} = \left \{
+  \begin{aligned}
+    2x_i, \text{ si } x_i \le 0.5\\
+    2-2x_i, \text{ si } x_i > 0.5 \;.
+  \end{aligned} \right.
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/0dot01_x_i_x_i_plus_1.png}
+        %\label{fig:TODO}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/0dot01_i_x_i.png}
+        %\label{fig:TODO}
+    \end{minipage}
+    \caption{Condition initiale $x_0 = 0.01$.}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/0dot0000001_x_i_x_i_plus_1.png}
+        %\label{fig:TODO}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/0dot0000001_i_x_i.png}
+        %\label{fig:TODO}
+    \end{minipage}
+    \caption{Condition initiale $x_0 = 0.0000001$.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/0dot5_x_i_x_i_plus_1.png}
+        %\label{fig:TODO}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/0dot5_i_x_i.png}
+        %\label{fig:TODO}
+    \end{minipage}
+    \caption{Condition initiale $x_0 = 0.5$.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/10_x_i_x_i_plus_1.png}
+        %\label{fig:TODO}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/10_i_x_i.png}
+        %\label{fig:TODO}
+    \end{minipage}
+    \caption{Condition initiale $x_0 = 10$.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/x0en_x_i_x_i_plus_1.png}
+        %\label{fig:TODO}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/x0en_i_x_i.png}
+        %\label{fig:TODO}
+    \end{minipage}
+    \caption{Condition initiale $x_0 = \pi/(2 \sqrt{5})$.}
+\end{figure}
+
+On constate qu'une fois l'élément $x_i = 0$ atteint, toutes les valeurs suivantes
+$x_j, j>i,$ sont également égales à zero. Ceci est facilement compréhensible
+en regardant la définition de la relation de récurrence: lorsque $x_i=0$
+on est coincé dans le premier cas, $x_i \le 0.5$.
+
+Par ailleurs, on voit que, pour $x_0 = \pi/(2 \sqrt{5})$,
+les $x_i$ tendent plus vite vers zéro en utilisant des flottants codés sur 64 bits
+(comme c'est le cas dans ce rapport) que en utilisant des flottants codés
+sur 128bits (comme c'est le cas dans les slides présentant l'énoncé de
+ce projet). Ceci est du au fait que avec moins de bits de précision, on
+arrivera plus rapidement aux limites de précision de chiffres derrière la virgule
+du nombre flottant. Un résultat de faible amplitude sera dès lors plus
+rapidement considéré comme étant zéro par l'ordinateur.
+
+La condition initiale $x_0 = \pi/(2 \sqrt{5})$ a de particulier que
+c'est un nombre irrationnel. C'est à dire que son développement décimal ne
+se termine jamais et ne se répète jamais. Il ne peut donc dans aucun cas
+être représenté de manière parfaite dans la mémoire d'un ordinateur qui a elle
+une capacité finie. Puisque $x_0$ est irrationnel cela implique que les $x_i$
+fournis par la formule de récurrence ont plus de chance d'être différents entre
+eux. En effet, si il y a peu de décimales, le schéma cyclique de la formule
+va impliquer que on aura le même $x_i$ pour différents $i$: $x_0=0.1, x_1 = 0.2,x_2 = 0.4,x_3 = 0.8, x_4=0.4, x_5=0.8,...$
+Au contraire, si il y a beaucoup de décimales (comme c'est le cas pour
+les nombres irrationnels), on aura de nombreux $x_i$ différents.
 
 \section{Calculer l'itération à la main, en représentation binaire.
 Que se passe-t-il si on utilise du real(16) ou real(32) ?}
