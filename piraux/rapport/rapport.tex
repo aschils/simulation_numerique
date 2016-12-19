@@ -1,0 +1,287 @@
+\documentclass{report}
+
+\usepackage[utf8]{inputenc} % saisie caractères accentués clavier
+\usepackage[T1]{fontenc} % police compatible français
+\usepackage{lmodern}
+\usepackage[francais]{babel} % caractères spéciaux en français
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{physics}
+
+\usepackage{graphicx}
+
+\renewcommand{\thepart}{\arabic{part}}
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesection}{\thepart.\arabic{section}}
+
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%   HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Université catholique de Louvain}\\[0.5cm] % Name of your university/college
+\textsc{\Large Ecole de physique}\\[1.5cm] % Major heading such as course name
+\textsc{\Large Simulation numérique en physique [\textsc{\normalsize LPHY2371}]}\\[0.5cm]
+ % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Méthodes spectrales}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%   AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}[t]{0.6\textwidth}
+\begin{flushleft} \large
+\begin{tabbing}
+\emph{Auteurs:}\\
+Valéry \hspace{0.2cm}\= \textsc{Materne}\\ % Your name
+Arnaud \> \textsc{Schils}
+\end{tabbing}
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}[t]{0.6\textwidth}
+\begin{flushright} \large
+\emph{Enseignant:} \\
+Pr. Bernard \textsc{Piraux} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[1.5cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%   DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large Décembre 2016}\\[1.5cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%   LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\includegraphics[width=4cm]{Logo_UCL_SCIENCES.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+
+\part{Exercice d'introduction : 3 méthodes spectrales}
+
+\section{Introduction}
+Nous considérons l'équation différentielle suivante :
+
+\begin{equation}\label{eq:main}
+u_{xx} + u_x - 2u + 2= 0
+\end{equation}
+
+sur le domaine $-1\leq x \leq 1$ et avec les condition aux frontières $u(-1)=u(1)=0$.
+
+Nous souhaitons approximer la solution analytique exacte de cette équation différentielle :
+
+\begin{equation}
+u(x) = 1- \frac{\sinh(2)e^{x}+\sinh(1)e^{-2x}}{\sinh(3)}
+\end{equation}
+
+par un développement tronqué de polynôme de Tchebychev :
+
+\begin{equation}\label{eq:app}
+v(x) = \sum_{k=0}^N a_k T_k(x) \;.
+\end{equation}
+
+\section{propriété des polynômes de Tchebychev}
+
+Le polynôme de Tchebychev de degré $n$, $T_n(x)$, est défini par
+\begin{eqnarray}
+T_n(x) &=& \cos (n\arccos(x))\;,\\
+T_n(\pm1) &=& (\pm1)^n\;.
+\end{eqnarray}
+
+Relation d'orthogonalité :
+
+\begin{equation}
+\int_{-1}^{1} T_n T_m (1-x^2)^{-1/2} dx = \frac{\pi}{2} c_n \delta_{nm}
+\end{equation}
+avec $c_0=2$ et $c_n = 1$ pour $n>0$.
+
+Relations de récurrence :
+
+\begin{eqnarray}
+T_{n+1}(x) & = & 2xT_n(x) - T_{n-1}(x) \ \ \ \ \ , n \geq 1\;,\\
+2T_n (x) & = & \frac{T_{n+1}'(x)}{n+1} - \frac{T_{n-1}'(x)}{n-1} \ \ \ \ , n \geq 2\;.\label{eq:rec}
+\end{eqnarray}
+
+\section{Calcul des coefficients du développement du résidu}
+
+Nous injectons la série tronquée \eqref{eq:app} dans l'équation différentielle de départ \eqref{eq:main} et nous définissons le résultat comme le résidu. Nous le redéfinissons selon une nouvelle série tronquée de polynôme de Tchebychev:
+
+\begin{eqnarray}
+R(x) & = & v_{xx} + v_x - 2v + 2 \\
+& = & \sum_{k=0}^N A_{k} T_{k}(x)\;. \label{eq:reste}
+\end{eqnarray}
+
+Nous calculons ensuite ces nouveaux coefficients $A_{k}$ en fonction des $a_{k}$. Pour ce faire nous commençons par exprimer les dérivées de $v$ en fonction des polynômes de Tchebychev.
+
+On recherche les formes suivantes : 
+
+\begin{eqnarray}
+v_{x}(x) = \sum_{k=0}^N b_k T_k(x) \label{eq:vxb}\\
+v_{xx}(x) = \sum_{k=0}^N c_k T_k(x) \\
+\end{eqnarray}
+
+Pour ce faire, on part de l'équation \eqref{eq:app}, on a :
+
+\begin{equation}
+v_{x}(x) = \sum_{k=0}^N a_k T_{k}'(x)\;.\label{eq:vxa}
+\end{equation}
+
+On doit trouver l'expression des $T_{k}'(x)$ en fonction des $T_{k}(x)$ pour $k>0$. Pour ce faire, on utilise la relation de récurrence \eqref{eq:rec}. Si on pose $k=n+1$, on obtient :
+
+\begin{equation}
+T_{k}'(x)  = k\left(2T_{k-1}(x)+\frac{T_{k-2}'(x)}{k-2}\right)\;.
+\end{equation}
+
+En la réinjectant dans son terme de droite, par récurrence, on obtient deux cas :
+
+\underline{k impair}
+\begin{equation}
+T_{k}'(x)  = 2k\left(T_{k-1}(x)+T_{k-3}(x)+\cdots+T_{4}(x)+T_{2}(x)+T_{0}(x)/2\right)\;,\label{eq:kimpair}
+\end{equation}
+
+\underline{k pair} 
+
+\begin{equation}
+T_{k}'(x)  = 2k\left(T_{k-1}(x)+T_{k-3}(x)+\cdots+T_{5}(x)+T_{3}(x)+T_{1}(x)\right)\;.\label{eq:kpair}
+\end{equation}
+
+On a donc
+
+\begin{equation}
+\begin{pmatrix}
+ b_{0}\\ 
+ b_{1}\\ 
+ \vdots\\ 
+ b_{N-1}\\ 
+ b_{N}
+\end{pmatrix} 
+= D \cdot \begin{pmatrix}
+ a_0\\ 
+ a_1\\ 
+ \vdots\\ 
+ a_{N-1}\\ 
+ a_{N}
+\end{pmatrix}
+\end{equation}
+
+où $D$ est la matrice dérivée.
+
+On va maintenant définir cette matrice. En égalant les équations \eqref{eq:vxb} et \eqref{eq:vxa} et en remplaçant les expressions de $T_{k}'(x)$ par \eqref{eq:kimpair} et \eqref{eq:kpair}, on obtient les valeurs de $b_{k}$ suivantes :
+
+\underline{k impair} 
+
+\begin{equation}
+b_{k} = 2\sum_{n=k-1}^{\frac{N-1}{2}}(2n)a_{2n} \;, \\\\\ si \ N \ est \ impair
+\end{equation}
+
+\begin{equation}
+b_{k} = 2\sum_{n=k-1}^{\frac{N}{2}-1}(2n) a_{2n} \;, \\\\\ si \ N \ est \ pair
+\end{equation}
+
+
+\underline{k pair} 
+
+ $k\geq2$
+\begin{equation}\label{eq:bpairNimpair}
+b_{k} = 2\sum_{n=k/2}^{\frac{N-1}{2}}(2n+1)a_{2n+1} \;, \\\\\ si \ N \ est \ impair
+\end{equation}
+
+\begin{equation}\label{eq:bpairNpair}
+b_{k} = 2\sum_{n=k/2}^{\frac{N}{2}-1}(2n+1)a_{2n+1} \;, \\\\\ si \ N \ est \ pair
+\end{equation}
+
+Pour le cas $k=0$, $b_{0}$ est égal à la moitié de \eqref{eq:bpairNimpair} ou \eqref{eq:bpairNpair} selon la parité de $N$.
+
+Il est maintenant possible de définir les éléments de matrice $D$ :
+
+\begin{equation}
+d_{ij} = 2j\alpha_{i}\beta_{ij}\gamma_{ij} \;, 
+\end{equation}
+
+avec
+
+\begin{align}
+\alpha_{i} &= 
+  \begin{cases}
+    \frac{1}{2} & \text{si $i =0$} \\
+1 & \text{sinon}
+  \end{cases}\;,\\
+\beta_{ij} &=
+  \begin{cases}
+    1 & \text{si i et j sont de parité opposée}\\
+0 & \text{sinon}
+  \end{cases}\;,\\
+ \gamma_{ij} &=
+  \begin{cases}
+    1 & \text{si i < j}\\
+   0 & \text{sinon}
+  \end{cases}\;.
+\end{align}
+
+
+On a implémenté cette matrice dans Matlab, valide pour tout $N$, voici le cas $N=4$ :
+
+\begin{equation}
+\begin{pmatrix}
+0 & 1 & 0 & 3 & 0\\ 
+0 & 0 & 8 & 0 & 8\\ 
+0 & 0 & 0 & 6 & 0\\ 
+0 & 0 & 0 & 0 & 8\\ 
+0 & 0 & 0 & 0 & 0
+\end{pmatrix} \;.
+\end{equation}
+
+\section{Méthode Tau}
+
+\section{Méthode Galerkin}
+
+\section{Méthode Collocation}
+
+\section{Méthode aux différences finies}
+
+\section{Conclusion}
+
+\section{vais dormir}
+
+ \part{Exercice sur l'équation de Schrödinger}
+\setcounter{section}{0}
+ 
+\section{Introduction}
+
+
+\section{section 1}
+
+
+\section*{Conclusion}
+
+
+\end{document}
