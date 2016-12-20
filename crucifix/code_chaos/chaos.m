@@ -1,6 +1,6 @@
 
-x0 = pi/(2*sqrt(5));
-%x0 = -10;
+%x0 = pi/(2*sqrt(5));
+x0 = 0.1;
 i_max = 100;
 x = exercice1( i_max, x0 );
 
@@ -17,10 +17,10 @@ i = 0:i_max;
 scatter(i,x) %scatter(x_wo_last,x_shifted)
 xlabel('i')
 ylabel('x_i')
-print('../rapport/images/x0en_i_x_i.png', '-dpng')
+print('../rapport/images/x0_0dot1_i_x_i.png', '-dpng')
 
-scatter(x_wo_last,x_shifted)
-xlabel('x_i')
-ylabel('x_{i+1}')
-print('../rapport/images/x0en_x_i_x_i_plus_1.png', '-dpng')
+%scatter(x_wo_last,x_shifted)
+%xlabel('x_i')
+%ylabel('x_{i+1}')
+%print('../rapport/images/x0en_x_i_x_i_plus_1.png', '-dpng')
 
