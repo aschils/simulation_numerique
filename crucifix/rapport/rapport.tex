@@ -1450,6 +1450,40 @@ TODO
 \section{Reproduire l'attracteur de Lorenz et la figure précédente pour
 $\rho = 5, 10, 28, 45$. Quels sont les cas chaotiques ?}
 
+On doit résoudre le système d'équations:
+
+\begin{equation}
+\left \{
+\begin{aligned}
+    \frac{dx}{dt} = \sigma (y-x)\\
+    \frac{dy}{dt} = x(\rho-z)-y\\
+    \frac{dz}{dt} = xy-\beta z\;.
+\end{aligned}
+\right.
+\end{equation}
+
+Pour se faire on va simplement discrétiser ces équations en remplaçant
+les dérivées par rapport au temps par une différence finie avant. On
+obtient alors:
+
+\begin{equation}
+\left \{
+\begin{aligned}
+    x_{i+1} = \sigma k y_i + x_i (1- \sigma k)\\
+    y_{i+1} = x_i k (\rho-z_i) + y_i (1-k)\\
+    z_{i+1} = k x_i y_i + z_i (1-\beta k)
+\end{aligned}
+\right.
+\end{equation}
+
+où $k$ est le pas de temps. On trouve facilement les différents $x_i, y_i, z_i$
+avec une boucle sur le pas de temps et en se donnant une condition initiale
+$x_0, y_0$ et $z_0$. Les graphiques de gauche ci-dessous représentent
+le mouvement d'une particule suivant ces équations. Les graphiques de droite
+sont les $z_i$ maximums locaux en fonctions des $z_j$ maximums locaux qui les
+précèdent. Par exemple, si $z_2, z_5$ et $z_8$ sont maximums locaux, on aura
+les points $(z_2, z_5)$ et $(z_5, z_8)$ dans le graphique.
+
 \begin{figure}[H]
     \centering
     \begin{minipage}[t]{6cm}
