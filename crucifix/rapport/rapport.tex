@@ -1410,15 +1410,106 @@ se termine jamais et ne se répète jamais. Il ne peut donc dans aucun cas
 une capacité finie. Puisque $x_0$ est irrationnel cela implique que les $x_i$
 fournis par la formule de récurrence ont plus de chance d'être différents entre
 eux. En effet, si il y a peu de décimales, le schéma cyclique de la formule
-va impliquer que on aura le même $x_i$ pour différents $i$: $x_0=0.1, x_1 = 0.2,x_2 = 0.4,x_3 = 0.8, x_4=0.4, x_5=0.8,...$
+va impliquer que on aura le même $x_i$ pour différents $i$ (voir Figure~\ref{fig:predict_x0_0_dot_1}): $x_0=0.1, x_1 = 0.2,x_2 = 0.4,x_3 = 0.8, x_4=0.4, x_5=0.8,...$
 Au contraire, si il y a beaucoup de décimales (comme c'est le cas pour
 les nombres irrationnels), on aura de nombreux $x_i$ différents.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{images/x0_0dot1_i_x_i.png}
+    \caption{Condition initiale $x_0 = 0.1$.}
+    \label{fig:predict_x0_0_dot_1}
+\end{figure}
 
 \section{Calculer l'itération à la main, en représentation binaire.
 Que se passe-t-il si on utilise du real(16) ou real(32) ?}
 
+La représentation des nombres réels dans la mémoire physique de l'ordinateur dépend
+en fait du CPU et de son ALU (unité arithmétique et logique). Celle-ci est
+en effet conçue pour manipuler (additionner, multiplier, diviser, soustraire)
+des nombres réels (ou entiers) encodés dans une représentation binaire bien
+précise.
+
+Sur la plupart des ordinateurs, les nombres flottants sont représentés
+en binaire suivant la norme IEEE 754. Dans leur version en simple précision,
+ces nombres sont codés sur 32bits et sont dans la plupart des langages typés
+(C, Java, C++,...) désignés par le type \code{float}. La réprésentation en
+double précision est elle encodée sur 64bits et est habituellement désignée
+par le type \code{double}.
+
+Le problème est que certains réels ne sont pas représentés parfaitement
+par un \code{float}. Par exemple, le réel $0.1$ en \code{float} devient
+$0.10000000149011612$ une fois casté en \code{double}. Il y a donc
+incertitude sur les décimales du nombre qui ne peuvent être représentées.
+On comprend donc que, par exemple, l'opération $10000 \times 0.1$ pourrait
+donner comme résultat $1000$ ou $1000.00001$, les deux résultats étant valides
+par rapport à la précision considérée sur le réel.
+
+TODO
+
 \section{Reproduire l'attracteur de Lorenz et la figure précédente pour
 $\rho = 5, 10, 28, 45$. Quels sont les cas chaotiques ?}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/lorenz5.png}
+        %\label{fig:TODO}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/lorenz_m_5.png}
+        %\label{fig:TODO}
+    \end{minipage}
+    \caption{Condition initiale $x_0 = 10, y_0 = 10, z_0=1$. Paramètres $\sigma=10, \beta=8/3, \rho=5$, $k=0.01$ et $t=50$.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/lorenz10.png}
+        %\label{fig:TODO}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/lorenz_m_10.png}
+        %\label{fig:TODO}
+    \end{minipage}
+    \caption{Condition initiale $x_0 = 10, y_0 = 10, z_0=1$. Paramètres $\sigma=10, \beta=8/3, \rho=10$, $k=0.01$ et $t=50$.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/lorenz28.png}
+        %\label{fig:TODO}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/lorenz_m_28.png}
+        %\label{fig:TODO}
+    \end{minipage}
+    \caption{Condition initiale $x_0 = 10, y_0 = 10, z_0=1$. Paramètres $\sigma=10, \beta=8/3, \rho=28$, $k=0.01$ et $t=50$.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/lorenz45.png}
+        %\label{fig:TODO}
+    \end{minipage}\hspace{1cm}
+    \begin{minipage}[t]{6cm}
+        \centering
+        \includegraphics[width=6cm]{images/lorenz_m_45.png}
+        %\label{fig:TODO}
+    \end{minipage}
+    \caption{Condition initiale $x_0 = 10, y_0 = 10, z_0=1$. Paramètres $\sigma=10, \beta=8/3, \rho=45$, $k=0.01$ et $t=50$.}
+\end{figure}
+
 
 \section{Quel est le plus grand coefficient de Lyaponov dans le cas de la
 décroissance radioactive $\dot{x} = -kx$?}
