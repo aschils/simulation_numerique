@@ -38,9 +38,11 @@ t_end = 50;
 k = 0.01;
 
 rho_v = [5 10 28 45];
+%rho_v = 28;
 
 for rho=rho_v
 
+    %plot Lorenz
     [x,y,z] = exercice3( x0,y0,z0,M,sigma,rho,beta,k,t_end);
     plot3(y,x,z)
     comet3(x,y,z)
@@ -51,5 +53,33 @@ for rho=rho_v
     file_path = strcat('../rapport/images/lorenz',num2str(rho));
     file_path = strcat(file_path, '.png');
     print(file_path, '-dpng')
+    
+    %Plot max z+1 vs max z
+    N = t_end/k+1;
+    is_max_local_z = zeros(N,1);
+    for i=2:(N-1)
+        is_max_local_z(i,1) = z(i-1,1) < z(i,1) && z(i,1) > z(i+1,1);
+    end
 
+    max_z_v = z(logical(is_max_local_z))';
+    max_z_v_shifted = max_z_v(2:length(max_z_v));
+    max_z_v = max_z_v(1:length(max_z_v)-1);
+    scatter(max_z_v,max_z_v_shifted);
+    xlabel('M_n');
+    ylabel('M_{n+1}');
+    file_path = strcat('../rapport/images/lorenz_m_',num2str(rho));
+    file_path = strcat(file_path, '.png');
+    print(file_path, '-dpng')
 end
+
+N = t_end/k+1;
+is_max_local_z = zeros(N,1);
+
+for i=2:(N-1)
+    is_max_local_z(i,1) = z(i-1,1) < z(i,1) && z(i,1) > z(i+1,1);
+end
+
+max_z_v = z(logical(is_max_local_z))'
+max_z_v_shifted = max_z_v(2:length(max_z_v));
+max_z_v = max_z_v(1:length(max_z_v)-1);
+scatter(max_z_v,max_z_v_shifted); 
