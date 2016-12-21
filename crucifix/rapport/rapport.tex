@@ -1428,7 +1428,8 @@ Que se passe-t-il si on utilise du real(16) ou real(32) ?}
 La représentation des nombres réels dans la mémoire physique de l'ordinateur dépend
 en fait du CPU et de son ALU (unité arithmétique et logique). Celle-ci est
 en effet conçue pour manipuler (additionner, multiplier, diviser, soustraire)
-des nombres réels (ou entiers) encodés dans une représentation binaire bien
+des nombres flottants (c'est à dire des nombres réels dans leur représentation
+informatique sur un nombre fini de bits) ou entiers encodés dans une représentation binaire bien
 précise.
 
 Sur la plupart des ordinateurs, les nombres flottants sont représentés
@@ -1447,30 +1448,30 @@ par le type \code{double}.
 %par rapport à la précision considérée sur le réel.
 
 Dans le cadre de cette analyse, on considère la représentation simplifiée où
-le premier bit correspond à l'exposant $0$ de $2$, le deuxième à l'exposant $-1$
-de 2 et ainsi de suite.
+le premier bit correspond à l'exposant $1$ de $2$, le deuxième à l'exposant $0$
+de $2$, le troisième à l'exposant $-1$ de $2$ et ainsi de suite.
 Dès lors, pour la représentation d'un réel sur 16 bits on a:
 
 \begin{equation}
-x_i = \sum_{i=0}^{i=15} a_i 2^{-i}
+x_i = \sum_{i=-1}^{i=14} a_i 2^{-i}
 \end{equation}
 
 où les coefficients $a_i$ peuvent prendre la valeur $0$ ou $1$. Si on
-applique à cette définition la formule de récurrence~\ref{eq:chaos_rec}
+applique à cette définition la formule de récurrence (Equation~\ref{eq:chaos_rec})
 on obtient, si $x_i \le 0.5$:
 
 \begin{equation}
-x_{i+1} = 2 \sum_{i=0}^{i=15} a_i 2^{-i} = \sum_{i=0}^{i=15} a_i 2^{-(i-1)} = \sum_{i=0}^{i=14} a_{i+1} 2^{-i}\;.
+x_{i+1} = 2 \sum_{i=-1}^{i=14} a_i 2^{-i} = \sum_{i=-1}^{i=14} a_i 2^{-(i-1)} = \sum_{i=-1}^{i=13} a_{i+1} 2^{-i}\;.
 \end{equation}
 
 On voit donc que le nombre binaire a été shifté vers la gauche (une multiplication
-par deux en binaire est en effet équivalent à un shift du nombre binaire vers
-la gauche). Dès, lors on perd le bit qui était initialement tout à gauche
+par deux en binaire est en effet équivalente à un shift du nombre binaire vers
+la gauche). Dès lors, on perd le bit qui était initialement tout à gauche
 puisque le nombre est codé sur un nombre fini de bits. Par ailleurs un zéro
-s'ajoute à la droite du nombre binaire. Si $x_i > 0.5$ on obtient:
+s'ajoute à la droite du nombre binaire ($a_{14} = 0$). Si $x_i > 0.5$ on obtient:
 
 \begin{equation}
-x_{i+1} = 2-\sum_{i=0}^{i=14} a_{i+1} 2^{-i}\;.
+x_{i+1} = 2-\sum_{i=-1}^{i=13} a_{i+1} 2^{-i}\;.
 \end{equation}
 
 L'opération $2-$ revient à inverser tous les bits derrière la virgule
