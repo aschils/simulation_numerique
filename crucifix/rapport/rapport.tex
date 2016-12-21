@@ -1311,6 +1311,7 @@ sont calculés à l'aide de la relation de récurrence:
     2x_i, \text{ si } x_i \le 0.5\\
     2-2x_i, \text{ si } x_i > 0.5 \;.
   \end{aligned} \right.
+  \label{eq:chaos_rec}
 \end{equation}
 
 \begin{figure}[H]
@@ -1437,15 +1438,48 @@ ces nombres sont codés sur 32bits et sont dans la plupart des langages typés
 double précision est elle encodée sur 64bits et est habituellement désignée
 par le type \code{double}.
 
-Le problème est que certains réels ne sont pas représentés parfaitement
-par un \code{float}. Par exemple, le réel $0.1$ en \code{float} devient
-$0.10000000149011612$ une fois casté en \code{double}. Il y a donc
-incertitude sur les décimales du nombre qui ne peuvent être représentées.
-On comprend donc que, par exemple, l'opération $10000 \times 0.1$ pourrait
-donner comme résultat $1000$ ou $1000.00001$, les deux résultats étant valides
-par rapport à la précision considérée sur le réel.
+%Le problème est que certains réels ne sont pas représentés parfaitement
+%par un \code{float}. Par exemple, le réel $0.1$ en \code{float} devient
+%$0.10000000149011612$ une fois casté en \code{double}. Il y a donc
+%incertitude sur les décimales du nombre qui ne peuvent être représentées.
+%On comprend donc que, par exemple, l'opération $10000 \times 0.1$ pourrait
+%donner comme résultat $1000$ ou $1000.00001$, les deux résultats étant valides
+%par rapport à la précision considérée sur le réel.
 
-TODO
+Dans le cadre de cette analyse, on considère la représentation simplifiée où
+le premier bit correspond à l'exposant $0$ de $2$, le deuxième à l'exposant $-1$
+de 2 et ainsi de suite.
+Dès lors, pour la représentation d'un réel sur 16 bits on a:
+
+\begin{equation}
+x_i = \sum_{i=0}^{i=15} a_i 2^{-i}
+\end{equation}
+
+où les coefficients $a_i$ peuvent prendre la valeur $0$ ou $1$. Si on
+applique à cette définition la formule de récurrence~\ref{eq:chaos_rec}
+on obtient, si $x_i \le 0.5$:
+
+\begin{equation}
+x_{i+1} = 2 \sum_{i=0}^{i=15} a_i 2^{-i} = \sum_{i=0}^{i=15} a_i 2^{-(i-1)} = \sum_{i=0}^{i=14} a_{i+1} 2^{-i}\;.
+\end{equation}
+
+On voit donc que le nombre binaire a été shifté vers la gauche (une multiplication
+par deux en binaire est en effet équivalent à un shift du nombre binaire vers
+la gauche). Dès, lors on perd le bit qui était initialement tout à gauche
+puisque le nombre est codé sur un nombre fini de bits. Par ailleurs un zéro
+s'ajoute à la droite du nombre binaire. Si $x_i > 0.5$ on obtient:
+
+\begin{equation}
+x_{i+1} = 2-\sum_{i=0}^{i=14} a_{i+1} 2^{-i}\;.
+\end{equation}
+
+L'opération $2-$ revient à inverser tous les bits derrière la virgule
+du nombre. On comprend donc qu'à chaque cycle de la formule de récurrence,
+on perd un bit de précision à cause de la multiplication par deux. Après
+maximum 16 cycles (c'est à dire après être passé 16 fois par la même
+valeur lors de la récurrence) $x_i$ deviendra zéro. Si on utilise
+des réels codés sur 32 bits suivant notre représentation simplifiée,
+cela permettra d'étendre cette limite à 32 cycles.
 
 \section{Reproduire l'attracteur de Lorenz et la figure précédente pour
 $\rho = 5, 10, 28, 45$. Quels sont les cas chaotiques ?}
@@ -1528,6 +1562,10 @@ les points $(z_2, z_5)$ et $(z_5, z_8)$ dans le graphique.
     \end{minipage}
     \caption{Condition initiale $x_0 = 10, y_0 = 10, z_0=1$. Paramètres $\sigma=10, \beta=8/3, \rho=28$, $k=0.01$ et $t=50$.}
 \end{figure}
+
+Un système est chaotique si une légère modification de ses conditions
+initiales engendre une solution très différente aux équations. Et donc
+dans ce cas des trajectoires fortement différentes pour la particule.
 
 \begin{figure}[H]
     \centering
