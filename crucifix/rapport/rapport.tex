@@ -1302,7 +1302,8 @@ précédent?}
 
 Une fonction \code{exercice1(i,x0)} a été implémentée en Matlab (qui utilise
 des nombres flottants à double précision par défaut, i.e. codés sur 64bits). Celle-ci
-renvoie le vecteur des $x0,x1,...,x_i$. Les différents éléments du vecteur
+renvoie le vecteur des $x0,x1,...,x_i$. La valeur $x_i$ est comprise dans
+l'intervalle $[0,1]$. Les différents éléments du vecteur
 sont calculés à l'aide de la relation de récurrence:
 
 \begin{equation}
@@ -1360,20 +1361,20 @@ sont calculés à l'aide de la relation de récurrence:
     \caption{Condition initiale $x_0 = 0.5$.}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[t]{6cm}
-        \centering
-        \includegraphics[width=6cm]{images/10_x_i_x_i_plus_1.png}
+%\begin{figure}[H]
+%    \centering
+%    \begin{minipage}[t]{6cm}
+%        \centering
+%        \includegraphics[width=6cm]{images/10_x_i_x_i_plus_1.png}
         %\label{fig:TODO}
-    \end{minipage}\hspace{1cm}
-    \begin{minipage}[t]{6cm}
-        \centering
-        \includegraphics[width=6cm]{images/10_i_x_i.png}
+%    \end{minipage}\hspace{1cm}
+%    \begin{minipage}[t]{6cm}
+%        \centering
+%        \includegraphics[width=6cm]{images/10_i_x_i.png}
         %\label{fig:TODO}
-    \end{minipage}
-    \caption{Condition initiale $x_0 = 10$.}
-\end{figure}
+%    \end{minipage}
+%    \caption{Condition initiale $x_0 = 10$.}
+%\end{figure}
 
 \begin{figure}[H]
     \centering
