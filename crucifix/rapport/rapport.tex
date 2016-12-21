@@ -1564,10 +1564,6 @@ les points $(z_2, z_5)$ et $(z_5, z_8)$ dans le graphique.
     \caption{Condition initiale $x_0 = 10, y_0 = 10, z_0=1$. Paramètres $\sigma=10, \beta=8/3, \rho=28$, $k=0.01$ et $t=50$.}
 \end{figure}
 
-Un système est chaotique si une légère modification de ses conditions
-initiales engendre une solution très différente aux équations. Et donc
-dans ce cas des trajectoires fortement différentes pour la particule.
-
 \begin{figure}[H]
     \centering
     \begin{minipage}[t]{6cm}
@@ -1582,6 +1578,40 @@ dans ce cas des trajectoires fortement différentes pour la particule.
     \end{minipage}
     \caption{Condition initiale $x_0 = 10, y_0 = 10, z_0=1$. Paramètres $\sigma=10, \beta=8/3, \rho=45$, $k=0.01$ et $t=50$.}
 \end{figure}
+
+Un système est chaotique si une légère modification de ses conditions
+initiales engendre une solution très différente aux équations. Et donc
+dans ce cas des trajectoires fortement différentes pour la particule.
+Pour déterminer si ces systèmes sont chaotiques analysons les solutions
+pour une condition initiale légèrement différente ($x_0 = 12, y_0 = 12, z_0=3$).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.7]{images/lorenz_condin2_5.png}
+  \caption{Condition initiale $x_0 = 12, y_0 = 12, z_0=3$. Paramètres $\sigma=10, \beta=8/3, \rho=5$, $k=0.01$ et $t=50$.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.7]{images/lorenz_condin2_10.png}
+  \caption{Condition initiale $x_0 = 12, y_0 = 12, z_0=3$. Paramètres $\sigma=10, \beta=8/3, \rho=10$, $k=0.01$ et $t=50$.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.7]{images/lorenz_condin2_28.png}
+  \caption{Condition initiale $x_0 = 12, y_0 = 12, z_0=3$. Paramètres $\sigma=10, \beta=8/3, \rho=28$, $k=0.01$ et $t=50$.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.7]{images/lorenz_condin2_45.png}
+  \caption{Condition initiale $x_0 = 12, y_0 = 12, z_0=3$. Paramètres $\sigma=10, \beta=8/3, \rho=45$, $k=0.01$ et $t=50$.}
+\end{figure}
+
+On observe que les cas $\rho=5$ et $\rho=10$ sont très proches pour les
+deux conditions initiales. Les cas $\rho=28$ et $\rho=45$ présentent
+eux un caractère chaotique.
 
 
 \section{Quel est le plus grand coefficient de Lyaponov dans le cas de la
