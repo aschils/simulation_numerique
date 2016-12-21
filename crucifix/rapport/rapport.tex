@@ -1429,16 +1429,18 @@ Que se passe-t-il si on utilise du real(16) ou real(32) ?}
 La représentation des nombres réels dans la mémoire physique de l'ordinateur dépend
 en fait du CPU et de son ALU (unité arithmétique et logique). Celle-ci est
 en effet conçue pour manipuler (additionner, multiplier, diviser, soustraire)
-des nombres flottants (c'est à dire des nombres réels dans leur représentation
-informatique sur un nombre fini de bits) ou entiers encodés dans une représentation binaire bien
-précise.
+des nombres flottants (des réels sur un nombre fini de bits).
+
+%selon (c'est à dire des nombres réels dans leur représentation
+%informatique sur un nombre fini de bits) ou entiers encodés dans une %représentation binaire bien
+%précise.
 
 Sur la plupart des ordinateurs, les nombres flottants sont représentés
 en binaire suivant la norme IEEE 754. Dans leur version en simple précision,
 ces nombres sont codés sur 32bits et sont dans la plupart des langages typés
-(C, Java, C++,...) désignés par le type \code{float}. La réprésentation en
+(C, Java, C++,...) désignés par le type \code{float}. La représentation en
 double précision est elle encodée sur 64bits et est habituellement désignée
-par le type \code{double}.
+par le type \code{double}. Matlab utilise par défaut des nombres flottants en double précision.
 
 %Le problème est que certains réels ne sont pas représentés parfaitement
 %par un \code{float}. Par exemple, le réel $0.1$ en \code{float} devient
@@ -1448,40 +1450,32 @@ par le type \code{double}.
 %donner comme résultat $1000$ ou $1000.00001$, les deux résultats étant valides
 %par rapport à la précision considérée sur le réel.
 
-Dans le cadre de cette analyse, on considère la représentation simplifiée où
-le premier bit correspond à l'exposant $1$ de $2$, le deuxième à l'exposant $0$
-de $2$, le troisième à l'exposant $-1$ de $2$ et ainsi de suite.
-Dès lors, pour la représentation d'un réel sur 16 bits on a:
-
+Dans le cadre de notre analyse, on considère la représentation simplifiée binaire où le premier bit correspond à la plus grande puissance de $2$ du nombre représenté et le dernier à sa plus petite. On représente donc un nombre réel par :
+%sur 16 bits
 \begin{equation}
-x_i = \sum_{i=-1}^{i=14} a_i 2^{-i}
+x_i = \sum_{i=N}^{N+n-1} a_i 2^{-i}
 \end{equation}
 
-où les coefficients $a_i$ peuvent prendre la valeur $0$ ou $1$. Si on
-applique à cette définition la formule de récurrence (Equation~\ref{eq:chaos_rec})
-on obtient, si $x_i \le 0.5$:
+où $-N$ est la plus grande puissance de $2$, $n$ est le nombre de bits affectés à la représentation du nombre  et les coefficients $a_i$ peuvent prendre la valeur $0$ ou $1$. Si on applique à cette définition la formule de récurrence \eqref{eq:chaos_rec}, on doit traiter deux cas.
+
+\paragraph{Si $x_i \le 0.5$ :}
 
 \begin{equation}
-x_{i+1} = 2 \sum_{i=-1}^{i=14} a_i 2^{-i} = \sum_{i=-1}^{i=14} a_i 2^{-(i-1)} = \sum_{i=-1}^{i=13} a_{i+1} 2^{-i}\;.
+x_{i+1} = 2 \sum_{i=N}^{N+n-1} a_i 2^{-i} = \sum_{i=N}^{N+n-1} a_i 2^{-(i-1)} = \sum_{i=N}^{N+n-2} a_{i+1} 2^{-i}+0 \cdot 2^{N+n-1}\;.
 \end{equation}
 
-On voit donc que le nombre binaire a été shifté vers la gauche (une multiplication
-par deux en binaire est en effet équivalente à un shift du nombre binaire vers
-la gauche). Dès lors, on perd le bit qui était initialement tout à gauche
-puisque le nombre est codé sur un nombre fini de bits. Par ailleurs un zéro
-s'ajoute à la droite du nombre binaire ($a_{14} = 0$). Si $x_i > 0.5$ on obtient:
+On voit donc qu'une multiplication par 2, en représentation binaire consiste en un décalage <<shift>> vers la gauche de tous les chiffres du nombre de départ. Comme le nombre est codé sur un nombre fini de bits, on rajoute un zéro à la droite de la représentation binaire du nombre.
+
+\paragraph{Si $x_i > 0.5$ :}
 
 \begin{equation}
-x_{i+1} = 2-\sum_{i=-1}^{i=13} a_{i+1} 2^{-i}\;.
+x_{i+1} = 2\left(1-\sum_{i=N}^{N+n-1} a_i 2^{-i}\right)\;.
 \end{equation}
 
-L'opération $2-$ revient à inverser tous les bits derrière la virgule
-du nombre. On comprend donc qu'à chaque cycle de la formule de récurrence,
-on perd un bit de précision à cause de la multiplication par deux. Après
-maximum 16 cycles (c'est à dire après être passé 16 fois par la même
-valeur lors de la récurrence) $x_i$ deviendra zéro. Si on utilise
-des réels codés sur 32 bits suivant notre représentation simplifiée,
-cela permettra d'étendre cette limite à 32 cycles.
+Où l'opération entre parenthèse consiste à inverser tous les bits après la virgule sauf le dernier 1. Ensuite l'opération de multiplication par $2$ est appliquée.
+
+L'opération de multiplication par $2$ à chaque itération de notre système dynamique, nous fait perdre un bit de précision. On comprends que la précision de notre modèle dépendra du nombre de bits utilisés pour décrire nos nombres réels.Pour un float16, le nombre de bits de la mantisse est de 10 alors que pour un float32, il est de 23. Il faudra donc 10 (23) itérations  en float16 (float32) pour que $x_{i}$ tende vers zéro. Plus le nombre de bits réservés pour la mantisse est petit plus notre système atteint la valeur zéro rapidement.
+
 
 \section{Reproduire l'attracteur de Lorenz et la figure précédente pour
 $\rho = 5, 10, 28, 45$. Quels sont les cas chaotiques ?}
