@@ -12,9 +12,12 @@ function [x,y,z] = exercice3( x0,y0,z0,M,sigma,rho,beta,k,t_end)
     
     for i=2:N
         prev_i = i-1;
-        x(i,:) = sigma*k*y(prev_i)+x(prev_i)*(1-sigma*k);
-        y(i,:) = x(prev_i)*k*(rho-z(prev_i))+y(prev_i)*(1-k);
-        z(i,:) = k*x(prev_i)*y(prev_i)+z(prev_i)*(1-beta*k);
+        %x(i,:) = sigma*k*y(prev_i)+x(prev_i)*(1-sigma*k);
+        %y(i,:) = x(prev_i)*k*(rho-z(prev_i))+y(prev_i)*(1-k);
+        %z(i,:) = k*x(prev_i)*y(prev_i)+z(prev_i)*(1-beta*k);
+        
+        [x(i,:),y(i,:),z(i,:)] = next_lorenz_pos(sigma,k,rho,beta,x(prev_i),y(prev_i),z(prev_i) );
+        
     end
 end
 
