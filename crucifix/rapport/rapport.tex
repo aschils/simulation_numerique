@@ -1612,6 +1612,50 @@ eux un caractère chaotique.
 \section{Quel est le plus grand coefficient de Lyaponov dans le cas de la
 décroissance radioactive $\dot{x} = -kx$?}
 
+Soit l'équation de décroissance radioactive:
+\begin{align}
+  \dot{x} =-kx\\
+  \frac{dx}{dt} =F(x,t) =-kx\;.%\\
+  %F(x,t) =-kx
+\end{align}
+
+L'opérateur linéaire tangent au premier ordre est:
+
+\begin{equation}\label{eq}
+\frac{d \delta x}{d t} = J(x,t) \delta x\;.
+\end{equation}
+
+Or $J(x,t)$ est le Jacobien:
+
+\begin{equation}
+J(x,t)= \sum_{i}\frac{\partial F}{\partial x_{i}}\;.
+\end{equation}
+
+
+On a donc pour l'équation de la décroissance radioactive :
+
+\begin{equation}
+J(x,t)= -k\;.
+\end{equation}
+
+A partir de l'Equation~\eqref{eq}, on a:
+
+\begin{equation}
+ \ln(\delta x) = -kt + \text{Constante}\;.
+\end{equation}
+
+On peut choisir les conditions initiales afin d'annuler la constante. On a donc:
+
+\begin{equation}
+\lambda_{max}= \lim_{t\rightarrow_{\infty}}\frac{1}{t} \ln(\delta x)=-k \lim_{t\rightarrow_{\infty}}\frac{t}{t}= -k\;.
+\end{equation}
+
+
+En effet, puisqu'on est dans un cas à une dimension,
+ $\delta \vec{x}= \delta x$ et  $\delta x = \left\|\delta x \right\|$ car
+ l'argument du logarithme est positif.
+
+
 \section{Estimer $\lambda_{max}$ pour $\rho=5,10,28,45$. Quels sont les cas
 chaotiques?}
 
