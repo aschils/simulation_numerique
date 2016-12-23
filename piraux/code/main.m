@@ -1,8 +1,13 @@
-N = 25;  % si on monte à 50, on a exactement la même valeur à 6 décimals donnée au cours pour E1
+N = 10;  % si on monte à 50, on obtient la 6ème décimale donnée au cours pour E1
 V0 = 3;
 alpha = 1;
-
+A0 = 1;
+omega = 1;
+K = 1;
+t0 = 0;
 H = zeros(N+1,N+1);
+
+%Schrödinger stationnaire
 
 for i = 1:N+1
     m = i-1;
@@ -14,8 +19,15 @@ end
 
 [V,D] = eig(H);
 % D : valeurs propres dans diagonale
-% V : vecteurs propres
+% V : vecteurs propres (V est la matrice des phi)
 E = sort(diag(D));
 format long
-E0 = E(1)
-E1 = E(2)
+E0 = E(1);
+E1 = E(2);
+
+%Schrödinger dépendant du temps
+
+%h_dip(A0, omega, K , t0)
+
+Imn(V,N)
+
