@@ -30,4 +30,3 @@ E1 = E(2);
 %h_dip(A0, omega, K , t0)
 
 Imn(V,N)
-

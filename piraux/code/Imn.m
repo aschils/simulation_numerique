@@ -1,19 +1,10 @@
-function [ S ] = Imn(V,N)
 
-for i= 1:N+1
-    m = i-1;
-    for j = 1:N+1
-        n = j-1;
-        if 0 < m < N
-        S(i,j) = sqrt((m+1)/2)*V(:,m)'*V(:,m+1)-sqrt(0.5*m)*V(:,m)'*V(:,m-1);
-        elseif m == 0
-            S(i,j) = sqrt((m+1)/2)*V(:,m)'*V(:,m+1);
-        elseif m == N
-            S(i,j) = -sqrt(0.5*m)*V(:,m)'*V(:,m-1);
-        end
-    end
-    
-end
+function [S] = Imn(V,N)
 
+S = zeros(N+1,N+1);
 
+for i=1:N+1
+  for j=1:N+1
+    S(i,j) = Imn2(V,N,i,j);
+  end
 end
