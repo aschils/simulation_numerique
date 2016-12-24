@@ -29,4 +29,8 @@ E1 = E(2);
 
 %h_dip(A0, omega, K , t0)
 
-Imn(V,N)
+Imn(V,N);
+expo(D,N);
+
+b( A,Imn,expo )
+
