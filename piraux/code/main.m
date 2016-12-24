@@ -20,14 +20,23 @@ end
 [V,D] = eig(H);
 % D : valeurs propres dans diagonale
 % V : vecteurs propres (V est la matrice des phi)
-E = sort(diag(D));
+[E, Indexes] = sort(diag(D));
 format long
 E0 = E(1);
 E1 = E(2);
 
 %Schrödinger dépendant du temps
 
-%h_dip(A0, omega, K , t0)
+h_dip(A0, omega, K , t0)
+
+%Trie les vecteurs prores dans V dans le meme ordre que les vaps triees
+%dans E, resultat dans V_ordered
+Indexes = Indexes';
+new_col_pos = zeros(1,length(Indexes));
+for i=1:length(Indexes)
+    new_col_pos(Indexes(i)) = i;
+end
+V_ordered(:,new_col_pos) = V 
 
 Imn(V,N);
 expo(D,N);
