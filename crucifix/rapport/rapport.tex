@@ -1619,16 +1619,16 @@ Soit l'équation de décroissance radioactive:
   %F(x,t) =-kx
 \end{align}
 
-L'opérateur linéaire tangent au premier ordre d'une perturbation $\delta x$ est:
+L'opérateur linéaire tangent au premier ordre de la norme d'une perturbation $\delta x$ est:
 
 \begin{equation}\label{eq}
-\frac{d \delta x}{d t} = J(x,t) \delta x\;.
+\frac{d \left\|\delta x \right\|}{d t} = J(x,t) \left\|\delta x \right\| \;.
 \end{equation}
 
 Or $J(x,t)$ est le Jacobien:
 
 \begin{equation}
-J(x,t)= \sum_{i}\frac{\partial F}{\partial x_{i}}\;.
+J(x,t)= \frac{\partial F}{\partial x}\;.
 \end{equation}
 
 
@@ -1641,24 +1641,21 @@ J(x,t)= -k\;.
 A partir de l'équation \eqref{eq}, on a:
 
 \begin{equation}
- \ln(\delta x) = -kt + \text{Constante}\;.
+ \ln(\left\|\delta x \right\|) = -kt + \text{Constante}\;.
 \end{equation}
 
 On utilise la condition initiale $\delta x_{0}$, ce qui donne :
 
 \begin{equation}
- \ln(\delta x) = -kt + \ln(\delta x_{0})\;.\label{pertu}
+ \ln(\left\|\delta x \right\|) = -kt + \ln(\left\|\delta x_{0} \right\|)\;.\label{pertu}
 \end{equation}
 
 On a donc:
 
 \begin{equation}
-\lambda_{max}= \lim_{t\rightarrow_{\infty}}\frac{1}{t} \ln(\left\|\delta \vec{x} \right\|) = \lim_{t\rightarrow_{\infty}}\frac{1}{t} \ln(\delta x)= \lim_{t\rightarrow_{\infty}}\left(\frac{-kt+\ln(\delta x_{0})}{t}\right)= -k\;.
+\lambda_{max}= \lim_{t\rightarrow_{\infty}}\frac{1}{t} \ln(\left\|\delta x \right\|) = \lim_{t\rightarrow_{\infty}}\left(\frac{-kt+\ln(\left\|\delta x_{0} \right\|)}{t}\right)= -k\;.
 \end{equation}
 
-En effet, puisqu'on est dans un cas à une dimension,
- $\delta \vec{x}= \delta x$ et  $\delta x = \left\|\delta x \right\|$ car
- l'argument du logarithme est positif. 
  
 En outre, le système est chaotique si $\lambda_{max} > 0$. Pour la décroissance radioactive, cela signifie que $k<0$. Dans ce cas, l'équation \eqref{pertu} montre alors qu'une perturbation appliquée au système va croître de manière exponentiel avec le temps.
 
