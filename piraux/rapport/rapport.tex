@@ -113,7 +113,7 @@ v(x) = \sum_{k=0}^N a_k T_k(x) \;.
 
 Le polynôme de Tchebychev de degré $n$, $T_n(x)$, est défini par
 \begin{eqnarray}
-T_n(x) &=& \cos (n\arccos(x))\;,\\
+T_n(x) &=& \cos (n\arccos(x))\;, \label{T_def}\\
 T_n(\pm1) &=& (\pm1)^n\;.\label{eq+-1}
 \end{eqnarray}
 
@@ -135,7 +135,7 @@ avec $T_0 (x) = 1$, $T_1 (x) = x$ et $T_0' (x) = 0$, $T_1' (x) = T_0 (x)$, $T_2'
 
 \section{Calcul des coefficients du développement du résidu}
 
-Nous injectons la série tronquée \eqref{eq:app} dans l'équation différentielle de départ \eqref{eq:main} et nous appelons le résultat : le résidu $R(x)$. Nous le redéfinissons selon une nouvelle série tronquée de polynôme de Tchebychev:
+Nous injectons la série tronquée \eqref{eq:app} dans l'équation différentielle de départ \eqref{eq:main} et nous appelons le résultat : le résidu $R(x)$. Nous le redéfinissons selon une nouvelle série tronquée de polynômes de Tchebychev:
 
 \begin{eqnarray}
 R(x) & = & v_{xx}(x) + v_x(x) - 2v(x) + 2 \\
@@ -243,7 +243,7 @@ D_{ij} &=
 1 & \text{sinon}\;,
   \end{cases}
   \end{align}
-où $i\geq 0$ et $j \leq N$.
+où $0 \leq i,j \leq N$.
 
 
 
@@ -323,7 +323,7 @@ D_{ij}^2 &=
 1 & \text{sinon}\;,
   \end{cases}
   \end{align}
-où $i\geq 0$ et $j \leq N$.
+où $0 \leq i,j \leq N$.
 
 Pour l'implémentation dans Matlab valable pour tout $N$, on peut également simplement appliquée deux fois la matrice dérivée $D$ (multiplication matricielle) sur le vecteur contenant les $a_{k}$. Cette opération est cependant numériquement plus lente. On obtient pour $N=4$ :
 
@@ -337,17 +337,17 @@ Pour l'implémentation dans Matlab valable pour tout $N$, on peut également sim
 \end{pmatrix} \;.
 \end{equation}
 
-\subsection*{Expression du résidu}
+\subsection*{Expression des coefficients du résidu}
 
 On peut réécrire le résidu $R(x)$ :
 
 \begin{eqnarray}
-R(x) & = & v_{xx}(x) + v_x(x) - 2v(x) + 2 \\
-& = & \sum_{k=0}^N \left(c_{k}+b_{k}-2a_{k}\right)T_{k}(x)+2 T_{0}(x)\\
-& = & \sum_{k=0}^N A_{k} T_{k}(x)\;. 
+R(x) & = & v_{xx}(x) + v_x(x) - 2v(x) + 2\;,  \\
+& = & \sum_{k=0}^N \left(c_{k}+b_{k}-2a_{k}\right)T_{k}(x)+2 T_{0}(x)\;, \\
+& = & \sum_{k=0}^N A_{k} T_{k}(x)\;, 
 \end{eqnarray}
 
-On a donc :
+avec les $A_{k}$ défini en fonction des $a_{k}$ :
 
 \begin{equation}
 \begin{pmatrix}
@@ -473,16 +473,9 @@ On a besoin que l'expression de $R(x)$ soit orthogonale à $T_k(x)$ pour $k=0,1,
 
 c'est-à-dire, étant donné l'équation d'orthogonalité des polynômes de Tchebychev \eqref{ortho}, $A_{k}=0$ pour $k=0,1,..N-2$.
 
-On prend les $N-1$ premières lignes de \eqref{Ak} avec les deux lignes des conditions aux frontières \eqref{cf}. Après implémentation dans Matlab du cas général (valable pour tout $N$), voici l'exemple pour $N=4$ :
+On prend les $N-1$ premières équations de \eqref{Ak} avec $A_{k}=0$  et on y ajoute les deux équations des conditions aux frontières \eqref{cf}. On obtient un nouveau système linéaire déterminé à $N+1$ équations et $N+1$ inconnues ($a_{k}$) à résoudre. Après implémentation dans Matlab du cas général (valable pour tout $N$), voici l'exemple pour $N=4$ :
 
 \begin{equation}
-\begin{pmatrix}
- 0\\ 
- 0\\ 
- 0\\ 
- 0\\ 
- 0
-\end{pmatrix} =
 \begin{pmatrix}
 -2 & 1 & 4 & 3 & 32\\ 
 0 & -2 & 4 & 24 & 8\\ 
@@ -495,9 +488,9 @@ On prend les $N-1$ premières lignes de \eqref{Ak} avec les deux lignes des cond
  a_2\\ 
  a_3\\ 
  a_4
-\end{pmatrix} +
+\end{pmatrix} = 
 \begin{pmatrix}
- 2\\ 
+ -2\\ 
  0\\ 
  0\\ 
  0\\ 
@@ -507,22 +500,24 @@ On prend les $N-1$ premières lignes de \eqref{Ak} avec les deux lignes des cond
 
 Après résolution de ce système avec Matlab (package \texttt{LAPACK} et non commande \texttt{inv()}) , on obtient :
 
-\begin{equation}
+\begin{eqnarray}
 \begin{pmatrix}
  a_0\\ 
  a_1\\ 
  a_2\\ 
  a_3\\ 
- a_4
-\end{pmatrix} =
-\begin{pmatrix}
- 0.2724\\ 
+ a_4 
+ \end{pmatrix}
+ = \left(
+\begin{array}{r}
+  0.2724\\ 
  -0.0444\\ 
  -0.2562\\ 
- -0.444\\ 
- -0.0162
-\end{pmatrix}\;.
-\end{equation}
+ 0.0444\\ 
+ -0.0162 
+ \end{array}\right)\;.
+\end{eqnarray}  
+
 
 \subsection{Méthode Galerkin}
 
@@ -541,7 +536,7 @@ T_1(x) & \text{si N impair}\;.
 On veut que $R(x)$ soit orthogonale à $\Phi_l(x)$ avec $l=2,3,..,N$ :
 
 \begin{equation}
-\int_{-1}^1 \frac{R(x) \Phi_k(x)}{\sqrt{1-x^2}} dx = 0\;.
+\int_{-1}^1 \frac{R(x) \Phi_l(x)}{\sqrt{1-x^2}} dx = 0\;.
 \end{equation}
 
 En remplaçant l'expression de $R(x)$ en fonction des $T_k(x)$, on a :
@@ -564,14 +559,16 @@ On obtient donc les conditions :
 \begin{align}
 \begin{cases}
 A_{l} - 2A_{0} = 0 & \text{si l pair}\;, \\
-A_{l} - A_{1} = 0 & \text{si l impair}\;.
+A_{l} - A_{1} = 0 & \text{si l impair}\;,
   \end{cases}
 \end{align}
 
-On peut réécrire ces conditions sous forme matricielle, on a donc
+où $l=2,3,...,N$.
+
+On peut réécrire ces conditions sous forme matricielle, on a donc les $N-1$ équations suivantes :
 
 \begin{equation}
-E \cdot
+G \cdot
 \begin{pmatrix}
  A_{0}\\ 
  A_{1}\\ 
@@ -580,31 +577,160 @@ E \cdot
  A_{N}
 \end{pmatrix} 
 = 
-\begin{pmatrix}
- 0\\ 
+\begin{pmatrix} 
  0\\ 
  \vdots\\ 
- 0\\ 
  0
-\end{pmatrix}\;.
+ \end{pmatrix}\;.
 \end{equation}
 
 avec
 
 \begin{align}
-E_{ij} = \begin{cases}
+G_{ij} = \begin{cases}
 -2 & \text{si $j=0$, $i$ pair}\;, \\
 -1 & \text{si j =1, $i$ impair}\;,\\
-\ \ 1 & \text{si $j-i=2$}\;.
+\ \ 1 & \text{si $j-i=2$}\;,
   \end{cases}
 \end{align}
 
+où $i = 0,...,N-2$ et $j =0,...,N$.
 
-\subsection{Méthode Collocation}
+On remplace les $A_{k}$ par leurs expressions \eqref{Ak} et on ajoute les deux équations des conditions aux frontières \eqref{cf} pour obtenir un système déterminé à $N+1$ équations et $N+1$ inconnues.
+
+ Après implémentation dans Matlab du cas général (valable pour tout $N$), on obtient le résultat suivant pour $N=4$ :
+
+\begin{eqnarray}
+\begin{pmatrix}
+ a_0\\ 
+ a_1\\ 
+ a_2\\ 
+ a_3\\ 
+ a_4 
+ \end{pmatrix}
+ = \left(
+\begin{array}{r}
+  0.2741\\ 
+ -0.0370\\ 
+ -0.2593\\ 
+ 0.0370\\ 
+ -0.0148 
+ \end{array}\right)\;.
+\end{eqnarray} 
+
+\subsection{Méthode Collocation (pseudo-spectrale)}
+
+On prend $R(x_{i})=0$ avec $x_{i}= \cos\left(\frac{i\pi}{N}\right)$ pour $i=1,...,N-1$. On peut donc réécrire l'expression du résidu en terme de polynômes de Tchebychev \eqref{eq:reste} et selon leur définition \eqref{T_def}, on obtient :
+
+\begin{equation}
+R(x_i)=\sum_{k=0}^N A_{k} T_{k}(x_i)=\sum_{k=0}^N A_{k} T_{k}\left(\cos \left(\frac{i\pi}{N}\right)\right)=\sum_{k=0}^N A_{k} \cos \left(\frac{ki\pi}{N}\right)=0\;,
+\end{equation}
+
+et sous forme matricielle :
+
+
+\begin{equation}
+P \cdot
+\begin{pmatrix}
+ A_{0}\\ 
+ A_{1}\\ 
+ \vdots\\ 
+ A_{N-1}\\ 
+ A_{N}
+\end{pmatrix} 
+= 
+\begin{pmatrix} 
+ 0\\ 
+ \vdots\\ 
+ 0
+ \end{pmatrix}\;,
+\end{equation}
+
+avec
+
+\begin{equation}
+P_{ij} = \cos\left(\frac{ij\pi}{N}\right)\;,
+\end{equation}
+
+où $i = 1,...,N-1$ et $j =0,...,N$.
+
+On remplace les $A_{k}$ par leurs expressions \eqref{Ak} et on ajoute les deux équations des conditions aux frontières \eqref{cf} pour obtenir un système déterminé à $N+1$ équations et $N+1$ inconnues.
+
+ Après implémentation dans Matlab du cas général (valable pour tout $N$), on obtient le résultat suivant pour $N=4$ :
+
+\begin{eqnarray}
+\begin{pmatrix}
+ a_0\\ 
+ a_1\\ 
+ a_2\\ 
+ a_3\\ 
+ a_4 
+ \end{pmatrix}
+ = \left(
+\begin{array}{r}
+  0.2743\\ 
+ -0.0371\\ 
+ -0.2600\\ 
+ 0.0371\\ 
+ -0.0143 
+ \end{array}\right)\;.
+\end{eqnarray}
 
 \section{Méthode aux différences finies}
 
-\section{Conclusion}
+On discrétise l'équation différentielle de départ \eqref{eq:main}. Les dérivées sont remplacées par leurs expressions en différences finies. Soient $u(x_{\textsl{i}}) \equiv U_{\textsl{i}}$ et $h$ le pas d'espace, on a :
+
+\begin{equation}
+\frac{U_{\textsl{i}+1} - 2 U_{\textsl{i}} + U_{\textsl{i}-1}}{h^2} + \frac{U_{\textsl{i}+1} - U_{\textsl{i}-1}}{2h} - U_{\textsl{i}} +2 + \mathcal{O}(h^2) = 0\;,\label{diff_finie}
+\end{equation}
+
+où $i = 1,...,N$. Nous avons pris des différences centrées pour les dérivées avec leur formule à trois points d'ordre $\mathcal{O}(h^2)$. 
+
+On défini $x_{\textsl{i}}=\textsl{i}h$ avec $\textsl{i} = 0,...,N+1$ où $(N+1)h$ est la longueur du domaine $-1\leq x \leq 1$. La discrétisation est donc réalisée sur $N+2$ points de grille. Les conditions aux frontières sont les suivantes :
+\begin{equation}
+U_{0}=U_{N+1}=0\;.
+\end{equation}
+
+En reformulant l'équation \eqref{diff_finie}, nous obtenons l'équation tronquée suivante :
+
+\begin{equation}
+(2+h)U_{\textsl{i}+1}-4(h^2+1)U_{\textsl{i}}+(2-h)U_{\textsl{i}-1}+4h^2=0\;.
+\end{equation}
+
+Sous forme matricielle, en tenant compte des conditions aux frontières, on obtient un système linéaire à matrice tri-diagonale :
+
+\begin{equation}
+\begin{pmatrix}
+-4(h^2+1) & (2+h) &  &  & \\ 
+ (2-h) & -4(h^2+1) & (2+h) &  & \\ 
+ & \ddots & \ddots & \ddots & \\ 
+ &  & (2-h) & -4(h^2+1) & (2+h)\\ 
+ &  &  & (2-h) & -4(h^2+1)
+\end{pmatrix} \cdot \begin{pmatrix}
+ U_{1}\\ 
+ U_{2}\\ 
+ \vdots\\ 
+ U_{N-1}\\ 
+ U_{N}
+\end{pmatrix} =
+\begin{pmatrix}
+ -4h^2\\ 
+ -4h^2\\ 
+ \vdots\\ 
+ -4h^2\\ 
+ -4h^2
+\end{pmatrix}\;.
+\end{equation}
+
+On le résoud sous Maltab avec le package \texttt{LAPACK} et non la commande \texttt{inv()} qui est source d'erreur.
+
+\section{Comparatif des différentes méthodes}
+
+\begin{figure}
+  \includegraphics[width=13cm]{graphe_erreur.eps}
+  \caption{Comparaison selon méthode de l'erreur maximale avec la solutions analytique}
+  \label{fig_erreur}
+\end{figure}
 
 
  \part{Exercice sur l'équation de Schrödinger}
@@ -619,17 +745,100 @@ E_{ij} = \begin{cases}
 
 $$\dot{\imath}\hbar\frac{\partial}{\partial t}\ket{\Psi(t)}=\left[\frac{1}{2}p^2+ V(x)+A(t)p\right]\ket{\Psi(t)}\;.$$
 
-\begin{equation}
-I_{m,n}= \sum_{l=0}^{N-1}a^\ast_{l,m}a_{l+1,n}\sqrt{\frac{l+1}{2}}-\sum_{l=1}^{N}a^\ast_{l,m}a_{l-1,n}\frac{l}{2}\;.
-\end{equation}
-
-pour $m,n = 0,1,..,N$.
+avec
 
 \begin{equation}
-\sum_{n=0}^{N}\phi_{n}(x)\dot{b}_{n}(t) e^{-iE_{n}t} = - A(t) \sum_{n=0}^{N}\frac{\partial \phi_{n}(x)}{\partial x}b_{n}(t) e^{-iE_{n}t}\;.
+A(t)= A_{0}f(t-t_{0})\sin(\omega (t-t_{0}))
 \end{equation}
 
-calculer 
+on prend $t_{0}=0$
+
+L'enveloppe :
+$$f(t-t_{0})=\cos^{2} \left(\frac{\omega (t-t_{0})}{2k}\right)$$
+
+pour $\frac{-\pi k}{\omega}<t-t_{0}<\frac{\pi k}{\omega}$.
+
+
+
+\begin{equation}
+\sum_{n=0}^{N}\phi_{n}(x)\dot{b}_{n}(t) e^{-iE_{n}t} = - A(t) \sum_{m=0}^{N}\frac{\partial \phi_{m}(x)}{\partial x}b_{m}(t) e^{-iE_{m}t}\;.
+\end{equation}
+
+on multiplie par $\phi_{n}^{\ast}(x) e^{iE_{n}t}$
+
+On a 
+
+\begin{equation}
+\dot{b}_{n}(t) = - A(t) \int \sum_{m=0}^{N}\phi_{n}^{\ast}(x)\frac{\partial \phi_{m}(x)}{\partial x}b_{m}(t) e^{-i(E_{m}-E_{n})t} dx\;.
+\end{equation}
+
+où
+
+\begin{equation}
+I_{m,n}= \int \phi_{m}^{\ast}(x)\frac{\partial \phi_{n}(x)}{\partial x} dx\;.
+\end{equation}
+avec
+\begin{equation}
+\phi_{n}(x) = \sum_{k=0}^{N} a_{k,n}\varphi_{k}(x)\;.
+\end{equation}
+
+c'est parti :
+\begin{equation}
+\phi_{m}^{\ast}(x)\frac{\partial \phi_{n}(x)}{\partial x} = \sum_{k=0}^{N} a_{k,m}^{\ast}\varphi_{k}^{\ast} \cdot \left(\sum_{l=1}^{N}a_{l,n} \sqrt{\frac{l}{2}}\varphi_{l-1}(x)-\sum_{l=0}^{N-1}a_{l,n}\sqrt{\frac{l+1}{2}}\varphi_{l+1} \right)\;.
+\end{equation}
+
+avec 
+
+\begin{equation}
+\varphi'_{l}(x) =  \sqrt{\frac{l}{2}} \varphi_{l-1}(x)-\sqrt{\frac{l+1}{2}}\varphi_{l+1}(x)\;.
+\end{equation}
+
+On a après intégration (relation orthogonalité des fonctions d'Hermites) et en posant $l =k+1$ dans premier terme de la parenthèse et $l =k-1$ dans le second :
+
+\begin{equation}
+I_{m,n} = \sum_{k=0}^{N-1} a_{k,m}^{\ast}  a_{k+1,n} \sqrt{\frac{k+1}{2}}- \sum_{k=1}^{N} a_{k,m}^{\ast}a_{k-1,n}\sqrt{\frac{k}{2}}\;.
+\end{equation}
+
+pour $m,n = 0,1,..,N$. Où l'on peut remarquer que la première somme termine à $N-1$ et la seconde commence à $1$, car $k =0,1,..,N$ doit être respecté.
+
+
+
+
+On implémente cette fonction dans Matlab avec Ode15s pour trouver les $b(t)$ :
+
+\begin{equation}
+\dot{b}_{m}(t) = - A(t) \sum_{n=0}^{N}I_{m,n}b_{n}(t) e^{-i(E_{m}-E_{n})t}\;.
+\end{equation}
+pour $m=0,..,N$.
+
+on aura sous forme matricielle :
+
+\begin{equation}
+\frac{d}{dt}
+\begin{pmatrix}
+ b_{0}\\ 
+ b_{1}\\ 
+ \vdots\\ 
+ b_{N-1}\\ 
+  b_{N}
+\end{pmatrix} = -A(t) \cdot M(t) \cdot 
+\begin{pmatrix}
+ b_{0}\\ 
+ b_{1}\\ 
+ \vdots\\ 
+ b_{N-1}\\ 
+  b_{N}
+\end{pmatrix}\;.
+\end{equation}
+
+où $M(t)$ est le produit d'Hadamard (commande Matlab : .*) des matrices $I_{m,n}$ et $e^{-i(E_{m}-E_{n})t}$. 
+
+On prend conditions initiales : $b_{0}=1$ et $b_{n}=0$ pour $n > 0$. Etat initial dans le fondamental.
+
+
+\subsection{résultats}
+
+Calculons 
 
 $$\left| b_{0}(t)\right|^2= b^\ast_0(t)b_0(t)$$
 
@@ -639,9 +848,21 @@ $$\left| b_{1}(t)\right|^2= b^\ast_1(t)b_1(t)$$
 or
 $$\sum_{n} \left| b_{n}(t)\right|^2 =1$$
 
-donc état continuum :
+donc probabilité d'ionisation :
 
 $$1-\left| b_{0}(t)\right|^2-\left| b_{1}(t)\right|^2$$
+
+graphes avec proba état ds les 2 états et
+
+la probabilité d'ionisation en fonction de  $w$ .
+
+
+
+Si $w$ est egale différence d'energie , c'est à dire résonance.
+
+regarder proba de rester ds etat fondamental en fonction du temps et d'etre ds état ionisation en fonction du temps.
+
+Normalement les 2 courbles oscille en opposition de phase.  c'est oscillations de rabi
 
 %\section*{Conclusion}
 
