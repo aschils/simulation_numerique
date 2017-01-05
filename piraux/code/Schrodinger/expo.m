@@ -1,6 +1,6 @@
 function [S] = expo(E,N,t)
 
-%Calcul la matrice exp(-i(E_m - E_n)t)
+%Calcul la matrice exp(-i(E_n - E_m)t)
 
 S = zeros(N+1,N+1);
 

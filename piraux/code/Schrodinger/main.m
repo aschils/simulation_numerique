@@ -22,15 +22,15 @@ H = zeros(N+1,N+1);
 
     [V,D] = eig(H);
     % D : valeurs propres dans diagonale
-    % V : vecteurs propres (V est la matrice des phi)
-    [E,Index] = sort(diag(D));
-    Vsort = V(:,Index);
+    % V : vecteurs propres
+    [E,Index] = sort(diag(D)); % vecteur des énergies trié de manière ascendante
+    Vsort = V(:,Index); % n vecteurs propres colonnes triés selon ordre des énergies
     format long
-    E0 = E(1);
-    E1 = E(2);
+    E0 = E(1)
+    E1 = E(2)
 
 
 %Schrödinger dépendant du temps
 
-    b(A0,t0,omega,K,N,Vsort,E);
+    b(A0,t0,omega,K,N,Vsort,E); % appel de la fonction b
 

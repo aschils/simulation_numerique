@@ -11,6 +11,7 @@
 \usepackage{physics}
 
 \usepackage{graphicx}
+\usepackage{color}
 
 \renewcommand{\thepart}{\arabic{part}}
 \renewcommand{\thesection}{\arabic{section}}
@@ -39,7 +40,7 @@
 %----------------------------------------------------------------------------------------
 
 \HRule \\[0.4cm]
-{ \huge \bfseries Méthodes spectrales}\\[0.4cm] % Title of your document
+{\huge \bfseries Méthodes spectrales}\\[0.4cm] % Title of your document
 \HRule \\[1.5cm]
  
 %----------------------------------------------------------------------------------------
@@ -97,17 +98,18 @@ u_{xx}(x) + u_x(x) - 2u(x) + 2= 0
 
 sur le domaine $-1\leq x \leq 1$ et avec les condition aux frontières $u(-1)=u(1)=0$.
 
-Nous souhaitons approximer la solution analytique exacte de cette équation différentielle :
+Sa solution analytique exacte est :
 
 \begin{equation}
-u(x) = 1- \frac{\sinh(2)e^{x}+\sinh(1)e^{-2x}}{\sinh(3)}
+u(x) = 1- \frac{\sinh(2)e^{x}+\sinh(1)e^{-2x}}{\sinh(3)}\;.
 \end{equation}
 
-par un développement tronqué de polynôme de Tchebychev :
+Nous souhaitons obtenir une approximation de celle-ci par un développement tronqué de polynômes de Tchebychev :
 
 \begin{equation}\label{eq:app}
 v(x) = \sum_{k=0}^N a_k T_k(x) \;.
 \end{equation}
+
 
 \section{Propriétés des polynômes de Tchebychev}
 
@@ -120,7 +122,7 @@ T_n(\pm1) &=& (\pm1)^n\;.\label{eq+-1}
 Relation d'orthogonalité :
 
 \begin{equation}\label{ortho}
-\int_{-1}^{1} T_n T_m (1-x^2)^{-1/2} dx = \frac{\pi}{2} c_n \delta_{nm}
+\int_{-1}^{1} T_m(x) T_n(x) (1-x^2)^{-1/2} dx = \frac{\pi}{2} c_n \delta_{mn}
 \end{equation}
 avec $c_0=2$ et $c_n = 1$ pour $n>0$.
 
@@ -678,7 +680,7 @@ On remplace les $A_{k}$ par leurs expressions \eqref{Ak} et on ajoute les deux �
 
 \section{Méthode aux différences finies}
 
-On discrétise l'équation différentielle de départ \eqref{eq:main}. Les dérivées sont remplacées par leurs expressions en différences finies. Soient $u(x_{\textsl{i}}) \equiv U_{\textsl{i}}$ et $h$ le pas d'espace, on a :
+On va résoudre le problème initial par la méthode aux différences finies pour pouvoir comparer son efficacité par rapport aux méthodes spectrales. Pour ce faire, on discrétise l'équation différentielle de départ \eqref{eq:main}. Les dérivées sont remplacées par leurs expressions en différences finies. Soient $u(x_{\textsl{i}}) \equiv U_{\textsl{i}}$ et $h$ le pas d'espace, on a :
 
 \begin{equation}
 \frac{U_{\textsl{i}+1} - 2 U_{\textsl{i}} + U_{\textsl{i}-1}}{h^2} + \frac{U_{\textsl{i}+1} - U_{\textsl{i}-1}}{2h} - U_{\textsl{i}} +2 + \mathcal{O}(h^2) = 0\;,\label{diff_finie}
@@ -726,74 +728,243 @@ On le résoud sous Maltab avec le package \texttt{LAPACK} et non la commande \te
 
 \section{Comparatif des différentes méthodes}
 
-\begin{figure}
-  \includegraphics[width=13cm]{graphe_erreur.eps}
-  \caption{Comparaison selon méthode de l'erreur maximale avec la solutions analytique}
+Pour comparer l'efficacité des différentes méthodes spectrales, on a mesuré l'erreur absolue maximale commise par celles-ci par rapport à la solution analytique pour un nombre de polynômes de Tchebychev ($N+1$, équation \eqref{eq:app}) donné. Le maximum de l'erreur a été pris parmi mille mesures d'erreur, entre la solution numérique et la solution analytique, équidistantes sur le domaine de l'équation différentielle $-1\leq x \leq 1$.
+
+L'erreur absolue maximale de la méthode aux différences finies d'ordre $\mathcal{O}(h^2)$ a également été mesurée. Cette mesure a été prise pour différents nombres de points de grille équidistants sur l'intervalle du domaine de définition de l'équation différentielle. Le maximum de l'erreur a été pris parmi toutes les valeurs d'erreur, entre la solution numérique et la solution analytique, aux  différents points de grille.
+
+On constate sur le graphique de la figure \ref{fig_erreur} que l'erreur maximale des méthodes spectrales, en fonction du nombre de polynômes utilisé, décroit bien plus rapidement que celle pour la méthode aux différences finies, fonction du nombre de points de grille utilisé pour la discrétisation. Sur ce graphique, l'erreur maximale est représentée sur une échelle logarithmique. Les méthodes spectrales tendent donc vers la solution exacte de manière exponentielle. Tandis que l'erreur de la méthode aux différences finies tend vers zéro de manière polynomiale.
+
+En outre, les méthodes Galerkin et Collocation ont une précision un peu meilleur que la méthode Tau. En particulier pour un faible nombre de polynômes utilisés dans la série tronquée \eqref{eq:app}.
+
+Enfin, on note qu'à partir de 18 polynômes utilisés pour les méthodes spectrales, l'erreur maximale atteint un minimum à environ $10^{-15}$. Ce minimum représente l'erreur machine due à la représentation des nombres limité sous Matlab.
+
+
+\begin{figure}[h]
+  \includegraphics[width=16cm]{graphe_erreur.eps}
+  \caption{Comparaison de l'erreur maximale des différentes méthodes numériques avec la solution analytique.}
   \label{fig_erreur}
 \end{figure}
 
 
  \part{Exercice sur l'équation de Schrödinger}
 \setcounter{section}{0}
+\setcounter{equation}{0}
  
 %\section{Introduction}
 
 
-\section{équation de Schrödinger stationnaire}
+\section{Equation de Schrödinger stationnaire}
 
-\section{équation de Schrödinger dépendant du temps}
+\subsection{Introduction}
 
-$$\dot{\imath}\hbar\frac{\partial}{\partial t}\ket{\Psi(t)}=\left[\frac{1}{2}p^2+ V(x)+A(t)p\right]\ket{\Psi(t)}\;.$$
+Dans les unités atomiques, l'équation de Schrödinger stationnaire à une dimension s'écrit :
 
-avec
-
-\begin{equation}
-A(t)= A_{0}f(t-t_{0})\sin(\omega (t-t_{0}))
+\begin{equation}\label{eq:sta}
+\left[\frac{1}{2}p^{2}+V(x)\right]\ket{\phi(x)}= E\ket{\phi(x)}
 \end{equation}
 
-on prend $t_{0}=0$
+avec $m_{e}=\hbar=\left|e\right|=\frac{1}{4\pi\epsilon_{0}}=1$.
 
-L'enveloppe :
-$$f(t-t_{0})=\cos^{2} \left(\frac{\omega (t-t_{0})}{2k}\right)$$
-
-pour $\frac{-\pi k}{\omega}<t-t_{0}<\frac{\pi k}{\omega}$.
-
-
+On remplace le carré de l'opérateur impulsion par $p^{2}=-\frac{\partial^2}{\partial x^{2}}$ et on utilise le potentiel suivant :
 
 \begin{equation}
-\sum_{n=0}^{N}\phi_{n}(x)\dot{b}_{n}(t) e^{-iE_{n}t} = - A(t) \sum_{m=0}^{N}\frac{\partial \phi_{m}(x)}{\partial x}b_{m}(t) e^{-iE_{m}t}\;.
+V(x)= -V_{0}e^{-\alpha x^{2}}\;.
 \end{equation}
 
-on multiplie par $\phi_{n}^{\ast}(x) e^{iE_{n}t}$
+Pour résoudre cette équation \eqref{eq:sta}, on utilise un développement tronqué de fonctions d'Hermite :
 
-On a 
-
-\begin{equation}
-\dot{b}_{n}(t) = - A(t) \int \sum_{m=0}^{N}\phi_{n}^{\ast}(x)\frac{\partial \phi_{m}(x)}{\partial x}b_{m}(t) e^{-i(E_{m}-E_{n})t} dx\;.
+\begin{equation}\label{eq:varphi}
+\phi(x)= \sum_{k=0}^N a_k \varphi_k(x)\;,
 \end{equation}
 
-où
+où les fonctions d'Hermite :
 
 \begin{equation}
-I_{m,n}= \int \phi_{m}^{\ast}(x)\frac{\partial \phi_{n}(x)}{\partial x} dx\;.
-\end{equation}
-avec
-\begin{equation}
-\phi_{n}(x) = \sum_{k=0}^{N} a_{k,n}\varphi_{k}(x)\;.
+\varphi_k(x)= c_{k} H_{k}(x)e^{-\frac{x^{2}}{2}}\;,
 \end{equation}
 
-c'est parti :
-\begin{equation}
-\phi_{m}^{\ast}(x)\frac{\partial \phi_{n}(x)}{\partial x} = \sum_{k=0}^{N} a_{k,m}^{\ast}\varphi_{k}^{\ast} \cdot \left(\sum_{l=1}^{N}a_{l,n} \sqrt{\frac{l}{2}}\varphi_{l-1}(x)-\sum_{l=0}^{N-1}a_{l,n}\sqrt{\frac{l+1}{2}}\varphi_{l+1} \right)\;.
+avec $c_{k} =\left(2^{k}k!\sqrt{\pi}\right)^{-1/2}$ et les polynômes d'Hermite $H_{k}(x)$ , forment une base complète. Le choix des fonctions de bases utilisés a été guidé par la physique du problème traité.
+
+On a les propriétés suivantes, relation d'orthogonalité des fonctions d'Hermite :
+
+\begin{equation}\label{eq:ortho_phi}
+\int_{-\infty}^{+\infty} \varphi_m(x) \varphi_n(x) dx = \delta_{mn}\;,
+\end{equation}
+
+et les relations de récurrence des polynômes d'Hermite :
+
+\begin{eqnarray}\label{eq:recu}
+H_{k+1}(x) &=& 2xH_k(x) - 2kH_{k-1}(x) \;,\\
+H'_{k}(x) &=& 2k H_{k-1}(x)\;,\label{eq:recu2}
+\end{eqnarray}
+
+pour $k \geq 1$ avec $H_0 (x) = 1$ et $H_1 (x) = 2x$.
+
+\subsection{Résolution}
+
+On applique le bra $\bra{\varphi_n(x)}$ à l'équation \eqref{eq:sta}. On a :
+
+\begin{eqnarray}
+\bra{\varphi_n(x)}\left[\frac{1}{2}p^{2}+V(x)\right]\ket{\phi(x)} &=& \bra{\varphi_n(x)}E\ket{\phi(x)}\\
+ &=& E \sum_{k=0}^N a_k \int_{-\infty}^{+\infty} \varphi_n(x)\varphi_k(x) dx\\
+&=& E \sum_{k=0}^N a_k \delta_{nk}\\
+&=& E a_n
+\end{eqnarray} 
+
+%\sum_{k=0}^N a_k \int_{-\infty}^{+\infty} \varphi_n(x) \left[\frac{1}{2}P^{2}+V(x)\right]\varphi_k(x) dx
+
+On traite ensuite le membre de gauche en deux parties.
+
+\subsubsection{Terme énergie cinétique}
+
+\begin{equation}\label{eq:ciné}
+\bra{\varphi_n(x)} \frac{1}{2}p^{2} \ket{\phi(x)} = - \frac{1}{2}\sum_{k=0}^N a_k \int_{-\infty}^{+\infty} \varphi_n(x) \frac{\partial^2}{\partial x^{2}} \varphi_k(x) dx\;.
 \end{equation}
 
 avec 
 
 \begin{equation}
+ \frac{\partial^2}{\partial x^{2}} \varphi_k(x) = \frac{1}{2}\sqrt{k(k-1)}\varphi_{k-2}(x) -\left(k+\frac{1}{2}\right)\varphi_k(x) + \frac{1}{2} \sqrt{(k+1)(k+2)}\varphi_{k+2}(x)
+\end{equation}
+
+pour $k \geq 2$. On a obtenu cette forme à l'aide des relations de récurrence \eqref{eq:recu} et \eqref{eq:recu2}. En tenant compte de la relation d'orthogonalité \eqref{eq:ortho_phi}, \eqref{eq:ciné} devient :
+
+\begin{eqnarray}
+- \frac{1}{2}\sum_{k=0}^N a_k \left(\frac{1}{2}\sqrt{k(k-1)}\delta_{n,k-2} - \left(k+\frac{1}{2}\right)\delta_{nk}+ \frac{1}{2} \sqrt{(k+1)(k+2)}\delta_{n,k+2} \right) \\
+= - \frac{1}{2}\left(\frac{1}{2}\sqrt{(n+1)(n+2)}a_{n+2}-\left(n+\frac{1}{2}\right)a_{n}+\frac{1}{2}\sqrt{n(n-1)}a_{n-2} \right)\;.
+\end{eqnarray}
+
+pour $n \geq 2$. Pour $n = 0,1$, on omet le dernier terme de cette expression.
+
+\subsubsection{Terme énergie potentiel}
+
+\begin{equation}
+\bra{\varphi_n(x)} V(x)\ket{\phi(x)} = \sum_{k=0}^N a_k\int_{-\infty}^{+\infty} \varphi_n(x) V(x) \varphi_k(x) dx\;.
+\end{equation}
+
+Il n'est pas possible de trouver une solution analytique à cette intégrale. Nous allons donc utiliser la quadrature de Gauss-Hermite comme approximation.
+
+\subparagraph{Quadrature de Gauss-Hermite.}
+
+La quadrature de Gauss-Hermite permet d'approximer l'intégrale de la forme suivante :
+
+\begin{equation}\label{exp_qua}
+\int_{-\infty}^{+\infty} f(x) e^{-x^{2}} dx\;.
+\end{equation}
+
+Dans ce cas :
+
+\begin{eqnarray}
+\int_{-\infty}^{+\infty} f(x) e^{-x^{2}} dx & = & \sum_{i=1}^N w_i f(x_i)+C_{N}f^{(2N)}(\xi) \;,\\
+& \approx & \sum_{i=1}^N w_i f(x_i)
+\end{eqnarray}
+
+où $N$ est le nombre de points d'échantillonnage utilisé, $x_i$ sont les racines des polynômes d'Hermite et $w_i$ sont les poids associés.
+
+\subparagraph{Expression de l'intégrale du terme énergie potentiel.}
+
+On a donc :
+
+\begin{eqnarray}
+\lefteqn{\int_{-\infty}^{+\infty} \varphi_n(x) V(x) \varphi_k(x) dx }\\
+&=& - \int_{-\infty}^{+\infty} c_{n} H_{n}(x)e^{-\frac{x^{2}}{2}} V_{0}e^{-\alpha x^{2}} c_{k} H_{k}(x)e^{-\frac{x^{2}}{2}} dx\;,\\
+ &=& - \int_{-\infty}^{+\infty} V_{0} c_{n} c_{k} H_{n}(x) H_{k}(x) e^{-\left(1+\alpha \right)x^{2}} dx\;,\\
+ &=&  \int_{-\infty}^{+\infty} \left( - \frac{V_{0} c_{n} c_{k}}{\sqrt{1+\alpha}} H_{n}\left(\frac{u}{\sqrt{1+\alpha}}\right) H_{k}\left(\frac{u}{\sqrt{1+\alpha}}\right) \right) e^{-u^{2}} du\;.
+\end{eqnarray}
+
+On a utilisé le changement de variable $x = \frac{u}{\sqrt{1+\alpha}}$ à la dernière ligne. On retrouve une expression de la forme \eqref{exp_qua}. On résoud cette intégrale en utilisant la quadrature de Gauss-Hermite. Cela se fait aisément dans Matlab à l'aide de la fonction \texttt{hermquad.m}. Celle-ci donne les $x_i$ et les $w_i$ pour $N$ fixé. On prendra $N$ suffisamment élevé pour que $f^{(2N)}(\xi) = 0$. C'est à dire au moins le nombre de fonction d'Hermite $N+1$ dans \eqref{eq:varphi}. 
+
+\subsection{Solution sous Maltab}
+
+Dans le potentiel, si l'on prend comme valeur $V_{0} = 3$ et $\alpha = 1$, on obtient deux états liés :
+
+\begin{align}
+\begin{cases}
+E_{0} = -1.963720\;, \\
+E_{1} = -0.369890\;.
+\end{cases}
+\end{align}
+
+Avec notre implémentation sous Matlab, on obtient ces deux valeurs d'énergie à six décimales exactes en prenant $N \geq 50$. Si l'on prend un $\alpha$ plus petit, on peut obtenir plus d'états liés.
+
+\section{Equation de Schrödinger dépendant du temps}
+
+\begin{equation}\label{eq:schdt}
+\dot{\imath}\hbar\frac{\partial}{\partial t}\ket{\Psi(x,t)}=\left[\frac{1}{2}p^2+ V(x)+A(t)\cdot p\right]\ket{\Psi(x,t)}\;.
+\end{equation}
+
+avec
+
+\begin{align}
+\begin{cases}
+p^{2}=-\frac{\partial^2}{\partial x^{2}}\\
+V(x)= -V_{0}e^{-\alpha x^{2}}\;, \\
+A(t)= A_{0}f(t-t_{0})\sin(\omega (t-t_{0}))
+  \end{cases}
+\end{align}
+
+on prend $t_{0}=0$, $V_{0} = 3$ et $\alpha = 1$.
+
+L'enveloppe :
+\begin{equation}
+f(t-t_{0})=\cos^{2} \left(\frac{\omega (t-t_{0})}{2K}\right)
+\end{equation}
+
+pour $\frac{-\pi K}{\omega}<t-t_{0}<\frac{\pi K}{\omega}$.
+
+La fonction d'onde solution de l'équation de Schrödinger dépendante du temps est :
+
+\begin{equation}\label{psi_t}
+\Psi(x,t)= \sum_{n=0}^N b_{n}(t)\phi_n(x) e^{-iE_{n}t}\;,
+\end{equation}
+
+où 
+
+\begin{equation}
+\phi_n(x)= \sum_{k=0}^N a_{k,n} \varphi_k(x)\;,
+\end{equation}
+
+et avec $\Psi(x,t=t_{0})= \Psi(x,0) = \phi_{0}(x)$.
+
+On a la relation d'orthogonalité des fonctions d'onde solutions de l'équation de Schrödinger stationnaire :
+
+\begin{equation}\label{eq:ortho_phin}
+\int_{-\infty}^{+\infty} \phi_m(x) \phi_n(x) dx = \delta_{mn}\;.
+\end{equation}
+
+\subsection{Résolution}
+
+On injecte \eqref{psi_t} dans \eqref{eq:schdt}, on obtient :
+
+\begin{equation}
+\sum_{n=0}^{N}\phi_{n}(x)\dot{b}_{n}(t) e^{-iE_{n}t} = - A(t) \sum_{n=0}^{N}\frac{\partial \phi_{n}(x)}{\partial x}b_{n}(t) e^{-iE_{n}t}\;.
+\end{equation}
+
+On applique le bra $\bra{\phi_{m}(x)} e^{iE_{m}t}$ à cette équation et avec la relation d'orthogonalité \eqref{eq:ortho_phin}, on a :
+
+\begin{equation}
+\dot{b}_{m}(t) = - A(t) \int \sum_{n=0}^{N}\phi_{m}^{\ast}(x)\frac{\partial \phi_{n}(x)}{\partial x}b_{n}(t) e^{-i(E_{n}-E_{m})t} dx\;.
+\end{equation}
+
+On pose :
+
+\begin{equation}
+I_{m,n}= \int \phi_{m}^{\ast}(x)\frac{\partial \phi_{n}(x)}{\partial x} dx\;.
+\end{equation}
+
+Pour résoudre cette intégrale, On commence par réécrire son intégrant à l'aide des fonctions d'Hermite :
+
+\begin{equation}
+\phi_{m}^{\ast}(x)\frac{\partial \phi_{n}(x)}{\partial x} = \sum_{k=0}^{N} a_{k,m}^{\ast}\varphi_{k}^{\ast} \cdot \left(\sum_{l=1}^{N}a_{l,n} \sqrt{\frac{l}{2}}\varphi_{l-1}(x)-\sum_{l=0}^{N-1}a_{l,n}\sqrt{\frac{l+1}{2}}\varphi_{l+1} \right)\;,
+\end{equation}
+
+où on a pris :
+
+\begin{equation}
 \varphi'_{l}(x) =  \sqrt{\frac{l}{2}} \varphi_{l-1}(x)-\sqrt{\frac{l+1}{2}}\varphi_{l+1}(x)\;.
 \end{equation}
 
-On a après intégration (relation orthogonalité des fonctions d'Hermites) et en posant $l =k+1$ dans premier terme de la parenthèse et $l =k-1$ dans le second :
+Après intégration, avec la relation orthogonalité des fonctions d'Hermites \eqref{eq:ortho_phi} et en posant $l =k+1$ dans premier terme de la parenthèse et $l =k-1$ dans le second :
 
 \begin{equation}
 I_{m,n} = \sum_{k=0}^{N-1} a_{k,m}^{\ast}  a_{k+1,n} \sqrt{\frac{k+1}{2}}- \sum_{k=1}^{N} a_{k,m}^{\ast}a_{k-1,n}\sqrt{\frac{k}{2}}\;.
@@ -801,17 +972,16 @@ I_{m,n} = \sum_{k=0}^{N-1} a_{k,m}^{\ast}  a_{k+1,n} \sqrt{\frac{k+1}{2}}- \sum_
 
 pour $m,n = 0,1,..,N$. Où l'on peut remarquer que la première somme termine à $N-1$ et la seconde commence à $1$, car $k =0,1,..,N$ doit être respecté.
 
-
-
-
-On implémente cette fonction dans Matlab avec Ode15s pour trouver les $b(t)$ :
+On a donc finalement :
 
 \begin{equation}
-\dot{b}_{m}(t) = - A(t) \sum_{n=0}^{N}I_{m,n}b_{n}(t) e^{-i(E_{m}-E_{n})t}\;.
+\dot{b}_{m}(t) = - A(t) \sum_{n=0}^{N}I_{m,n}b_{n}(t) e^{-i(E_{n}-E_{m})t}\;.
 \end{equation}
 pour $m=0,..,N$.
 
-on aura sous forme matricielle :
+\subsection{Solution sous Matlab}
+
+On implémente cette fonction dans Matlab avec Ode15s pour trouver les $b(t)$. On aura sous forme matricielle :
 
 \begin{equation}
 \frac{d}{dt}
@@ -828,24 +998,38 @@ on aura sous forme matricielle :
  \vdots\\ 
  b_{N-1}\\ 
   b_{N}
-\end{pmatrix}\;.
+\end{pmatrix}\;,
 \end{equation}
 
-où $M(t)$ est le produit d'Hadamard (commande Matlab : .*) des matrices $I_{m,n}$ et $e^{-i(E_{m}-E_{n})t}$. 
+où $M(t)$ est le produit d'Hadamard (commande Matlab : .*) des matrices $I_{m,n}$ et $e^{-i(E_{n}-E_{m})t}$. 
 
-On prend conditions initiales : $b_{0}=1$ et $b_{n}=0$ pour $n > 0$. Etat initial dans le fondamental.
+On prend les conditions initiales : $b_{0}=1$ et $b_{n}=0$ pour $n > 0$. C'est-à-dire que l'état initial est dans le fondamental.
 
-
-\subsection{résultats}
 
 Calculons 
 
-$$\left| b_{0}(t)\right|^2= b^\ast_0(t)b_0(t)$$
+\begin{equation}
+\left| b_{0}(t)\right|^2= b^\ast_0(t)b_0(t)
+\end{equation}
 
-$$\left| b_{1}(t)\right|^2= b^\ast_1(t)b_1(t)$$
+\begin{equation}
+\left| b_{1}(t)\right|^2= b^\ast_1(t)b_1(t)
+\end{equation}
 
- 
-or
+pour $t_{0}=0$, $V_{0} = 3$, $\alpha = 1$, $A_{0} = 1$, $\omega = 1$ et $K=1$.
+
+
+\begin{figure}[h]
+  \includegraphics[width=16cm]{proba.eps}
+  \caption{$\left| b_{0}(t)\right|^2$ et $\left| b_{1}(t)\right|^2$}
+  \label{fig_proba}
+\end{figure}
+
+\subsection{Fin - pas achevé}
+
+\textcolor{red}{correction,notes en rouge !!}
+
+Or
 $$\sum_{n} \left| b_{n}(t)\right|^2 =1$$
 
 donc probabilité d'ionisation :

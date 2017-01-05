@@ -7,10 +7,10 @@ function [ B ] = b( A0,t0, omega,K,N,Vsort,E )
         dbdt = -A(A0,t, t0, omega, K )*(Imn(N,Vsort).*expo(E,N,t))*b;  % équation vectoriel de b'(t)
     end
 
-tspan = [0, 50];
+tspan = [0, 50]; % abscisse temps t
 y0 = [1 ; zeros(N,1)]; % valeur initial : b_0 = 1
 [t,b] = ode15s(@odefun,tspan,y0);
-b = (abs(b)).^2;
+b = (abs(b)).^2; % probabitlité |b|^2
 figure();
 plot(t,b(:,1))
 hold on;
