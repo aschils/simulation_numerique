@@ -1,5 +1,8 @@
 function [ b ] = Galerkin( N )
-%Galerkin renvoie le vecteur des coefficients ak par la méthode Galerkin
+
+% La fonction "Galerkin(N)" renvoie la matrice des coefficients
+% ak par la méthode Galerkin pour k_max = N .
+
 G=zeros(N-1,N+1);
 for i=1:N-1 % parcourir les lignes
     for j=1:N+1 % parcourir les colonnes

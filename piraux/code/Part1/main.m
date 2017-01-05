@@ -1,3 +1,11 @@
+
+% Ce code permet d'afficher sur un graphe les plus grandes erreurs
+% des méthodes spectrales pour N polynômes de Tchebychev utilisés dans le dévellopement tronqué
+% et de celle aux différence finie d'ordre 2
+% par rapport à la solution exacte de l'équation différentielle.
+
+
+
 % Initialisations %
 
 n=1000; % nombre points d'abscisse
@@ -16,7 +24,7 @@ u=1-((sinh(2)*exp(x)+sinh(1)*exp(-2*x))/sinh(3));
 
 % Méthodes spectrales %
 
-    % Coefficients  a_i de Tchebychev %
+    % Coefficients  a_k de Tchebychev %
     
     for N=0:N_final % degré max de la série de polynômes
     a=Tau(N+1);
@@ -54,7 +62,7 @@ u=1-((sinh(2)*exp(x)+sinh(1)*exp(-2*x))/sinh(3));
     end
 
 
-% Solution par différences finies %
+% Méthode par différences finies %
 
 
     for N=1:N_final+1 % points de grille sans compter les 2 points aux frontières
@@ -83,6 +91,7 @@ u=1-((sinh(2)*exp(x)+sinh(1)*exp(-2*x))/sinh(3));
         end
     end
 
+ 
     
 % Affichage %
 

@@ -1,5 +1,8 @@
 function [ c ] = Collocation( N )
-%Collocation renvoie la matrice des coefficients ak par la méthode Collocation
+
+% La fonction "Collocation(N)" renvoie la matrice des coefficients
+% ak par la méthode Collocation pour k_max = N .
+
 P=zeros(N-1,N+1);
 for i=1:N-1 % parcourir les lignes
     for j=1:N+1 % parcourir les colonnes
