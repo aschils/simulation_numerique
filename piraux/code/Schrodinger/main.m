@@ -4,11 +4,12 @@ N = 20;  % si on monte à 50, on obtient la 6ème décimale donnée au cours pour E1
 V0 = 3;
 alpha = 1;
 A0 = 1;
-omega = 1;
-K = 1;
+omega = 1.59383;
+K = 20;
 t0 = 0;
 H = zeros(N+1,N+1);
 
+tic
 
 % Schrödinger stationnaire
 
@@ -29,8 +30,12 @@ H = zeros(N+1,N+1);
     E0 = E(1)
     E1 = E(2)
 
+    % graphe avec niveaux d'énergie
+    
+       % plotE(V0,alpha,N,E) 
 
 %Schrödinger dépendant du temps
 
-    b(A0,t0,omega,K,N,Vsort,E); % appel de la fonction b
-
+   b(A0,t0,omega,K,N,Vsort,E); % appel de la fonction b
+   
+toc
